@@ -5,9 +5,8 @@ using System.Text;
 
 namespace MeetingApp.Api.Data.Model
 {
-    public class TodoItem
+    public class TodoItem : BaseEntity
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }

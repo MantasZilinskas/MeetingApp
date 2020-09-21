@@ -5,9 +5,8 @@ using System.Text;
 
 namespace MeetingApp.Api.Data.Model
 {
-    public class Meeting
-    {
-        public int Id { get; set; }
+    public class Meeting : BaseEntity
+    { 
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
