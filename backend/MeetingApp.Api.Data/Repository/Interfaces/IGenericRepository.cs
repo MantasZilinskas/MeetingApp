@@ -8,10 +8,10 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
 {
     public interface IGenericRepository<T> where T : BaseEntity
     { 
-        Task<T> Insert(T entity);
-        Task<T> Update(int id, T entity);
-        Task Delete(T entity);
-        Task<T> Get(int id);
-        Task<ICollection<T>> GetAll();
+        public Task<T> Insert(T entity);
+        public Task<T> Update(int id, T entity);
+        public Task Delete(T entity);
+        public Task<T> Get(int id);
+        public Task<ICollection<T>> GetAll();
     }
 }

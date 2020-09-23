@@ -10,7 +10,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly MeetingAppContext _context;
+        protected readonly MeetingAppContext _context;
 
         public GenericRepository(MeetingAppContext context)
         {
@@ -42,9 +42,13 @@ namespace MeetingApp.Api.Data.Repository.Implementation
 
         public async Task<T> Update(int id, T registry)
         {
-            _context.Set<T>().Update(registry);
-            await _context.SaveChangesAsync();
-            return registry;
+            T existing = await _context.Set<T>().FindAsync(id);
+            if (existing != null)
+            {
+                _context.Entry(existing).CurrentValues.SetValues(registry);
+                await _context.SaveChangesAsync();
+            }
+            return existing;
         }
     }
 }
