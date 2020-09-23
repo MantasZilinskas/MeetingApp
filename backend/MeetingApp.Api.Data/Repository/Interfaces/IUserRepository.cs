@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Data.Repository.Interfaces
 {
-    public interface IMeetingRepository : IGenericRepository<Meeting>
+    public interface IUserRepository : IGenericRepository<User>
     {
-        public Task<bool> IsDuplicateName(Meeting resource);
+        public Task<bool> IsDuplicateUsername(User resource);
     }
 }

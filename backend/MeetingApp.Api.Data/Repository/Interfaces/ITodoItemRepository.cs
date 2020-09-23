@@ -5,6 +5,6 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
 {
     public interface ITodoItemRepository : IGenericRepository<TodoItem>
     {
-        public Task<bool> IsDuplicate(TodoItem entity);
+        public Task<bool> IsDuplicateName(TodoItem resource);
     }
 }

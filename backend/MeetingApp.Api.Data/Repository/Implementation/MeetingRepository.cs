@@ -10,9 +10,9 @@ namespace MeetingApp.Api.Data.Repository.Implementation
     {
         public MeetingRepository(MeetingAppContext context): base(context){}
 
-        public async Task<bool> IsDuplicate(Meeting entity)
+        public async Task<bool> IsDuplicateName(Meeting resource)
         {
-            return await _context.Meetings.AnyAsync(meeting => meeting.Name == entity.Name);
+            return await _context.Meetings.AnyAsync(meeting => meeting.Name == resource.Name);
         }
     }
 }

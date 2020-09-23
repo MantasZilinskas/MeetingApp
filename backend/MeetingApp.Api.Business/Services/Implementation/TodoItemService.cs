@@ -42,7 +42,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         public async Task<TodoItemDTO> Insert(TodoItemDTO dto)
         {
             var todoItem = _mapper.Map<TodoItem>(dto);
-            if (await _todoItemRepo.IsDuplicate(todoItem))
+            if (await _todoItemRepo.IsDuplicateName(todoItem))
             {
                 return null;
             }
@@ -54,7 +54,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         {
             var todoItemDto = _mapper.Map<TodoItemDTO>(await _todoItemRepo.Get(id));
             var todoItemEntity = _mapper.Map<TodoItem>(dto);
-            if (await _todoItemRepo.IsDuplicate(todoItemEntity))
+            if (await _todoItemRepo.IsDuplicateName(todoItemEntity))
             {
                 return null;
             }
