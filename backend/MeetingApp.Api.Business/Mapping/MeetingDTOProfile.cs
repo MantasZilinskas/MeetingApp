@@ -10,7 +10,7 @@ namespace MeetingApp.Api.Business.Mapping
         public MeetingDTOProfile()
         {
             CreateMap<Meeting, MeetingDTO>()
-               .ForMember(x => x.Users, opt => opt.Ignore())
+               .ForMember(x => x.UserIds, opt => opt.Ignore())
                .ForMember(x => x.TodoItems, opt => opt.Ignore())
                .ReverseMap()
                .ForMember(x => x.MeetingUsers, opt => opt.Ignore())

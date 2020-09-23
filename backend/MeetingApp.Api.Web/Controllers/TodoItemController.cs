@@ -47,7 +47,7 @@ namespace MeetingApp.Api.Web.Controllers
             {
                 return BadRequest();
             }
-            return CreatedAtAction("Get", new { id = todoItem.Id }, returnedValue);
+            return CreatedAtAction("Get", new { id = returnedValue.Id }, returnedValue);
         }
 
         // PUT api/TodoItem/{id}
