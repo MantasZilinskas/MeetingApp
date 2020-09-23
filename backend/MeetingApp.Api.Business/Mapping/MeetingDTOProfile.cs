@@ -15,9 +15,6 @@ namespace MeetingApp.Api.Business.Mapping
                .ReverseMap()
                .ForMember(x => x.MeetingUsers, opt => opt.Ignore())
                .ForMember(x => x.TodoItems, opt => opt.Ignore());
-
-
-
         }
     }
 }

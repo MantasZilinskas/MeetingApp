@@ -35,6 +35,8 @@ namespace MeetingApp.Api.Web
 
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IMeetingService, MeetingService>();
+            services.AddScoped<ITodoItemRepository, TodoItemRepository>();
+            services.AddScoped<ITodoItemService, TodoItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
