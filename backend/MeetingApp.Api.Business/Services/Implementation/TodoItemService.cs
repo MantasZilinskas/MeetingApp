@@ -23,12 +23,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
         public async Task<TodoItemDTO> Delete(int id, int meetingId)
         {
-            var meeting = await _meetingRepository.Get(meetingId);
-            if (meeting == null)
-            {
-                return null;
-            }
-            var todoItem = await _todoItemRepo.Get(id);
+            var todoItem = await _todoItemRepo.GetMeetingTodoItem(meetingId, id);
             if (todoItem != null)
             {
                 await _todoItemRepo.Delete(todoItem);
@@ -38,12 +33,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
         public async Task<TodoItemDTO> Get(int id, int meetingId)
         {
-            var meeting = await _meetingRepository.Get(meetingId);
-            if(meeting == null)
-            {
-                return null;
-            }
-            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Get(id));
+            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.GetMeetingTodoItem(meetingId, id));
         }
 
         public async Task<ICollection<TodoItemDTO>> GetAll()
@@ -65,18 +55,13 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
         public async Task<TodoItemDTO> Update(int id, TodoItemDTO dto)
         {
-            var meeting = await _meetingRepository.Get(dto.MeetingId);
-            if (meeting == null)
-            {
-                return null;
-            }
-            var todoItemDto = _mapper.Map<TodoItemDTO>(await _todoItemRepo.Get(id));
+            var todoItem = await _todoItemRepo.GetMeetingTodoItem(dto.MeetingId, id);
             var todoItemEntity = _mapper.Map<TodoItem>(dto);
-            if (todoItemDto != null)
+            if (todoItem != null)
             {
                 return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(id, todoItemEntity));
             }
-            return todoItemDto;
+            return _mapper.Map<TodoItemDTO>(todoItem);
         }
     }
 }

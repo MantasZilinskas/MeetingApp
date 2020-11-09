@@ -31,5 +31,9 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         {
             return await _context.TodoItems.Where(value => value.MeetingId == meetingId).ToListAsync();
         }
+        public async Task<TodoItem> GetMeetingTodoItem(int meetingId, int todoItemId)
+        {
+            return await _context.TodoItems.FirstOrDefaultAsync(value => value.Id == todoItemId && value.MeetingId == meetingId);
+        }
     }
 }
