@@ -5,7 +5,9 @@ using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,16 +37,17 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var meeting = await _meetingRepo.Get(id);
             if(meeting != null)
             {
-                await _userMeetingRepo.Delete(meeting.Id);
+                await _userMeetingRepo.DeleteMeetingUsers(meeting.Id);
                 await _todoItemRepo.DeleteMeetingItems(meeting.Id);
                 await _meetingRepo.Delete(meeting);
             }
             return _mapper.Map<MeetingDTO>(meeting);
         }
 
-        public async Task<MeetingDTO> Get(int id)
+        public async Task<MeetingDTO> Get(int meetingId)
         {
-            return _mapper.Map<MeetingDTO>(await _meetingRepo.Get(id));
+            var meeting = _mapper.Map<MeetingDTO>(await _meetingRepo.Get(meetingId));
+            return meeting;
         }
 
         public async Task<ICollection<MeetingDTO>> GetAll()
@@ -60,9 +63,6 @@ namespace MeetingApp.Api.Business.Services.Implementation
                 return null;
             }
             var returnedEntity = await _meetingRepo.Insert(meeting);
-            await _userMeetingRepo.Insert(dto.UserIds, returnedEntity.Id);
-            dto.TodoItems.ForEach(value => value.MeetingId = returnedEntity.Id);
-            await _todoItemRepo.InsertMeetingItems(_mapper.Map<List<TodoItem>>(dto.TodoItems));
             return _mapper.Map<MeetingDTO>(returnedEntity);
         }
 
@@ -79,6 +79,15 @@ namespace MeetingApp.Api.Business.Services.Implementation
                 return _mapper.Map<MeetingDTO>(await _meetingRepo.Update(id, meetingEntity));
             }
             return meetingDto;
+        }
+        public async Task<ICollection<TodoItemDTO>> GetMeetingTodoItems(int meetingId)
+        {
+            var meeting = await _meetingRepo.Get(meetingId);
+            if(meeting == null)
+            {
+                return null;
+            }
+            return _mapper.Map<ICollection<TodoItemDTO>>(await _todoItemRepo.GetMeetingTodoItems(meetingId));
         }
     }
 }

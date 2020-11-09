@@ -2,6 +2,7 @@
 using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Business.DTO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeetingApp.Api.Business.Mapping
 {
@@ -10,11 +11,7 @@ namespace MeetingApp.Api.Business.Mapping
         public MeetingDTOProfile()
         {
             CreateMap<Meeting, MeetingDTO>()
-               .ForMember(x => x.UserIds, opt => opt.Ignore())
-               .ForMember(x => x.TodoItems, opt => opt.Ignore())
-               .ReverseMap()
-               .ForMember(x => x.MeetingUsers, opt => opt.Ignore())
-               .ForMember(x => x.TodoItems, opt => opt.Ignore());
+                .ReverseMap();
         }
     }
 }

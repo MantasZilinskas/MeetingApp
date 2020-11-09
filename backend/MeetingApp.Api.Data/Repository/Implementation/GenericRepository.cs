@@ -17,30 +17,30 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             _context = context;
         }
 
-        public async Task Delete(T registry)
+        public virtual async Task Delete(T registry)
         {
             _context.Set<T>().Remove(registry);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<T> Get(int id)
+        public virtual async Task<T> Get(int id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(value => value.Id == id);
         }
 
-        public async Task<ICollection<T>> GetAll()
+        public virtual async Task<ICollection<T>> GetAll()
         {
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> Insert(T registry)
+        public virtual async Task<T> Insert(T registry)
         {
             _context.Set<T>().Add(registry);
             await _context.SaveChangesAsync();
             return registry;
         }
 
-        public async Task<T> Update(int id, T registry)
+        public virtual async Task<T> Update(int id, T registry)
         {
             T existing = await _context.Set<T>().FindAsync(id);
             if (existing != null)

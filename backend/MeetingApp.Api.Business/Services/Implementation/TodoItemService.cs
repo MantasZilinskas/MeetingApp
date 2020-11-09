@@ -11,16 +11,23 @@ namespace MeetingApp.Api.Business.Services.Implementation
     public class TodoItemService : ITodoItemService
     {
         private readonly ITodoItemRepository _todoItemRepo;
+        private readonly IMeetingRepository _meetingRepository;
         private readonly IMapper _mapper;
 
-        public TodoItemService(ITodoItemRepository todoItemRepository, IMapper mapper)
+        public TodoItemService(ITodoItemRepository todoItemRepository, IMapper mapper,IMeetingRepository meetingRepository)
         {
             _todoItemRepo = todoItemRepository;
+            _meetingRepository = meetingRepository;
             _mapper = mapper;
         }
 
-        public async Task<TodoItemDTO> Delete(int id)
+        public async Task<TodoItemDTO> Delete(int id, int meetingId)
         {
+            var meeting = await _meetingRepository.Get(meetingId);
+            if (meeting == null)
+            {
+                return null;
+            }
             var todoItem = await _todoItemRepo.Get(id);
             if (todoItem != null)
             {
@@ -29,8 +36,13 @@ namespace MeetingApp.Api.Business.Services.Implementation
             return _mapper.Map<TodoItemDTO>(todoItem);
         }
 
-        public async Task<TodoItemDTO> Get(int id)
+        public async Task<TodoItemDTO> Get(int id, int meetingId)
         {
+            var meeting = await _meetingRepository.Get(meetingId);
+            if(meeting == null)
+            {
+                return null;
+            }
             return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Get(id));
         }
 
@@ -41,23 +53,25 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
         public async Task<TodoItemDTO> Insert(TodoItemDTO dto)
         {
-            var todoItem = _mapper.Map<TodoItem>(dto);
-            if (await _todoItemRepo.IsDuplicateName(todoItem))
+            var meeting = await _meetingRepository.Get(dto.MeetingId);
+            if (meeting == null)
             {
                 return null;
             }
+            var todoItem = _mapper.Map<TodoItem>(dto);
             var returnedEntity = await _todoItemRepo.Insert(todoItem);
             return _mapper.Map<TodoItemDTO>(returnedEntity);
         }
 
         public async Task<TodoItemDTO> Update(int id, TodoItemDTO dto)
         {
-            var todoItemDto = _mapper.Map<TodoItemDTO>(await _todoItemRepo.Get(id));
-            var todoItemEntity = _mapper.Map<TodoItem>(dto);
-            if (await _todoItemRepo.IsDuplicateName(todoItemEntity))
+            var meeting = await _meetingRepository.Get(dto.MeetingId);
+            if (meeting == null)
             {
                 return null;
             }
+            var todoItemDto = _mapper.Map<TodoItemDTO>(await _todoItemRepo.Get(id));
+            var todoItemEntity = _mapper.Map<TodoItem>(dto);
             if (todoItemDto != null)
             {
                 return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(id, todoItemEntity));

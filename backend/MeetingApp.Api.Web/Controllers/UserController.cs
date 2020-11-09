@@ -22,9 +22,9 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ICollection<UserDTO>> Get()
+        public async Task<ActionResult<ICollection<UserDTO>>> Get()
         {
-            return await _userService.GetAll();
+            return Ok(await _userService.GetAll());
         }
 
         // GET api/User/{id}
@@ -37,6 +37,17 @@ namespace MeetingApp.Api.Web.Controllers
                 return NotFound();
             }
             return returnedValue;
+        }
+        // GET api/User/{id}/Meetings
+        [HttpGet("{id}/Meetings")]
+        public async Task<ActionResult<ICollection<MeetingDTO>>> GetUserMeetings(int id)
+        {
+            var meetings = await _userService.GetUserMeetings(id);
+            if(meetings == null)
+            {
+                return NotFound();
+            }
+            return Ok(meetings);
         }
 
         // POST api/User

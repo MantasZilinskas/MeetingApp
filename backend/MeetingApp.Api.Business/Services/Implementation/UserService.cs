@@ -11,11 +11,13 @@ namespace MeetingApp.Api.Business.Services.Implementation
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepo;
+        private readonly IUserMeetingRepository _userMeetingRepo;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository,IUserMeetingRepository userMeetingRepository, IMapper mapper)
         {
             _userRepo = userRepository;
+            _userMeetingRepo = userMeetingRepository;
             _mapper = mapper;
         }
 
@@ -64,5 +66,15 @@ namespace MeetingApp.Api.Business.Services.Implementation
             }
             return userDto;
         }
+        public async Task<ICollection<MeetingDTO>> GetUserMeetings(int userId)
+        {
+            var user = await _userRepo.Get(userId);
+            if (user == null)
+            {
+                return null;
+            }
+            return _mapper.Map<ICollection<MeetingDTO>>(await _userMeetingRepo.GetUserMeetings(userId));
+        }
+
     }
 }

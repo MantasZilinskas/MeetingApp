@@ -12,7 +12,5 @@ namespace MeetingApp.Api.Business.DTO
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<TodoItemDTO> TodoItems { get; set; }
-        public List<int> UserIds { get; set; }
     }
 }

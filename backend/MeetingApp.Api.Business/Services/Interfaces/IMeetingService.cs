@@ -11,5 +11,6 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<MeetingDTO> Delete(int id);
         public Task<MeetingDTO> Get(int id);
         public Task<ICollection<MeetingDTO>> GetAll();
+        public Task<ICollection<TodoItemDTO>> GetMeetingTodoItems(int meetingId);
     }
 }

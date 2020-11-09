@@ -13,10 +13,14 @@ namespace MeetingApp.Api.Web.Controllers
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingService _service;
+        private readonly ITodoItemService _todoItemService;
+        private readonly IUserMeetingService _userMeetingService;
 
-        public MeetingController(IMeetingService service)
+        public MeetingController(IMeetingService service, ITodoItemService todoItemService,IUserMeetingService userMeetingService)
         {
+            _todoItemService = todoItemService;
             _service = service;
+            _userMeetingService = userMeetingService;
         }
 
         // GET: api/Meeting
@@ -37,7 +41,6 @@ namespace MeetingApp.Api.Web.Controllers
             }
             return returnedValue;
         }
-
         // POST api/Meeting
         [HttpPost]
         public async Task<ActionResult> Post(MeetingDTO meeting)
@@ -77,5 +80,121 @@ namespace MeetingApp.Api.Web.Controllers
             }
             return NoContent();
         }
+
+        // GET: api/TodoItems
+        [HttpGet("{id}/TodoItems")]
+        public async Task<ICollection<TodoItemDTO>> GetAllTodoItems(int id)
+        {
+            return await _service.GetMeetingTodoItems(id);
+        }
+
+        // GET api/TodoItems/{id}
+        [HttpGet("{meetingId}/TodoItems/{todoItemId}")]
+        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int meetingId, int todoItemId)
+        {
+            var returnedValue = await _todoItemService.Get(todoItemId,meetingId);
+            if (returnedValue == null)
+            {
+                return NotFound();
+            }
+            return returnedValue;
+        }
+
+        // POST api/TodoItems
+        [HttpPost("{id}/TodoItems/")]
+        public async Task<ActionResult> PostTodoItem(int id, TodoItemDTO todoItem)
+        {
+            todoItem.MeetingId = id;
+            var returnedValue = await _todoItemService.Insert(todoItem);
+            if (returnedValue == null)
+            {
+                return BadRequest();
+            }
+            return CreatedAtAction("Get", new { id = returnedValue.Id }, returnedValue);
+        }
+
+        // PUT api/TodoItems/{id}
+        [HttpPut("{meetingId}/TodotItems/{todoItemId}")]
+        public async Task<ActionResult> PutTodoItem(int meetingId,int todoItemId, TodoItemDTO todoItem)
+        {
+            todoItem.Id = todoItemId;
+            todoItem.MeetingId = meetingId;
+            var returnedValue = await _todoItemService.Update(todoItemId, todoItem);
+            if (returnedValue == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+
+        // DELETE api/TodoItems/{id}
+        [HttpDelete("{meetingId}/TodoItems/{todoItemId}")]
+        public async Task<ActionResult> DeleteTodoItem(int meetingId, int todoItemId)
+        {
+            var returnedValue = await _todoItemService.Delete(todoItemId, meetingId);
+            if (returnedValue == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+        /*
+         * Insert
+         * GetAll
+         * Update
+         * Delete
+         */
+
+        [HttpPost("{meetingId}/Users")]
+        public async Task<ActionResult> PostMeetingUsers(int meetingId, List<UserDTO> users)
+        {
+            try
+            {
+                await _userMeetingService.InsertMeetingUsers(meetingId, users);
+                return Ok();
+            }catch(KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+        [HttpGet("{meetingId}/Users")]
+        public async Task<ActionResult<ICollection<UserDTO>>> GetMeetingUsers(int meetingId)
+        {
+            try
+            {
+                return Ok(await _userMeetingService.GetMeetingUsers(meetingId));
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+        [HttpPut("{meetingId}/Users")]
+        public async Task<ActionResult> UpdateMeetingUsers(int meetingId, List<UserDTO> users)
+        {
+            try
+            {
+                await _userMeetingService.UpdateMeetingUsers(meetingId, users);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+        [HttpDelete("{meetingId}/Users")]
+        public async Task<ActionResult> DeleteMeetingUsers(int meetingId)
+        {
+            try
+            {
+                await _userMeetingService.DeleteMeetingUsers(meetingId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

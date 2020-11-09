@@ -27,10 +27,9 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             }
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> IsDuplicateName(TodoItem resource)
+        public async Task<ICollection<TodoItem>> GetMeetingTodoItems(int meetingId)
         {
-            return await _context.TodoItems.AnyAsync(todoItem => todoItem.Name == resource.Name);
+            return await _context.TodoItems.Where(value => value.MeetingId == meetingId).ToListAsync();
         }
     }
 }

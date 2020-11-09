@@ -18,7 +18,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             _context = context;
         }
 
-        public async Task Delete(int meetingId)
+        public async Task DeleteMeetingUsers(int meetingId)
         {
             var entitiesToRemove = await _context.UserMeetings.Where(entity => entity.MeetingId == meetingId).ToListAsync();
             _context.UserMeetings.RemoveRange(entitiesToRemove);
@@ -33,11 +33,24 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             }
             await _context.SaveChangesAsync();
         }
-
         public async Task Update(List<int> userIds, int meetingId)
         {
-            await Delete(meetingId);
+            await DeleteMeetingUsers(meetingId);
             await Insert(userIds, meetingId);
+        }
+        public async Task<ICollection<Meeting>> GetUserMeetings(int userId)
+        {
+            return await _context.UserMeetings
+                .Where(value => value.UserId == userId)
+                .Select(value => value.Meeting)
+                .ToListAsync();
+        }
+        public async Task<ICollection<User>> GetMeetingUsers(int meetingId)
+        {
+            return await _context.UserMeetings
+                .Where(value => value.MeetingId == meetingId)
+                .Select(value => value.User)
+                .ToListAsync();
         }
     }
 }

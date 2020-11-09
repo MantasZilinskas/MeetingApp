@@ -12,6 +12,7 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<UserDTO> Update(int id, UserDTO resource);
         public Task<UserDTO> Delete(int id);
         public Task<UserDTO> Get(int id);
+        public Task<ICollection<MeetingDTO>> GetUserMeetings(int userId);
         public Task<ICollection<UserDTO>> GetAll();
     }
 }
