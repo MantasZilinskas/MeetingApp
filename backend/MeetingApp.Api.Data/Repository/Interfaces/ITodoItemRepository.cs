@@ -9,6 +9,6 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task InsertMeetingItems(List<TodoItem> todoItems);
         public Task DeleteMeetingItems(int meetingId);
         public Task<ICollection<TodoItem>> GetMeetingTodoItems(int meetingId);
-        public Task<TodoItem> GetMeetingTodoItem(int meetingId, int todoItemId)
+        public Task<TodoItem> GetMeetingTodoItem(int meetingId, int todoItemId);
     }
 }
