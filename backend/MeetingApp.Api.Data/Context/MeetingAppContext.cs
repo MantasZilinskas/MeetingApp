@@ -1,9 +1,10 @@
 ﻿using MeetingApp.Api.Data.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetingApp.Api.Data.Context
 {
-    public class MeetingAppContext : DbContext
+    public class MeetingAppContext : IdentityDbContext<User>
     {
         public MeetingAppContext(DbContextOptions<MeetingAppContext> options)
             : base(options)
@@ -11,24 +12,15 @@ namespace MeetingApp.Api.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UserMeeting>().HasKey(sc => new { sc.UserId, sc.MeetingId });
-
-            modelBuilder.Entity<UserMeeting>()
-                .HasOne<Meeting>(sc => sc.Meeting)
-                .WithMany(s => s.MeetingUsers)
-                .HasForeignKey(sc => sc.MeetingId);
-
-            modelBuilder.Entity<UserMeeting>()
-                .HasOne<User>(sc => sc.User)
-                .WithMany(s => s.UserMeetings)
-                .HasForeignKey(sc => sc.UserId);
+            modelBuilder.Entity<Meeting>()
+                    .HasMany(x => x.Users)
+                    .WithMany(x => x.Meetings);
         }
 
-        public DbSet<User> Users { get; set; }
+        public override DbSet<User> Users { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<TodoItem> TodoItems { get; set; }
-        public DbSet<UserMeeting> UserMeetings { get; set; }
-
     }
 }

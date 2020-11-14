@@ -20,8 +20,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         {
             return await _context.Meetings
                 .Include(meeting => meeting.TodoItems)
-                .Include(meeting => meeting.MeetingUsers)
-                .ThenInclude(user => user.User)
+                .Include(meeting => meeting.Users)
                 .FirstOrDefaultAsync(meeting => meeting.Id == id);
         }
         public override async Task<ICollection<Meeting>> GetAll()

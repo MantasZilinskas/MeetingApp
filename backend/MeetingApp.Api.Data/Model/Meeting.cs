@@ -13,6 +13,6 @@ namespace MeetingApp.Api.Data.Model
         [Required]
         public DateTime CreationDate { get; set; }
         public IEnumerable<TodoItem> TodoItems { get; set; }
-        public IEnumerable<UserMeeting> MeetingUsers { get; set; }
+        public IEnumerable<User> Users { get; set; }
     }
 }

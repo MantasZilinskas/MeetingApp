@@ -16,19 +16,16 @@ namespace MeetingApp.Api.Business.Services.Implementation
     public class MeetingService : IMeetingService
     {
         private readonly IMeetingRepository _meetingRepo;
-        private readonly IUserMeetingRepository _userMeetingRepo;
         private readonly ITodoItemRepository _todoItemRepo;
         private readonly IMapper _mapper;
 
         public MeetingService(
             IMeetingRepository meetingRepository,
-            IUserMeetingRepository userMeetingRepository,
             ITodoItemRepository todoItemRepository,
             IMapper mapper)
         {
             _meetingRepo = meetingRepository;
             _mapper = mapper;
-            _userMeetingRepo = userMeetingRepository;
             _todoItemRepo = todoItemRepository;
         }
 
@@ -37,7 +34,6 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var meeting = await _meetingRepo.Get(id);
             if(meeting != null)
             {
-                await _userMeetingRepo.DeleteMeetingUsers(meeting.Id);
                 await _todoItemRepo.DeleteMeetingItems(meeting.Id);
                 await _meetingRepo.Delete(meeting);
             }

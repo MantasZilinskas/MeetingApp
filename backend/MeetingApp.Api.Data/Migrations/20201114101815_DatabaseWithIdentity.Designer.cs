@@ -4,14 +4,16 @@ using MeetingApp.Api.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingApp.Api.Data.Migrations
 {
     [DbContext(typeof(MeetingAppContext))]
-    partial class MeetingAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201114101815_DatabaseWithIdentity")]
+    partial class DatabaseWithIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,20 +56,24 @@ namespace MeetingApp.Api.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MeetingId")
+                    b.Property<int>("MeetingId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MeetingId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("TodoItems");
                 });
@@ -290,11 +296,13 @@ namespace MeetingApp.Api.Data.Migrations
                 {
                     b.HasOne("MeetingApp.Api.Data.Model.Meeting", "Meeting")
                         .WithMany("TodoItems")
-                        .HasForeignKey("MeetingId");
+                        .HasForeignKey("MeetingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MeetingApp.Api.Data.Model.User", "User")
                         .WithMany("TodoItems")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Meeting");
 

@@ -145,56 +145,56 @@ namespace MeetingApp.Api.Web.Controllers
          * Delete
          */
 
-        [HttpPost("{meetingId}/Users")]
-        public async Task<ActionResult> PostMeetingUsers(int meetingId, List<UserDTO> users)
-        {
-            try
-            {
-                await _userMeetingService.InsertMeetingUsers(meetingId, users);
-                return Ok();
-            }catch(KeyNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-        [HttpGet("{meetingId}/Users")]
-        public async Task<ActionResult<ICollection<UserDTO>>> GetMeetingUsers(int meetingId)
-        {
-            try
-            {
-                return Ok(await _userMeetingService.GetMeetingUsers(meetingId));
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-        [HttpPut("{meetingId}/Users")]
-        public async Task<ActionResult> UpdateMeetingUsers(int meetingId, List<UserDTO> users)
-        {
-            try
-            {
-                await _userMeetingService.UpdateMeetingUsers(meetingId, users);
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-        [HttpDelete("{meetingId}/Users")]
-        public async Task<ActionResult> DeleteMeetingUsers(int meetingId)
-        {
-            try
-            {
-                await _userMeetingService.DeleteMeetingUsers(meetingId);
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-        }
+        //[HttpPost("{meetingId}/Users")]
+        //public async Task<ActionResult> PostMeetingUsers(int meetingId, List<UserDTO> users)
+        //{
+        //    try
+        //    {
+        //        await _userMeetingService.InsertMeetingUsers(meetingId, users);
+        //        return Ok();
+        //    }catch(KeyNotFoundException)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
+        //[HttpGet("{meetingId}/Users")]
+        //public async Task<ActionResult<ICollection<UserDTO>>> GetMeetingUsers(int meetingId)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _userMeetingService.GetMeetingUsers(meetingId));
+        //    }
+        //    catch (KeyNotFoundException)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
+        //[HttpPut("{meetingId}/Users")]
+        //public async Task<ActionResult> UpdateMeetingUsers(int meetingId, List<UserDTO> users)
+        //{
+        //    try
+        //    {
+        //        await _userMeetingService.UpdateMeetingUsers(meetingId, users);
+        //        return NoContent();
+        //    }
+        //    catch (KeyNotFoundException)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
+        //[HttpDelete("{meetingId}/Users")]
+        //public async Task<ActionResult> DeleteMeetingUsers(int meetingId)
+        //{
+        //    try
+        //    {
+        //        await _userMeetingService.DeleteMeetingUsers(meetingId);
+        //        return NoContent();
+        //    }
+        //    catch (KeyNotFoundException)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
     }
 }

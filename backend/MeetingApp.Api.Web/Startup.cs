@@ -9,9 +9,10 @@ using MeetingApp.Api.Data.Repository.Interfaces;
 using MeetingApp.Api.Data.Repository.Implementation;
 using MeetingApp.Api.Business.Services.Interfaces;
 using MeetingApp.Api.Business.Services.Implementation;
+using Microsoft.AspNetCore.Identity;
 using AutoMapper;
-using System.Reflection;
 using System;
+using MeetingApp.Api.Data.Model;
 
 namespace MeetingApp.Api.Web
 {
@@ -32,15 +33,17 @@ namespace MeetingApp.Api.Web
             services.AddSwaggerGen();
             services.AddDbContext<MeetingAppContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("default")));
+            services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<MeetingAppContext>();
 
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ITodoItemRepository, TodoItemRepository>();
             services.AddScoped<ITodoItemService, TodoItemService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserMeetingRepository, UserMeetingRepository>();
-            services.AddScoped<IUserMeetingService, UserMeetingService>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserMeetingRepository, UserMeetingRepository>();
+            //services.AddScoped<IUserMeetingService, UserMeetingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +60,8 @@ namespace MeetingApp.Api.Web
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
