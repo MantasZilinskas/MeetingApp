@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using System;
 using MeetingApp.Api.Data.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MeetingApp.Api.Web
 {
@@ -28,6 +31,8 @@ namespace MeetingApp.Api.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Inject AppSettings
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen();
@@ -36,10 +41,31 @@ namespace MeetingApp.Api.Web
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MeetingAppContext>();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
             #region Jwt Authentication
-            //services.AddAuthentication(x =>
-            //x.DefaultAuthenticateScheme = JwtBearerDefaults.
-            //);
+            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero,
+                };
+            });
             #endregion
             #region Interfaces
             services.AddScoped<IMeetingRepository, MeetingRepository>();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MeetingApp.Api.Business.DTO;
 using MeetingApp.Api.Business.Services.Interfaces;
+using MeetingApp.Api.Web.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,16 @@ namespace MeetingApp.Api.Web.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
+        }
+        [HttpPost("Login")]
+        public async Task<ActionResult> Login(Login login)
+        {
+            var token = await _userService.Login(login.UserName, login.Password);
+            if (token == null)
+            {
+                return Unauthorized(new { message = "Username or password is incorrect" });
+            }
+            return Ok(new { token });
         }
     }
 }

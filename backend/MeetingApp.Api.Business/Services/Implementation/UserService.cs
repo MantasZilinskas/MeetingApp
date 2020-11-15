@@ -20,10 +20,20 @@ namespace MeetingApp.Api.Business.Services.Implementation
             _userRepo = userRepository;
             _mapper = mapper;
         }
+        public async Task<UserDTO> GetUserProfile(string userId)
+        {
+            var user = await _userRepo.GetUserProfile(userId);
+            return _mapper.Map<UserDTO>(user);
+        }
         public async Task<IdentityResult> InsertUser(UserDTO user)
         {
             var userEntity = _mapper.Map<User>(user);
             var result = await _userRepo.InsertUser(userEntity, user.Password);
+            return result;
+        }
+        public async Task<String> Login(string userName, string password)
+        {
+            var result = await _userRepo.Login(userName, password);
             return result;
         }
 
