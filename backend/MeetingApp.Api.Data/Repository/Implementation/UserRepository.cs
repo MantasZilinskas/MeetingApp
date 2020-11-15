@@ -8,6 +8,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace MeetingApp.Api.Data.Repository.Implementation
 {
@@ -61,6 +63,22 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             {
                 return null;
             }
+        }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return users;
+        }
+        public async Task<IdentityResult> DeleteUser(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if(user == null)
+            {
+                return null;
+            }
+            var result =  await _userManager.DeleteAsync(user);
+            return result;
         }
 
     }

@@ -12,5 +12,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<IdentityResult> InsertUser(User user, string password, string role);
         public Task<String> Login(string userName, string password);
         public Task<User> GetUserProfile(string userId);
+        public Task<List<User>> GetAllUsers();
+        public Task<IdentityResult> DeleteUser(string userName);
     }
 }

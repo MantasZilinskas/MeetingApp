@@ -36,6 +36,16 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var result = await _userRepo.Login(userName, password);
             return result;
         }
+        public async Task<List<UserDTO>> GetAllUsers()
+        {
+            var users = await _userRepo.GetAllUsers();
+            return _mapper.Map<List<UserDTO>>(users);
+        }
+        public async Task<IdentityResult> DeleteUser(string userName)
+        {
+            var result = await _userRepo.DeleteUser(userName);
+            return result;
+        }
 
 
     }

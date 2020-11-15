@@ -25,7 +25,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,StadardUser,Moderator")]
         public async Task<ICollection<MeetingDTO>> Get()
         {
             return await _service.GetAll();
@@ -33,6 +33,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET api/Meeting/{id}
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,StadardUser,Moderator")]
         public async Task<ActionResult<MeetingDTO>> Get(int id)
         {
             var returnedValue = await _service.Get(id);
@@ -44,6 +45,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
         // POST api/Meeting
         [HttpPost]
+        [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> Post(MeetingDTO meeting)
         {
             var returnedValue = await _service.Insert(meeting);
@@ -56,6 +58,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // PUT api/Meeting/{id}
         [HttpPut("{id}")]
+        [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> Put(int id, MeetingDTO meeting)
         {
             if (id != meeting.Id)
@@ -72,6 +75,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // DELETE api/Meeting/{id}
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> Delete(int id)
         {
             var returnedValue = await _service.Delete(id);
@@ -82,15 +86,17 @@ namespace MeetingApp.Api.Web.Controllers
             return NoContent();
         }
 
-        // GET: api/TodoItems
-        [HttpGet("{id}/TodoItems")]
-        public async Task<ICollection<TodoItemDTO>> GetAllTodoItems(int id)
+        // GET: api/Meeting/{meetingId}/TodoItems
+        [HttpGet("{meetingId}/TodoItems")]
+        [Authorize(Roles = "Admin,StadardUser,Moderator")]
+        public async Task<ICollection<TodoItemDTO>> GetMeetingTodoItems(int meetingId)
         {
-            return await _service.GetMeetingTodoItems(id);
+            return await _service.GetMeetingTodoItems(meetingId);
         }
 
-        // GET api/TodoItems/{id}
+        // GET: api/Meeting/{meetingId}/TodoItems/{todoItemId}
         [HttpGet("{meetingId}/TodoItems/{todoItemId}")]
+        [Authorize(Roles = "Admin,StadardUser,Moderator")]
         public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int meetingId, int todoItemId)
         {
             var returnedValue = await _todoItemService.Get(todoItemId,meetingId);
@@ -103,6 +109,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // POST api/TodoItems
         [HttpPost("{id}/TodoItems/")]
+        [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> PostTodoItem(int id, TodoItemDTO todoItem)
         {
             todoItem.MeetingId = id;
@@ -116,6 +123,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // PUT api/TodoItems/{id}
         [HttpPut("{meetingId}/TodotItems/{todoItemId}")]
+        [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> PutTodoItem(int meetingId,int todoItemId, TodoItemDTO todoItem)
         {
             todoItem.Id = todoItemId;
@@ -130,6 +138,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // DELETE api/TodoItems/{id}
         [HttpDelete("{meetingId}/TodoItems/{todoItemId}")]
+        [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> DeleteTodoItem(int meetingId, int todoItemId)
         {
             var returnedValue = await _todoItemService.Delete(todoItemId, meetingId);

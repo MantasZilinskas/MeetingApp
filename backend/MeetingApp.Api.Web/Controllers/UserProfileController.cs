@@ -21,12 +21,17 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin,StandardUser,Moderator")]
         public async Task<ActionResult> GetUserProfile()
         {
             string userId = User.Claims.First(c => c.Type == "UserId").Value;
             var user = await _userService.GetUserProfile(userId);
             return Ok(user);
         }
+        //[Authorize(Roles = "Admin,StandardUser,Moderator")]
+        //public async Task<ActionResult> UpdateUserProfile()
+        //{
+
+        //}
     }
 }
