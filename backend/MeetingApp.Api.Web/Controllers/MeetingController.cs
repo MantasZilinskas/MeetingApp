@@ -14,13 +14,11 @@ namespace MeetingApp.Api.Web.Controllers
     {
         private readonly IMeetingService _service;
         private readonly ITodoItemService _todoItemService;
-        private readonly IUserMeetingService _userMeetingService;
 
-        public MeetingController(IMeetingService service, ITodoItemService todoItemService,IUserMeetingService userMeetingService)
+        public MeetingController(IMeetingService service, ITodoItemService todoItemService)
         {
             _todoItemService = todoItemService;
             _service = service;
-            _userMeetingService = userMeetingService;
         }
 
         // GET: api/Meeting

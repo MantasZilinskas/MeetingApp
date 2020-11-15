@@ -33,11 +33,13 @@ namespace MeetingApp.Api.Web
             services.AddSwaggerGen();
             services.AddDbContext<MeetingAppContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("default")));
-            services.AddIdentityCore<User>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MeetingAppContext>();
 
             #region Jwt Authentication
-
+            //services.AddAuthentication(x =>
+            //x.DefaultAuthenticateScheme = JwtBearerDefaults.
+            //);
             #endregion
             #region Interfaces
             services.AddScoped<IMeetingRepository, MeetingRepository>();
