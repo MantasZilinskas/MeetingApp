@@ -28,7 +28,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         public async Task<IdentityResult> InsertUser(UserDTO user)
         {
             var userEntity = _mapper.Map<User>(user);
-            var result = await _userRepo.InsertUser(userEntity, user.Password);
+            var result = await _userRepo.InsertUser(userEntity, user.Password, user.Role);
             return result;
         }
         public async Task<String> Login(string userName, string password)

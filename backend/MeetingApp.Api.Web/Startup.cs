@@ -39,6 +39,7 @@ namespace MeetingApp.Api.Web
             services.AddDbContext<MeetingAppContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("default")));
             services.AddIdentity<User, IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MeetingAppContext>();
 
             services.Configure<IdentityOptions>(options =>

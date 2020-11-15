@@ -9,7 +9,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
 {
     public interface IUserRepository
     {
-        public Task<IdentityResult> InsertUser(User user, string password);
+        public Task<IdentityResult> InsertUser(User user, string password, string role);
         public Task<String> Login(string userName, string password);
         public Task<User> GetUserProfile(string userId);
     }

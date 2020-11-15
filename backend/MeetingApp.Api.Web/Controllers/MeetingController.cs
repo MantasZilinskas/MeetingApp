@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MeetingApp.Api.Business.DTO;
 using MeetingApp.Api.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,6 +11,7 @@ namespace MeetingApp.Api.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingService _service;
@@ -23,6 +25,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ICollection<MeetingDTO>> Get()
         {
             return await _service.GetAll();
