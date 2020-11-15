@@ -1,93 +1,34 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using MeetingApp.Api.Business.DTO;
-//using MeetingApp.Api.Business.Services.Interfaces;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MeetingApp.Api.Business.DTO;
+using MeetingApp.Api.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace MeetingApp.Api.Web.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class UserController : ControllerBase
-//    {
-//        private readonly IUserService _userService;
+namespace MeetingApp.Api.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private readonly IUserService _userService;
 
-//        public UserController(IUserService userService)
-//        {
-//            _userService = userService;
-//        }
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
-//        // GET: api/User
-//        [HttpGet]
-//        public async Task<ActionResult<ICollection<UserDTO>>> Get()
-//        {
-//            return Ok(await _userService.GetAll());
-//        }
-
-//        // GET api/User/{id}
-//        [HttpGet("{id}")]
-//        public async Task<ActionResult<UserDTO>> Get(int id)
-//        {
-//            var returnedValue = await _userService.Get(id);
-//            if (returnedValue == null)
-//            {
-//                return NotFound();
-//            }
-//            return returnedValue;
-//        }
-//        // GET api/User/{id}/Meetings
-//        [HttpGet("{id}/Meetings")]
-//        public async Task<ActionResult<ICollection<MeetingDTO>>> GetUserMeetings(int id)
-//        {
-//            var meetings = await _userService.GetUserMeetings(id);
-//            if(meetings == null)
-//            {
-//                return NotFound();
-//            }
-//            return Ok(meetings);
-//        }
-
-//        // POST api/User
-//        [HttpPost]
-//        public async Task<ActionResult> Post(UserDTO user)
-//        {
-//            var returnedValue = await _userService.Insert(user);
-//            if (returnedValue == null)
-//            {
-//                return BadRequest();
-//            }
-//            return CreatedAtAction("Get", new { id = returnedValue.Id }, returnedValue);
-//        }
-
-//        // PUT api/User/{id}
-//        [HttpPut("{id}")]
-//        public async Task<ActionResult> Put(int id, UserDTO user)
-//        {
-//            if (id != user.Id)
-//            {
-//                return BadRequest();
-//            }
-//            var returnedValue = await _userService.Update(id, user);
-//            if (returnedValue == null)
-//            {
-//                return NotFound();
-//            }
-//            return NoContent();
-//        }
-
-//        // DELETE api/User/{id}
-//        [HttpDelete("{id}")]
-//        public async Task<ActionResult> Delete(int id)
-//        {
-//            var returnedValue = await _userService.Delete(id);
-//            if (returnedValue == null)
-//            {
-//                return NotFound();
-//            }
-//            return NoContent();
-//        }
-//    }
-//}
+        [HttpPost("Register")]
+        public async Task<ActionResult> InsertUser(UserDTO user)
+        {
+            var result = await _userService.InsertUser(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using MeetingApp.Api.Business.DTO;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +9,6 @@ namespace MeetingApp.Api.Business.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task<UserDTO> Insert(UserDTO resource);
-        public Task<UserDTO> Update(int id, UserDTO resource);
-        public Task<UserDTO> Delete(int id);
-        public Task<UserDTO> Get(int id);
-        public Task<ICollection<MeetingDTO>> GetUserMeetings(int userId);
-        public Task<ICollection<UserDTO>> GetAll();
+        public Task<IdentityResult> InsertUser(UserDTO user);
     }
 }

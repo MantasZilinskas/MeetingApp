@@ -10,9 +10,9 @@ namespace MeetingApp.Api.Business.DTO
     {
         public int Id { get; set; }
         [Required]
-        public string Username { get; set; }
+        public string UserName { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string FullName { get; set; }
         [Required]
         public string Password { get; set; }
         [Required]
