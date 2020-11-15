@@ -36,14 +36,17 @@ namespace MeetingApp.Api.Web
             services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<MeetingAppContext>();
 
+            #region Jwt Authentication
+
+            #endregion
+            #region Interfaces
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ITodoItemRepository, TodoItemRepository>();
             services.AddScoped<ITodoItemService, TodoItemService>();
-            //services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<IUserMeetingRepository, UserMeetingRepository>();
-            //services.AddScoped<IUserMeetingService, UserMeetingService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

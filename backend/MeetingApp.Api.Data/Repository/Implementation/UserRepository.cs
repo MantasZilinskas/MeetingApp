@@ -1,11 +1,12 @@
 ﻿using MeetingApp.Api.Data.Model;
+using MeetingApp.Api.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Data.Repository.Implementation
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -22,10 +23,5 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             return result;
         }
 
-
-        //public async Task<bool> IsDuplicateUsername(User resource)
-        //{
-        //    return await _context.Users.AnyAsync(user => user.Username == resource.Username);
-        //}
     }
 }

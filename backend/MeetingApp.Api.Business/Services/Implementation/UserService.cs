@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Business.Services.Implementation
 {
-    public class UserService 
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
