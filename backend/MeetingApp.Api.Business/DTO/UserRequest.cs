@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Business.DTO
 {
-    public class UserDTO
+    public class UserRequest
     {
-        public string Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }

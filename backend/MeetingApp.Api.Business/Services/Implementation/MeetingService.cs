@@ -80,14 +80,14 @@ namespace MeetingApp.Api.Business.Services.Implementation
             }
             return _mapper.Map<ICollection<TodoItemDTO>>(await _todoItemRepo.GetMeetingTodoItems(meetingId));
         }
-        public async Task<string> InsertMeetingUser(UserDTO user, int meetingId)
+        public async Task<string> InsertMeetingUser(string userId, int meetingId)
         {
             if (!await _meetingRepo.MeetingExists(meetingId))
             {
                 throw new KeyNotFoundException();
             }
-            var userId = await _meetingRepo.InsertMeetingUser(_mapper.Map<User>(user), meetingId);
-            return userId;
+            var returnedUserId = await _meetingRepo.InsertMeetingUser(userId, meetingId);
+            return returnedUserId;
         }
         public async Task DeleteMeetingUser(int meetingId, string userId)
         {
@@ -98,21 +98,21 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
             await _meetingRepo.DeleteMeetingUser(meetingId, userId);
         }
-        public async Task<List<UserDTO>> GetAllMeetingUsers(int meetingId)
+        public async Task<List<UserResponse>> GetAllMeetingUsers(int meetingId)
         {
             if (!await _meetingRepo.MeetingExists(meetingId))
             {
                 throw new KeyNotFoundException();
             }
-            return _mapper.Map<List<UserDTO>>(await _meetingRepo.GetAllMeetingUsers(meetingId));
+            return _mapper.Map<List<UserResponse>>(await _meetingRepo.GetAllMeetingUsers(meetingId));
         }
-        public async Task<UserDTO> GetMeetingUser(int meetingId, string userId)
+        public async Task<UserRequest> GetMeetingUser(int meetingId, string userId)
         {
             if (!await _meetingRepo.MeetingExists(meetingId))
             {
                 throw new KeyNotFoundException();
             }
-            return _mapper.Map<UserDTO>(await _meetingRepo.GetMeetingUser(meetingId, userId));
+            return _mapper.Map<UserRequest>(await _meetingRepo.GetMeetingUser(meetingId, userId));
         }
     }
 }

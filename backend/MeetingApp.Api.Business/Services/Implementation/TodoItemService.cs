@@ -53,9 +53,9 @@ namespace MeetingApp.Api.Business.Services.Implementation
             return _mapper.Map<TodoItemDTO>(returnedEntity);
         }
 
-        public async Task<TodoItemDTO> Update(int id, TodoItemDTO dto)
+        public async Task<TodoItemDTO> Update(int todoItemId, TodoItemDTO dto)
         {
-            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(id, _mapper.Map<TodoItem>(dto)));
+            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(todoItemId, _mapper.Map<TodoItem>(dto)));
         }
     }
 }

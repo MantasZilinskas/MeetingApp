@@ -47,9 +47,10 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             return todoItem;
         }
 
-        public async Task<TodoItem> Update(int id, TodoItem todoItem)
+        public async Task<TodoItem> Update(int todoItemId, TodoItem todoItem)
         {
-            TodoItem existing = await _context.Set<TodoItem>().FindAsync(id);
+            var existing = await _context.TodoItems
+                .FirstOrDefaultAsync(value => value.Id == todoItemId && value.Meeting.Id == todoItem.MeetingId);
             if (existing != null)
             {
                 _context.Entry(existing).CurrentValues.SetValues(todoItem);

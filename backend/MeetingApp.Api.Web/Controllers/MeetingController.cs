@@ -61,10 +61,7 @@ namespace MeetingApp.Api.Web.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> Put(int id, MeetingDTO meeting)
         {
-            if (id != meeting.Id)
-            {
-                return BadRequest();
-            }
+            meeting.Id = id;
             var returnedValue = await _meetingService.Update(id, meeting);
             if (returnedValue == null)
             {
@@ -89,9 +86,14 @@ namespace MeetingApp.Api.Web.Controllers
         // GET: api/Meeting/{meetingId}/TodoItems
         [HttpGet("{meetingId}/TodoItems")]
         [Authorize(Roles = "Admin,StadardUser,Moderator")]
-        public async Task<ICollection<TodoItemDTO>> GetMeetingTodoItems(int meetingId)
+        public async Task<ActionResult> GetMeetingTodoItems(int meetingId)
         {
-            return await _meetingService.GetMeetingTodoItems(meetingId);
+            var todoItems = await _meetingService.GetMeetingTodoItems(meetingId);
+            if(todoItems == null)
+            {
+                return NotFound();
+            }
+            return Ok(todoItems);
         }
 
         // GET: api/Meeting/{meetingId}/TodoItems/{todoItemId}
@@ -108,17 +110,17 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         // POST api/TodoItems
-        [HttpPost("{id}/TodoItems/")]
+        [HttpPost("{meetingId}/TodoItems/")]
         [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> PostTodoItem(int id, TodoItemDTO todoItem)
+        public async Task<ActionResult> PostTodoItem(int meetingId, TodoItemDTO todoItem)
         {
-            todoItem.MeetingId = id;
+            todoItem.MeetingId = meetingId;
             var returnedValue = await _todoItemService.Insert(todoItem);
             if (returnedValue == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            return CreatedAtAction("Get", new { id = returnedValue.Id }, returnedValue);
+            return CreatedAtAction("GetTodoItem", new { meetingId = meetingId, todoItemId = returnedValue.Id }, returnedValue);
         }
 
         // PUT api/TodoItems/{id}
@@ -149,18 +151,18 @@ namespace MeetingApp.Api.Web.Controllers
             return NoContent();
         }
 
-        [HttpPost("{meetingId}/Users")]
+        [HttpPost("{meetingId}/Users/{userId}")]
         [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> InsertMeetingUser(int meetingId, UserDTO user)
+        public async Task<ActionResult> InsertMeetingUser(int meetingId, string userId)
         {
             try
             {
-                var userId = await _meetingService.InsertMeetingUser(user, meetingId);
+                var returnedUserId = await _meetingService.InsertMeetingUser(userId, meetingId);
                 return CreatedAtAction("GetMeetingUser", new
                 {
                     meetingId = meetingId,
                     userId = userId
-                }, user);
+                }, returnedUserId);
             }
             catch (KeyNotFoundException)
             {
@@ -169,7 +171,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
         [HttpGet("{meetingId}/Users")]
         [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult<ICollection<UserDTO>>> GetMeetingUsers(int meetingId)
+        public async Task<ActionResult<ICollection<UserResponse>>> GetAllMeetingUsers(int meetingId)
         {
             try
             {
@@ -182,7 +184,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
         [HttpGet("{meetingId}/Users/{userId}")]
         [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> GetMeetingUsers(int meetingId, string userId)
+        public async Task<ActionResult> GetMeetingUser(int meetingId, string userId)
         {
             try
             {

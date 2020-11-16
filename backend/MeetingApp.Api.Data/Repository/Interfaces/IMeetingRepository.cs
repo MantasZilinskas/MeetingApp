@@ -14,7 +14,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task Delete(Meeting resource);
         public Task<Meeting> Get(int id);
         public Task<ICollection<Meeting>> GetAll();
-        public Task<string> InsertMeetingUser(User user, int meetingId);
+        public Task<string> InsertMeetingUser(string userId, int meetingId);
         public Task DeleteMeetingUser(int meetingId, string userId);
         public Task<List<User>> GetAllMeetingUsers(int meetingId);
         public Task<User> GetMeetingUser(int meetingId, string userId);

@@ -7,11 +7,13 @@ using System.Text;
 
 namespace MeetingApp.Api.Business.Mapping
 {
-    public class UserDTOProfile : Profile
+    public class UserProfile : Profile
     {
-        public UserDTOProfile()
+        public UserProfile()
         {
-            CreateMap<User, UserDTO>()
+            CreateMap<User, UserRequest>()
+                .ReverseMap();
+            CreateMap<User, UserResponse>()
                 .ReverseMap();
         }
     }

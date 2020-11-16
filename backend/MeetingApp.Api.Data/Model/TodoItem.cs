@@ -12,6 +12,8 @@ namespace MeetingApp.Api.Data.Model
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
         public Meeting Meeting { get; set; }
+        public int MeetingId { get; set; }
         public User User { get; set; }
+        public string UserId { get; set; }
     }
 }

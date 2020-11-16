@@ -20,12 +20,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
             _userRepo = userRepository;
             _mapper = mapper;
         }
-        public async Task<UserDTO> GetUserProfile(string userId)
+        public async Task<UserResponse> GetUserProfile(string userId)
         {
             var user = await _userRepo.GetUserProfile(userId);
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<UserResponse>(user);
         }
-        public async Task<IdentityResult> InsertUser(UserDTO user)
+        public async Task<IdentityResult> InsertUser(UserRequest user)
         {
             var userEntity = _mapper.Map<User>(user);
             var result = await _userRepo.InsertUser(userEntity, user.Password, user.Role);
@@ -36,10 +36,10 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var result = await _userRepo.Login(userName, password);
             return result;
         }
-        public async Task<List<UserDTO>> GetAllUsers()
+        public async Task<List<UserResponse>> GetAllUsers()
         {
             var users = await _userRepo.GetAllUsers();
-            return _mapper.Map<List<UserDTO>>(users);
+            return _mapper.Map<List<UserResponse>>(users);
         }
         public async Task<IdentityResult> DeleteUser(string userName)
         {

@@ -15,6 +15,6 @@ namespace MeetingApp.Api.Business.DTO
         public DateTime? Deadline { get; set; }
         [Required]
         public int MeetingId { get; set; }
-        public int? UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

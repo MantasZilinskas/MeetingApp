@@ -24,7 +24,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         [HttpPost("Register")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> InsertUser(UserDTO user)
+        public async Task<ActionResult> InsertUser(UserRequest user)
         {
             var result = await _userService.InsertUser(user);
             if (!result.Succeeded)

@@ -1,6 +1,7 @@
 ﻿using MeetingApp.Api.Data.Context;
 using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,14 @@ namespace MeetingApp.Api.Data.Repository.Implementation
     public class MeetingRepository : IMeetingRepository
     {
         private readonly MeetingAppContext _context;
-        public MeetingRepository(MeetingAppContext context) {
+        private readonly UserManager<User> _userManager;
+
+        public MeetingRepository(MeetingAppContext context, UserManager<User> userManager)
+        {
             _context = context;
+            _userManager = userManager;
         }
+
         public async Task<bool> IsDuplicateName(Meeting resource)
         {
             return await _context.Meetings.AnyAsync(meeting => meeting.Name == resource.Name);
@@ -54,11 +60,20 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             }
             return existing;
         }
-        public async Task<string> InsertMeetingUser(User user, int meetingId)
+        public async Task<string> InsertMeetingUser(string userId, int meetingId)
         {
             var meeting = await _context.Meetings
                .Include(meeting => meeting.Users)
                .FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
+            if (meeting == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException();
+            }
             meeting.Users.Add(user);
             await _context.SaveChangesAsync();
             return user.Id;
@@ -69,7 +84,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                .Include(meeting => meeting.Users)
                .FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
             var user = meeting.Users.FirstOrDefault(user => user.Id == userId);
-            if(user == null)
+            if (user == null)
             {
                 throw new KeyNotFoundException();
             }
@@ -81,6 +96,10 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var meeting = await _context.Meetings
                 .Include(meeting => meeting.Users)
                 .FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
+            if(meeting == null)
+            {
+                throw new KeyNotFoundException();
+            }
             return meeting.Users;
         }
         public async Task<User> GetMeetingUser(int meetingId, string userId)
@@ -88,7 +107,16 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var meeting = await _context.Meetings
                 .Include(meeting => meeting.Users)
                 .FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
-            return meeting.Users.FirstOrDefault(user => user.Id == userId);
+            if (meeting == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            var user = meeting.Users.FirstOrDefault(user => user.Id == userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            return user;
         }
         public async Task<bool> MeetingExists(int meetingId)
         {

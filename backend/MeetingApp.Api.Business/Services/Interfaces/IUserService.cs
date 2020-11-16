@@ -9,10 +9,10 @@ namespace MeetingApp.Api.Business.Services.Interfaces
 {
     public interface IUserService
     {
-        public Task<IdentityResult> InsertUser(UserDTO user);
+        public Task<IdentityResult> InsertUser(UserRequest user);
         public Task<String> Login(string userName, string password);
-        public Task<UserDTO> GetUserProfile(string userId);
-        public Task<List<UserDTO>> GetAllUsers();
+        public Task<UserResponse> GetUserProfile(string userId);
+        public Task<List<UserResponse>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userName);
     }
 }
