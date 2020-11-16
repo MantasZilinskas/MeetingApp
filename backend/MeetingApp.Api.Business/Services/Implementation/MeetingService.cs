@@ -32,7 +32,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         public async Task<MeetingDTO> Delete(int id)
         {
             var meeting = await _meetingRepo.Get(id);
-            if(meeting != null)
+            if (meeting != null)
             {
                 await _todoItemRepo.DeleteMeetingItems(meeting.Id);
                 await _meetingRepo.Delete(meeting);
@@ -54,7 +54,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         public async Task<MeetingDTO> Insert(MeetingDTO dto)
         {
             var meeting = _mapper.Map<Meeting>(dto);
-            if(await _meetingRepo.IsDuplicateName(meeting))
+            if (await _meetingRepo.IsDuplicateName(meeting))
             {
                 return null;
             }
@@ -64,26 +64,55 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
         public async Task<MeetingDTO> Update(int id, MeetingDTO dto)
         {
-            var meetingDto = _mapper.Map<MeetingDTO>(await _meetingRepo.Get(id));
             var meetingEntity = _mapper.Map<Meeting>(dto);
             if (await _meetingRepo.IsDuplicateName(meetingEntity))
             {
                 return null;
             }
-            if (meetingDto != null)
-            {
-                return _mapper.Map<MeetingDTO>(await _meetingRepo.Update(id, meetingEntity));
-            }
-            return meetingDto;
+            return _mapper.Map<MeetingDTO>(await _meetingRepo.Update(id, meetingEntity));
         }
         public async Task<ICollection<TodoItemDTO>> GetMeetingTodoItems(int meetingId)
         {
             var meeting = await _meetingRepo.Get(meetingId);
-            if(meeting == null)
+            if (meeting == null)
             {
                 return null;
             }
             return _mapper.Map<ICollection<TodoItemDTO>>(await _todoItemRepo.GetMeetingTodoItems(meetingId));
+        }
+        public async Task<string> InsertMeetingUser(UserDTO user, int meetingId)
+        {
+            if (!await _meetingRepo.MeetingExists(meetingId))
+            {
+                throw new KeyNotFoundException();
+            }
+            var userId = await _meetingRepo.InsertMeetingUser(_mapper.Map<User>(user), meetingId);
+            return userId;
+        }
+        public async Task DeleteMeetingUser(int meetingId, string userId)
+        {
+            if (!await _meetingRepo.MeetingExists(meetingId))
+            {
+                throw new KeyNotFoundException();
+            }
+
+            await _meetingRepo.DeleteMeetingUser(meetingId, userId);
+        }
+        public async Task<List<UserDTO>> GetAllMeetingUsers(int meetingId)
+        {
+            if (!await _meetingRepo.MeetingExists(meetingId))
+            {
+                throw new KeyNotFoundException();
+            }
+            return _mapper.Map<List<UserDTO>>(await _meetingRepo.GetAllMeetingUsers(meetingId));
+        }
+        public async Task<UserDTO> GetMeetingUser(int meetingId, string userId)
+        {
+            if (!await _meetingRepo.MeetingExists(meetingId))
+            {
+                throw new KeyNotFoundException();
+            }
+            return _mapper.Map<UserDTO>(await _meetingRepo.GetMeetingUser(meetingId, userId));
         }
     }
 }

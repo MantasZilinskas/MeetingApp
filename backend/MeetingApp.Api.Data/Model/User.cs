@@ -10,7 +10,7 @@ namespace MeetingApp.Api.Data.Model
     public class User : IdentityUser
     {
         public string FullName { get; set; }
-        public IEnumerable<Meeting> Meetings { get; set; }
-        public IEnumerable<TodoItem> TodoItems { get; set; }
+        public List<Meeting> Meetings { get; set; }
+        public List<TodoItem> TodoItems { get; set; }
     }
 }

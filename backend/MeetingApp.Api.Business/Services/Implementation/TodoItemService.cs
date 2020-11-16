@@ -14,7 +14,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         private readonly IMeetingRepository _meetingRepository;
         private readonly IMapper _mapper;
 
-        public TodoItemService(ITodoItemRepository todoItemRepository, IMapper mapper,IMeetingRepository meetingRepository)
+        public TodoItemService(ITodoItemRepository todoItemRepository, IMapper mapper, IMeetingRepository meetingRepository)
         {
             _todoItemRepo = todoItemRepository;
             _meetingRepository = meetingRepository;
@@ -55,13 +55,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
 
         public async Task<TodoItemDTO> Update(int id, TodoItemDTO dto)
         {
-            var todoItem = await _todoItemRepo.GetMeetingTodoItem(dto.MeetingId, id);
-            var todoItemEntity = _mapper.Map<TodoItem>(dto);
-            if (todoItem != null)
-            {
-                return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(id, todoItemEntity));
-            }
-            return _mapper.Map<TodoItemDTO>(todoItem);
+            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(id, _mapper.Map<TodoItem>(dto)));
         }
     }
 }

@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Data.Repository.Implementation
 {
-    public class TodoItemRepository : GenericRepository<TodoItem>, ITodoItemRepository
+    public class TodoItemRepository : ITodoItemRepository
     {
-        public TodoItemRepository(MeetingAppContext context) : base(context) { }
+        private readonly MeetingAppContext _context;
+        public TodoItemRepository(MeetingAppContext context)
+        {
+            _context = context;
+        }
 
         public async Task DeleteMeetingItems(int meetingId)
         {
@@ -34,6 +38,40 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         public async Task<TodoItem> GetMeetingTodoItem(int meetingId, int todoItemId)
         {
             return await _context.TodoItems.FirstOrDefaultAsync(value => value.Id == todoItemId && value.Meeting.Id == meetingId);
+        }
+
+        public async Task<TodoItem> Insert(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync();
+            return todoItem;
+        }
+
+        public async Task<TodoItem> Update(int id, TodoItem todoItem)
+        {
+            TodoItem existing = await _context.Set<TodoItem>().FindAsync(id);
+            if (existing != null)
+            {
+                _context.Entry(existing).CurrentValues.SetValues(todoItem);
+                await _context.SaveChangesAsync();
+            }
+            return existing;
+        }
+
+        public async Task Delete(TodoItem todoItem)
+        {
+            _context.Set<TodoItem>().Remove(todoItem);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<TodoItem> Get(int id)
+        {
+            return await _context.TodoItems.FirstOrDefaultAsync(todoItem => todoItem.Id == id);
+        }
+
+        public async Task<ICollection<TodoItem>> GetAll()
+        {
+            return await _context.TodoItems.ToListAsync();
         }
     }
 }
