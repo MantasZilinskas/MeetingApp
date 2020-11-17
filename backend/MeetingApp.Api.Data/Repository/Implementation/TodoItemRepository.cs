@@ -61,7 +61,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
 
         public async Task Delete(TodoItem todoItem)
         {
-            _context.Set<TodoItem>().Remove(todoItem);
+            _context.TodoItems.Remove(todoItem);
             await _context.SaveChangesAsync();
         }
 

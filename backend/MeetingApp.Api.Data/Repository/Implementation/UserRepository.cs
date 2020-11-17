@@ -16,13 +16,11 @@ namespace MeetingApp.Api.Data.Repository.Implementation
     public class UserRepository : IUserRepository
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly ApplicationSettings _appSettings;
 
-        public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager, IOptions<ApplicationSettings> appSettings)
+        public UserRepository(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _appSettings = appSettings.Value;
         }
         public async Task<User> GetUserProfile(string userId)
