@@ -11,9 +11,9 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<bool> IsDuplicateName(Meeting resource);
         public Task<Meeting> Insert(Meeting resource);
         public Task<Meeting> Update(int id, Meeting resource);
-        public Task Delete(Meeting resource);
+        public Task<Meeting> Delete(int meetingId);
         public Task<Meeting> Get(int id);
-        public Task<ICollection<Meeting>> GetAll();
+        public Task<List<Meeting>> GetAll();
         public Task<string> InsertMeetingUser(string userId, int meetingId);
         public Task DeleteMeetingUser(int meetingId, string userId);
         public Task<List<User>> GetAllMeetingUsers(int meetingId);

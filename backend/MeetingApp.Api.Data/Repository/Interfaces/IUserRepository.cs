@@ -14,5 +14,6 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<User> GetUserProfile(string userId);
         public Task<List<User>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userName);
+        public Task<IdentityResult> UpdateUser(User user, string userId);
     }
 }

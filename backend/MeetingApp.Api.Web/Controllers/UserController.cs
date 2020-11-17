@@ -54,6 +54,7 @@ namespace MeetingApp.Api.Web.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUser(DeleteRequest request)
         {
+            // padaryti deleteByID ir implementuoti update user. Pažiūrėti ar galima useriui skirti keletą rolių
             var result = await _userService.DeleteUser(request.UserName);
             if (result == null)
             {
@@ -61,5 +62,6 @@ namespace MeetingApp.Api.Web.Controllers
             }
             return NoContent();
         }
+        
     }
 }

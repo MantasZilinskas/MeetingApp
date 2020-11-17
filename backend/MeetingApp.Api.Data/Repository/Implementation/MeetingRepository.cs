@@ -31,31 +31,37 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 .Include(meeting => meeting.Users)
                 .FirstOrDefaultAsync(meeting => meeting.Id == id);
         }
-        public async Task<ICollection<Meeting>> GetAll()
+        public async Task<List<Meeting>> GetAll()
         {
             var meetings = await _context.Meetings
                  .ToListAsync();
             return meetings;
         }
-        public async Task Delete(Meeting meeting)
+        public async Task<Meeting> Delete(int meetingId)
         {
-            _context.Set<Meeting>().Remove(meeting);
-            await _context.SaveChangesAsync();
+            var meeting = await _context.Meetings.FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
+            if(meeting != null)
+            {
+                _context.Meetings.Remove(meeting);
+                await _context.SaveChangesAsync();
+            }
+            return meeting;
         }
 
         public async Task<Meeting> Insert(Meeting meeting)
         {
-            _context.Set<Meeting>().Add(meeting);
+            _context.Meetings.Add(meeting);
             await _context.SaveChangesAsync();
             return meeting;
         }
 
         public async Task<Meeting> Update(int id, Meeting meeting)
         {
-            Meeting existing = await _context.Set<Meeting>().FindAsync(id);
+            Meeting existing = await _context.Meetings.AsNoTracking().FirstOrDefaultAsync(value => value.Id == id);
             if (existing != null)
             {
-                _context.Entry(existing).CurrentValues.SetValues(meeting);
+                meeting.Id = id;
+                _context.Meetings.Update(meeting);
                 await _context.SaveChangesAsync();
             }
             return existing;
@@ -65,10 +71,6 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var meeting = await _context.Meetings
                .Include(meeting => meeting.Users)
                .FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
-            if (meeting == null)
-            {
-                throw new KeyNotFoundException();
-            }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {

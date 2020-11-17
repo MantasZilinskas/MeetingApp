@@ -46,6 +46,11 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var result = await _userRepo.DeleteUser(userName);
             return result;
         }
+        public async Task<IdentityResult> UpdateUser(UserRequest user, string userId)
+        {
+            var result = await _userRepo.UpdateUser(_mapper.Map<User>(user), userId);
+            return result;
+        }
 
 
     }

@@ -80,6 +80,17 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var result =  await _userManager.DeleteAsync(user);
             return result;
         }
+        public async Task<IdentityResult> UpdateUser(User user, string userId)
+        {
+            var userEntity = await _userManager.FindByIdAsync(userId);
+            if (userEntity == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            user.Id = userId;
+            var result = await _userManager.UpdateAsync(user);
+            return result;
+        }
 
     }
 }

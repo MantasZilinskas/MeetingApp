@@ -29,13 +29,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
             _todoItemRepo = todoItemRepository;
         }
 
-        public async Task<MeetingDTO> Delete(int id)
+        public async Task<MeetingDTO> Delete(int meetingId)
         {
-            var meeting = await _meetingRepo.Get(id);
-            if (meeting != null)
+            var meeting = await _meetingRepo.Delete(meetingId);
+            if(meeting != null)
             {
-                await _todoItemRepo.DeleteMeetingItems(meeting.Id);
-                await _meetingRepo.Delete(meeting);
+                await _todoItemRepo.DeleteMeetingItems(meetingId);
             }
             return _mapper.Map<MeetingDTO>(meeting);
         }

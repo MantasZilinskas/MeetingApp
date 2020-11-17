@@ -10,6 +10,10 @@ namespace MeetingApp.Api.Data.Context
             : base(options)
         {
         }
+        public MeetingAppContext()
+        {
+
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -20,7 +24,7 @@ namespace MeetingApp.Api.Data.Context
         }
 
         public override DbSet<User> Users { get; set; }
-        public DbSet<Meeting> Meetings { get; set; }
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public virtual DbSet<Meeting> Meetings { get; set; }
+        public virtual DbSet<TodoItem> TodoItems { get; set; }
     }
 }
