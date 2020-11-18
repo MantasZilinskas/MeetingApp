@@ -133,9 +133,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             string userId = "testId";
             mockUserRepository.Setup(repo => repo.UpdateUser(It.IsAny<User>(),It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
             // Act
-            var result = await service.UpdateUser(
-                user,
-                userId);
+            var result = await service.UpdateUser(user,userId);
 
             // Assert
             Assert.True(result.Succeeded);
