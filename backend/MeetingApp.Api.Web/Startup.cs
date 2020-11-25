@@ -47,8 +47,15 @@ namespace MeetingApp.Api.Web
                 options.Password.RequireNonAlphanumeric = false;
             });
 
-            #region Jwt Authentication
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", build =>
+            {
+                build.WithOrigins("http://localhost:3000")
+                     .AllowAnyMethod()
+                     .AllowAnyHeader();
+            }));
+
+        #region Jwt Authentication
+        var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -96,6 +103,8 @@ namespace MeetingApp.Api.Web
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseCors("ApiCorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
