@@ -83,41 +83,41 @@ export default function SignIn() {
           Sign in
         </Typography>
         <form className={classes.form} noValidate>
-        <TextField
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          id="email"
-          name="email"
-          label="Email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          autoComplete="email"
-          autoFocus
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          autoComplete="current-password"
-        />
+          <TextField
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            id="email"
+            name="email"
+            label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            autoComplete="current-password"
+          />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           <Button color="primary" variant="contained" fullWidth type="submit">
-          Sign In
-        </Button>
+            Sign In
+          </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -137,4 +137,4 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+  }
