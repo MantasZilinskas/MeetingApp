@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
+import {api} from '../axiosInstance';
 
 function Copyright() {
   return (
@@ -29,10 +30,9 @@ function Copyright() {
 }
 
 const validationSchema = yup.object({
-  email: yup
-    .string('Enter your email')
-    .email('Enter a valid email')
-    .required('Email is required'),
+  username: yup
+    .string('Enter your username')
+    .required('Username is required'),
   password: yup
     .string('Enter your password')
     .min(6, 'Password should be of minimum 6 characters length')
@@ -62,11 +62,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const initialValues = {
-    email: '',
+    username: '',
     password: '',
   };
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log(values);
+    const result = await api.post('/User/Login', values );
+    console.log(result);
   };
 
   return (
@@ -90,14 +92,14 @@ export default function SignIn() {
                 fullWidth
                 margin="normal"
                 variant="outlined"
-                id="email"
-                name="email"
-                label="Email"
-                value={values.email}
+                id="username"
+                name="username"
+                label="Username"
+                value={values.username}
                 onChange={handleChange}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-                autoComplete="email"
+                error={touched.username && Boolean(errors.username)}
+                helperText={touched.username && errors.username}
+                autoComplete="username"
                 autoFocus
               />
               <TextField
