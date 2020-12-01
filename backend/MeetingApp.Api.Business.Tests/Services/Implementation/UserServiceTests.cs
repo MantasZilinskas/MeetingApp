@@ -62,7 +62,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             // Arrange
             var service = this.CreateService();
             UserRequest user = new UserRequest {UserName = "user1"};
-            mockUserRepository.Setup(repo => repo.InsertUser(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+            mockUserRepository.Setup(repo => repo.InsertUser(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<IList<string>>())).ReturnsAsync(IdentityResult.Success);
             // Act
             var result = await service.InsertUser(user);
 
@@ -78,7 +78,12 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             var service = this.CreateService();
             string userName = "user";
             string password = "user123";
-            string expected = "id";
+            var expected =  new LoginResponseDAO
+            {
+                Roles = new List<string> { "testRole" },
+                Token = "testToken",
+                UserId = "testId"
+            };
             mockUserRepository.Setup(repo => repo.Login(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(expected);
             // Act
             var result = await service.Login(
@@ -86,7 +91,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
                 password);
 
             // Assert
-            Assert.True(result == expected);
+            Assert.True(result.UserId == expected.UserId);
             
         }
 

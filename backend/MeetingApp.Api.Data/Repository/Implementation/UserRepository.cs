@@ -28,14 +28,17 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }
-        public async Task<IdentityResult> InsertUser(User user, string password, string role)
+        public async Task<IdentityResult> InsertUser(User user, string password, IList<string> roles)
         {
             var result = await _userManager.CreateAsync(user, password);
-            await _userManager.AddToRoleAsync(user, role);
+            foreach(string role in roles)
+            {
+                await _userManager.AddToRoleAsync(user, role);
+            }
             return result;
         }
 
-        public async Task<String> Login(string userName, string password)
+        public async Task<LoginResponseDAO> Login(string userName, string password)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if(user != null && await _userManager.CheckPasswordAsync(user, password))
@@ -55,7 +58,12 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-                return token;
+                var response = new LoginResponseDAO {
+                    UserId = user.Id,
+                    Roles = roles,
+                    Token = token 
+                };
+                return response;
             }
             else
             {

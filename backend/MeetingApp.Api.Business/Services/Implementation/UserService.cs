@@ -28,13 +28,13 @@ namespace MeetingApp.Api.Business.Services.Implementation
         public async Task<IdentityResult> InsertUser(UserRequest user)
         {
             var userEntity = _mapper.Map<User>(user);
-            var result = await _userRepo.InsertUser(userEntity, user.Password, user.Role);
+            var result = await _userRepo.InsertUser(userEntity, user.Password, user.Roles);
             return result;
         }
-        public async Task<String> Login(string userName, string password)
+        public async Task<LoginResponse> Login(string userName, string password)
         {
             var result = await _userRepo.Login(userName, password);
-            return result;
+            return _mapper.Map<LoginResponse>(result);
         }
         public async Task<List<UserResponse>> GetAllUsers()
         {

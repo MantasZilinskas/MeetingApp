@@ -14,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
-import {api} from '../axiosInstance';
+import { api } from '../axiosInstance';
+import { auth } from '../Utils/authenticationService';
 
 function Copyright() {
   return (
@@ -30,9 +31,7 @@ function Copyright() {
 }
 
 const validationSchema = yup.object({
-  username: yup
-    .string('Enter your username')
-    .required('Username is required'),
+  username: yup.string('Enter your username').required('Username is required'),
   password: yup
     .string('Enter your password')
     .min(6, 'Password should be of minimum 6 characters length')
@@ -66,9 +65,11 @@ export default function SignIn() {
     password: '',
   };
   const onSubmit = async (values) => {
-    console.log(values);
-    const result = await api.post('/User/Login', values );
-    console.log(result);
+    try {
+      auth.login(values.username, values.password);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

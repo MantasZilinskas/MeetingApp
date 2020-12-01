@@ -36,12 +36,12 @@ namespace MeetingApp.Api.Web.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult> Login(LoginRequest request)
         {
-            var token = await _userService.Login(request.UserName, request.Password);
-            if (token == null)
+            var response = await _userService.Login(request.UserName, request.Password);
+            if (response == null)
             {
                 return Unauthorized(new { message = "Username or password is incorrect" });
             }
-            return Ok(new { token });
+            return Ok(response);
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]

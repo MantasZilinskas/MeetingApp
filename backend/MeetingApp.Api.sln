@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingApp.Api.Data", "Meet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingApp.Api.Business", "MeetingApp.Api.Business\MeetingApp.Api.Business.csproj", "{5230A09A-C3CB-4C86-B0B7-95AA26DB0513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingApp.Api.Data.Tests", "MeetingApp.Api.Data.Tests\MeetingApp.Api.Data.Tests.csproj", "{5001639D-7511-4B17-B5B8-9D8BB5879315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingApp.Api.Data.Tests", "MeetingApp.Api.Data.Tests\MeetingApp.Api.Data.Tests.csproj", "{5001639D-7511-4B17-B5B8-9D8BB5879315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingApp.Api.Business.Tests", "MeetingApp.Api.Business.Tests\MeetingApp.Api.Business.Tests.csproj", "{D6426314-7231-45BF-8C95-53368236FE21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingApp.Api.Business.Tests", "MeetingApp.Api.Business.Tests\MeetingApp.Api.Business.Tests.csproj", "{D6426314-7231-45BF-8C95-53368236FE21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tetsts", "Tetsts", "{5C2B0D1F-838F-4167-A4C6-29B8B3557F1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5001639D-7511-4B17-B5B8-9D8BB5879315} = {5C2B0D1F-838F-4167-A4C6-29B8B3557F1F}
+		{D6426314-7231-45BF-8C95-53368236FE21} = {5C2B0D1F-838F-4167-A4C6-29B8B3557F1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7A58016-7840-41C8-B8E4-036BB26130D2}

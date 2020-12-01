@@ -1,6 +1,11 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://meetingappapiweb20200928134000.azurewebsites.net/api';
-axios.defaults.headers = { Accept: `application/json` };
+import { auth } from './Utils/authenticationService';
+
+axios.defaults.baseURL =
+  'https://meetingappapiweb20200928134000.azurewebsites.net/api/';
+axios.defaults.headers = {
+  Accept: `application/json`,
+};
 
 export const updateDefaultHeaders = (headers) => {
   axios.defaults.headers.common = {
@@ -9,10 +14,29 @@ export const updateDefaultHeaders = (headers) => {
   };
 };
 
+export default function authHeader() {
+  const currentUser = auth.currentUserValue;
+  if (currentUser && currentUser.token) {
+      return { Authorization: `Bearer ${currentUser.token}` };
+  } else {
+      return {};
+  }
+}
+
 const performRequest = async (config) => {
-  const response = await axios.request(config);
-  return response.data;
+  try {
+    const headers = authHeader();
+    config = {
+      ...config,
+      headers,
+    };
+    const response = await axios.request(config);
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
+
 const performGet = (url, params = {}, config = {}) =>
   performRequest({
     ...config,

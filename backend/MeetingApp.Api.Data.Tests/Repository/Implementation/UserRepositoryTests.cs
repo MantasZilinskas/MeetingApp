@@ -67,10 +67,10 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
 
             User user = new User { Id = "5", UserName = "user5"};
             string password = "testPassword";
-            string role = "testRole";
+            IList<string> roles = new List<string> { "testRole" };
 
             // Act
-            var result = await userRepository.InsertUser(user,password,role);
+            var result = await userRepository.InsertUser(user,password, roles);
 
             // Assert
             mockUserManager.Verify(m => m.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
