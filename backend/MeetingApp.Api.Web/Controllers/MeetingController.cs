@@ -33,7 +33,7 @@ namespace MeetingApp.Api.Web.Controllers
         // GET: api/Meeting/slice
         [HttpGet("slice")]
         [Authorize(Roles = "Admin,StadardUser,Moderator")]
-        public async Task<ActionResult<IEnumerable<MeetingSliceDTO>>> GetSlice([FromQuery] SliceRequest request)
+        public async Task<ActionResult<IEnumerable<GenericSliceDTO<MeetingDTO>>>> GetSlice([FromQuery] SliceRequest request)
         {
             var meetings = await _meetingService.GetSlice(request);
             if (meetings == null)

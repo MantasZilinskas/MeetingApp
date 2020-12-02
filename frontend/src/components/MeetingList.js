@@ -36,7 +36,7 @@ export default function MeetingList() {
     });
 
     setMeetings(
-      result.meetings.map((item) => ({
+      result.items.map((item) => ({
         name: item.name,
         description: item.description,
         id: item.id,

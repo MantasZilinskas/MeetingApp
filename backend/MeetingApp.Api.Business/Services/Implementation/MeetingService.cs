@@ -44,12 +44,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var meeting = _mapper.Map<MeetingDTO>(await _meetingRepo.Get(meetingId));
             return meeting;
         }
-        public async Task<MeetingSliceDTO> GetSlice(SliceRequest request)
+        public async Task<GenericSliceDTO<MeetingDTO>> GetSlice(SliceRequest request)
         {
             var meetings = await _meetingRepo.GetSlice(_mapper.Map<SliceRequestDAO>(request));
             var count = await _meetingRepo.GetCount();
             if (meetings == null) return null;
-            return new MeetingSliceDTO { Meetings = _mapper.Map<List<MeetingDTO>>(meetings), TotalCount = count };
+            return new GenericSliceDTO<MeetingDTO> { Items = _mapper.Map<List<MeetingDTO>>(meetings), TotalCount = count };
         }
         public async Task<ICollection<MeetingDTO>> GetAll()
         {

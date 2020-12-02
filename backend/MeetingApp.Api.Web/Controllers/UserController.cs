@@ -43,6 +43,15 @@ namespace MeetingApp.Api.Web.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("slice")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<GenericSliceDTO<UserResponse>>>> GetSlice([FromQuery] SliceRequest request)
+        {
+            var users = await _userService.GetSlice(request);
+            if (users == null)
+                return BadRequest();
+            return Ok(users);
+        }
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAllUsers()

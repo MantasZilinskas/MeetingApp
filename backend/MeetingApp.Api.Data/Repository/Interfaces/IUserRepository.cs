@@ -15,5 +15,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<List<User>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userName);
         public Task<IdentityResult> UpdateUser(User user, string userId);
+        public Task<List<User>> GetSlice(SliceRequestDAO request);
+        public Task<int> GetCount();
     }
 }

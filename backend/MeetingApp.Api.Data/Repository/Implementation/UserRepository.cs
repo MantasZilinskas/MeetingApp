@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeetingApp.Api.Data.Repository.Implementation
 {
@@ -23,6 +24,10 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             _userManager = userManager;
             _appSettings = appSettings.Value;
         }
+        public async Task<int> GetCount()
+        {
+            return await _userManager.Users.CountAsync();
+        }
         public async Task<User> GetUserProfile(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -31,7 +36,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         public async Task<IdentityResult> InsertUser(User user, string password, IList<string> roles)
         {
             var result = await _userManager.CreateAsync(user, password);
-            foreach(string role in roles)
+            foreach (string role in roles)
             {
                 await _userManager.AddToRoleAsync(user, role);
             }
@@ -41,7 +46,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         public async Task<LoginResponseDAO> Login(string userName, string password)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            if(user != null && await _userManager.CheckPasswordAsync(user, password))
+            if (user != null && await _userManager.CheckPasswordAsync(user, password))
             {
                 // Get the role assigned to the user 
                 var roles = await _userManager.GetRolesAsync(user);
@@ -58,10 +63,11 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-                var response = new LoginResponseDAO {
+                var response = new LoginResponseDAO
+                {
                     UserId = user.Id,
                     Roles = roles,
-                    Token = token 
+                    Token = token
                 };
                 return response;
             }
@@ -76,14 +82,61 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var users = await _userManager.Users.ToListAsync();
             return users;
         }
+        public async Task<List<User>> GetSlice(SliceRequestDAO request)
+        {
+            if (request.order == "asc")
+            {
+                return request.orderBy switch
+                {
+                    "username" => await _userManager.Users
+                            .OrderBy(i => i.UserName)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    "fullname" => await _userManager.Users
+                            .OrderBy(i => i.FullName)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    "email" => await _userManager.Users
+                             .OrderBy(i => i.Email)
+                             .Skip(request.rowsPerPage * request.page)
+                             .Take(request.rowsPerPage)
+                             .ToListAsync(),
+                    _ => null
+                };
+            }
+            else
+            {
+                return request.orderBy switch
+                {
+                    "username" => await _userManager.Users
+                            .OrderByDescending(i => i.UserName)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    "fullname" => await _userManager.Users
+                            .OrderByDescending(i => i.FullName)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    "email" => await _userManager.Users
+                            .OrderByDescending(i => i.Email)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    _ => null
+                };
+            }
+        }
         public async Task<IdentityResult> DeleteUser(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }
-            var result =  await _userManager.DeleteAsync(user);
+            var result = await _userManager.DeleteAsync(user);
             return result;
         }
         public async Task<IdentityResult> UpdateUser(User user, string userId)

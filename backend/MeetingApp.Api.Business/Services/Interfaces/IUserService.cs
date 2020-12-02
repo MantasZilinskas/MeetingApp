@@ -15,5 +15,6 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<List<UserResponse>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userName);
         public Task<IdentityResult> UpdateUser(UserRequest user, string userId);
+        public Task<GenericSliceDTO<UserResponse>> GetSlice(SliceRequest request);
     }
 }

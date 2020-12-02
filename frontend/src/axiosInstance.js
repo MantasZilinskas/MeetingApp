@@ -3,6 +3,8 @@ import { auth } from './Utils/authenticationService';
 
 axios.defaults.baseURL =
   'https://meetingappapiweb20200928134000.azurewebsites.net/api/';
+// axios.defaults.baseURL =
+//    'https://localhost:44335/api/';
 axios.defaults.headers = {
   Accept: `application/json`,
 };

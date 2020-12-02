@@ -1,63 +1,79 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Container } from '@material-ui/core';
+//import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
+import { api } from '../axiosInstance';
+import ListPage from './ListPage';
+import Button  from '@material-ui/core/Button';
+import { NavLink } from 'react-router-dom';
+import GenericTable from './GenericTable';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
+// const useStyles = makeStyles({
+//   table: {
+//     minWidth: 650,
+//   },
+// });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+export default function UserAdminList() {
+  //const classes = useStyles();
+  const [users, setUsers] = useState();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('username');
+  const [count, setCount] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  const columnOptions = [
+    { id: 'username', numeric: false, disablePadding: false, label: 'Username' },
+    { id: 'fullname', numeric: false, disablePadding: false, label: 'Full name' },
+    { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  ];
 
-export default function UserListAdmin() {
-  const classes = useStyles();
+  const fetchData = async () => {
+    const result = await api.get('user/slice', {
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    });
 
+    setUsers(
+      result.items.map((item) => ({
+        fullname: item.fullName,
+        username: item.userName,
+        email: item.email,
+        id: item.id,
+      }))
+    );
+    setCount(result.totalCount);
+    if (rowsPerPage * page >= result.totalCount) setPage(page - 1);
+    setIsLoading(false);
+};
+useEffect(() => {
+  fetchData();
+}, [order, orderBy, page, rowsPerPage]);
   return (
-    <Container>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Container>
+    <ListPage
+      header="Users"
+      controlButtons={
+        <Button variant="outlined" color="primary" component={NavLink} to={'/user/create'}>
+          Create user
+        </Button>
+      }
+    >
+      <GenericTable
+        items={users}
+        columnOptions={columnOptions}
+        allItemsCount={count}
+        setPage={setPage}
+        page={page}
+        setRowsPerPage={setRowsPerPage}
+        rowsPerPage={rowsPerPage}
+        setOrder={setOrder}
+        order={order}
+        setOrderBy={setOrderBy}
+        orderBy={orderBy}
+        isLoading={isLoading}
+      />
+    </ListPage>
   );
 }
