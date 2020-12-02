@@ -28,6 +28,9 @@ export default function Navbar() {
         <Button component={NavLink} to="/userProfile">
           UserProfile
         </Button>
+        <Button component={NavLink} to="/meeting">
+          Meetings
+        </Button>
         <Button onClick={logout}>Logout</Button>
       </Toolbar>
     </AppBar>
