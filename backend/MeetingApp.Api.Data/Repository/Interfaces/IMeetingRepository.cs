@@ -19,5 +19,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<List<User>> GetAllMeetingUsers(int meetingId);
         public Task<User> GetMeetingUser(int meetingId, string userId);
         public Task<bool> MeetingExists(int meetingId);
+        public Task<List<Meeting>> GetSlice(SliceRequestDAO request);
+        public Task<int> GetCount();
     }
 }

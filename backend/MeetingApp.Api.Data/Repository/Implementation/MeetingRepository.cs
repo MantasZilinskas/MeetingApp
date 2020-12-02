@@ -24,12 +24,54 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         {
             return await _context.Meetings.AnyAsync(meeting => meeting.Name == resource.Name);
         }
+        public async Task<int> GetCount()
+        {
+            return await _context.Meetings
+                .CountAsync();
+        }
         public async Task<Meeting> Get(int id)
         {
             return await _context.Meetings
                 .Include(meeting => meeting.TodoItems)
                 .Include(meeting => meeting.Users)
                 .FirstOrDefaultAsync(meeting => meeting.Id == id);
+        }
+        public async Task<List<Meeting>> GetSlice(SliceRequestDAO request)
+        {
+            if (request.order == "asc")
+            {
+                return request.orderBy switch
+                {
+                    "name" => await _context.Meetings
+                            .OrderBy(i => i.Name)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    "description" => await _context.Meetings
+                            .OrderBy(i => i.Description)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    _ => null
+                };
+            }
+            else
+            {
+                return request.orderBy switch
+                {
+                    "name" => await _context.Meetings
+                            .OrderByDescending(i => i.Name)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    "description" => await _context.Meetings
+                            .OrderByDescending(i => i.Description)
+                            .Skip(request.rowsPerPage * request.page)
+                            .Take(request.rowsPerPage)
+                            .ToListAsync(),
+                    _ => null
+                };
+            }
         }
         public async Task<List<Meeting>> GetAll()
         {

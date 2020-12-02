@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+//import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 import { api } from '../axiosInstance';
 import ListPage from './ListPage';
@@ -6,14 +6,14 @@ import Button  from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
 import GenericTable from './GenericTable';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
+// const useStyles = makeStyles({
+//   table: {
+//     minWidth: 650,
+//   },
+// });
 
 export default function MeetingList() {
-  const classes = useStyles();
+  //const classes = useStyles();
   const [meetings, setMeetings] = useState();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -28,13 +28,22 @@ export default function MeetingList() {
   ];
 
   const fetchData = async () => {
-    const result = await api.get('Meeting');
-    setMeetings(result.map((item) => ({
-      name : item.name,
-      description: item.description,
-    })));
-    // setCount(result.totalCount);
-    // if (rowsPerPage * page >= result.totalCount) setPage(page - 1);
+    const result = await api.get('meeting/slice', {
+      page,
+      rowsPerPage,
+      order,
+      orderBy,
+    });
+
+    setMeetings(
+      result.meetings.map((item) => ({
+        name: item.name,
+        description: item.description,
+        id: item.id,
+      }))
+    );
+    setCount(result.totalCount);
+    if (rowsPerPage * page >= result.totalCount) setPage(page - 1);
     setIsLoading(false);
 };
 useEffect(() => {
