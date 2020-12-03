@@ -6,8 +6,8 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
+import { useSnackbar } from 'notistack';
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import * as yup from 'yup';
 import { api } from '../axiosInstance';
 import { Role } from '../Utils/Role';
@@ -16,11 +16,7 @@ import FormContainer from './FormContainer';
 const validationSchema = yup.object({
   username: yup
     .string('Enter your username')
-    .required('Username is required')
-    .matches(
-      '/^[a-z0-9]+$/i',
-      'Username can only contain alphanumeric characters'
-    ),
+    .required('Username is required'),
   password: yup
     .string('Enter your password')
     .min(6, 'Password should be of minimum 6 characters length')
@@ -44,9 +40,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserForm() {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const onSubmit = async (values) => {
-    await api.post('user/register', values);
-    return <Redirect to="/user" />;
+    try{
+      await api.post('user/register', values);
+      enqueueSnackbar('User was created succesfuly', {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+        variant: 'success',
+      });
+    }catch(error){
+      enqueueSnackbar(error.message, {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+        variant: 'error',
+      });
+    }
   };
   const initialValues = {
     username: '',
