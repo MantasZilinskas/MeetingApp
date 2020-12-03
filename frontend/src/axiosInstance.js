@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { auth } from './Utils/authenticationService';
+import { currentUserValue } from './Utils/authenticationService';
 
 axios.defaults.baseURL =
   'https://meetingappapiweb20200928134000.azurewebsites.net/api/';
@@ -17,7 +17,7 @@ export const updateDefaultHeaders = (headers) => {
 };
 
 export default function authHeader() {
-  const currentUser = auth.currentUserValue;
+  const currentUser = currentUserValue();
   if (currentUser && currentUser.token) {
       return { Authorization: `Bearer ${currentUser.token}` };
   } else {

@@ -6,6 +6,7 @@ import UserProfile from '../components/UserProfile';
 import { Role } from '../Utils/Role';
 import { PrivateRoute } from './PrivateRoute';
 import MeetingList from '../components/MeetingList';
+import UserForm from './../components/UserForm';
 
 export default function Routes() {
   return (
@@ -13,7 +14,12 @@ export default function Routes() {
       <Route path="/signin" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <PrivateRoute
-        path="/userListAdmin"
+        path="/user/create"
+        roles={[Role.Admin]}
+        component={UserForm}
+      />
+      <PrivateRoute
+        path="/user"
         roles={[Role.Admin]}
         component={UserListAdmin}
       />

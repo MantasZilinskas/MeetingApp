@@ -14,8 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
-import { api } from '../axiosInstance';
-import { auth } from '../Utils/authenticationService';
+import { login } from '../Utils/authenticationService';
 
 function Copyright() {
   return (
@@ -66,7 +65,7 @@ export default function SignIn() {
   };
   const onSubmit = async (values) => {
     try {
-      auth.login(values.username, values.password);
+      login(values.username, values.password);
     } catch (error) {
       console.log(error);
     }

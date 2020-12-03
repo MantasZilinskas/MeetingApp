@@ -1,28 +1,19 @@
-import { BehaviorSubject } from 'rxjs';
+
 import { api } from '../axiosInstance';
 
-const currentUserSubject = new BehaviorSubject(
-  localStorage.getItem('currentUser')
-);
-
-export const auth = {
-  login,
-  logout,
-  currentUser: currentUserSubject.asObservable(),
-  get currentUserValue() {
-    return currentUserSubject.value;
-  },
-};
-
-async function login(username, password) {
+export async function login(username, password) {
   const data = { username, password };
   const user = await api.post('/User/Login', data);
   localStorage.setItem('currentUser', JSON.stringify(user));
-  currentUserSubject.next(user);
 }
-
-function logout() {
+export function currentUserValue() {
+    let user = null;
+    if(localStorage.getItem('currentUser') !== "undefined"){
+      user = JSON.parse(localStorage.getItem('currentUser'));
+    }
+    return user;
+}
+export function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('currentUser');
-  currentUserSubject.next(null);
 }

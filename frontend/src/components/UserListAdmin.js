@@ -35,7 +35,6 @@ export default function UserAdminList() {
       order,
       orderBy,
     });
-
     setUsers(
       result.items.map((item) => ({
         fullname: item.fullName,
