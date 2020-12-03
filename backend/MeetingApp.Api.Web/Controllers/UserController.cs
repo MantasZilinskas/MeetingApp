@@ -22,11 +22,21 @@ namespace MeetingApp.Api.Web.Controllers
             _userService = userService;
         }
 
-        [HttpPost("Register")]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> InsertUser(UserRequest user)
         {
             var result = await _userService.InsertUser(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        [HttpPost("Register")]
+        public async Task<ActionResult> Register(UserRequest user)
+        {
+            var result = await _userService.Register(user);
             if (!result.Succeeded)
             {
                 return BadRequest(result);
@@ -59,12 +69,11 @@ namespace MeetingApp.Api.Web.Controllers
             var users = await _userService.GetAllUsers();
             return Ok(users);
         }
-        [HttpDelete]
+        [HttpDelete("{userId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> DeleteUser(DeleteRequest request)
+        public async Task<ActionResult> DeleteUser(string userId)
         {
-            // padaryti deleteByID ir implementuoti update user. Pažiūrėti ar galima useriui skirti keletą rolių
-            var result = await _userService.DeleteUser(request.UserName);
+            var result = await _userService.DeleteUser(userId);
             if (result == null)
             {
                 return NotFound(result);

@@ -33,6 +33,12 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }
+        public async Task<IdentityResult> Register(User user, string password)
+        {
+            var result = await _userManager.CreateAsync(user, password);
+            await _userManager.AddToRoleAsync(user, "StandardUser");
+            return result;
+        }
         public async Task<IdentityResult> InsertUser(User user, string password, IList<string> roles)
         {
             var result = await _userManager.CreateAsync(user, password);
@@ -55,11 +61,11 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new Claim("UserId", user.Id.ToString()),
-                        new Claim(ClaimTypes.Role,string.Join(",", roles))
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
+                AddRolesToClaims(tokenDescriptor, roles);
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
@@ -74,6 +80,14 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             else
             {
                 return null;
+            }
+        }
+        private void AddRolesToClaims(SecurityTokenDescriptor tokenDescriptor, IEnumerable<string> roles)
+        {
+            foreach (var role in roles)
+            {
+                var roleClaim = new Claim(ClaimTypes.Role, role);
+                tokenDescriptor.Subject.AddClaim(roleClaim);
             }
         }
 
@@ -129,9 +143,9 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 };
             }
         }
-        public async Task<IdentityResult> DeleteUser(string userName)
+        public async Task<IdentityResult> DeleteUser(string userId)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return null;
