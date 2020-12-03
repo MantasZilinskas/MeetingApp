@@ -6,12 +6,10 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Formik, Form } from 'formik';
-import { useSnackbar } from 'notistack';
 import React from 'react';
 import * as yup from 'yup';
-import { api } from '../axiosInstance';
-import { Role } from '../Utils/Role';
-import FormContainer from './FormContainer';
+import { Role } from '../../Utils/Role';
+import FormContainer from '../FormContainer';
 
 const validationSchema = yup.object({
   username: yup
@@ -38,36 +36,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserForm() {
+export default function UserForm({onSubmit, initialValues}) {
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
-  const onSubmit = async (values) => {
-    try{
-      await api.post('user/register', values);
-      enqueueSnackbar('User was created succesfuly', {
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center',
-        },
-        variant: 'success',
-      });
-    }catch(error){
-      enqueueSnackbar(error.message, {
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center',
-        },
-        variant: 'error',
-      });
-    }
-  };
-  const initialValues = {
-    username: '',
-    password: '',
-    fullname: '',
-    email: '',
-    roles: [],
-  };
   return (
     <FormContainer header="User details">
       <Container maxWidth="xs">

@@ -12,11 +12,12 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<IdentityResult> InsertUser(User user, string password, IList<string> roles);
         public Task<IdentityResult> Register(User user, string password);
         public Task<LoginResponseDAO> Login(string userName, string password);
-        public Task<User> GetUserProfile(string userId);
+        public Task<User> GetUser(string userId);
         public Task<List<User>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userId);
-        public Task<IdentityResult> UpdateUser(User user, string userId);
+        public Task<IdentityResult> UpdateUser(User user, string userId, string newpass, IList<string> roles);
         public Task<List<User>> GetSlice(SliceRequestDAO request);
         public Task<int> GetCount();
+        public Task<IList<string>> GetUserRoles(string userId);
     }
 }

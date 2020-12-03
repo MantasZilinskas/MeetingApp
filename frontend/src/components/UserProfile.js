@@ -1,17 +1,18 @@
 import { Card, Container } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { api } from '../axiosInstance';
+import { currentUserValue } from '../Utils/authenticationService';
 
 export default function UserProfile() {
   const [user, setUser] = useState({fullname: "", userName: "", id:""});
-  const token = localStorage.getItem('token');
+  const currentUser = currentUserValue();
   const getUserProfile = async () => {
-    const profile = await api.get('UserProfile');
+    const profile = await api.get('user/' + currentUser.id);
     setUser(profile);
   };
   useEffect(() => {
     getUserProfile();
-  },[token]);
+  },[currentUser]);
   return (
     <Container>
       <Card>

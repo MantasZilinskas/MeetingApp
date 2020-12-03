@@ -28,7 +28,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         {
             return await _userManager.Users.CountAsync();
         }
-        public async Task<User> GetUserProfile(string userId)
+        public async Task<User> GetUser(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             return user;
@@ -42,10 +42,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         public async Task<IdentityResult> InsertUser(User user, string password, IList<string> roles)
         {
             var result = await _userManager.CreateAsync(user, password);
-            foreach (string role in roles)
-            {
-                await _userManager.AddToRoleAsync(user, role);
-            }
+            await _userManager.AddToRolesAsync(user, roles);
             return result;
         }
 
@@ -153,16 +150,36 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var result = await _userManager.DeleteAsync(user);
             return result;
         }
-        public async Task<IdentityResult> UpdateUser(User user, string userId)
+        public async Task<IdentityResult> UpdateUser(User user, string userId, string newpass, IList<string> roles)
         {
             var userEntity = await _userManager.FindByIdAsync(userId);
             if (userEntity == null)
             {
                 throw new KeyNotFoundException();
             }
-            user.Id = userId;
-            var result = await _userManager.UpdateAsync(user);
+            var currentRoles = await _userManager.GetRolesAsync(userEntity);
+            await _userManager.RemoveFromRolesAsync(userEntity, currentRoles);
+            await _userManager.AddToRolesAsync(userEntity, roles);
+
+            var newPassword = _userManager.PasswordHasher.HashPassword(userEntity, newpass);
+            userEntity.UserName = user.UserName;
+            userEntity.FullName = user.FullName;
+            userEntity.Email = user.Email;
+            userEntity.PasswordHash = newPassword;
+
+
+            var result = await _userManager.UpdateAsync(userEntity);
             return result;
+        }
+        public async Task<IList<string>> GetUserRoles(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                return null;
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles;
         }
 
     }

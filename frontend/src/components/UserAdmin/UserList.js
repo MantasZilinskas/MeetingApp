@@ -1,21 +1,22 @@
 //import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { api } from '../axiosInstance';
-import ListPage from './ListPage';
+import { api } from '../../axiosInstance';
+import ListPage from '../ListPage';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
-import GenericTable from './GenericTable';
-import GenericModal from './GenericModal';
+import GenericTable from '../GenericTable';
+import GenericModal from '../GenericModal';
 import { useSnackbar } from 'notistack';
+import { makeStyles } from '@material-ui/core';
 
-// const useStyles = makeStyles({
-//   table: {
-//     minWidth: 650,
-//   },
-// });
+const useStyles = makeStyles((theme) => ({
+  editButton: {
+    marginLeft: theme.spacing(1),
+  },
+}));
 
-export default function UserAdminList() {
-  //const classes = useStyles();
+export default function UserList() {
+  const classes = useStyles();
   const [users, setUsers] = useState();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -78,16 +79,27 @@ export default function UserAdminList() {
 
   const userDeleteButton = ({ itemProps }) => {
     return (
-      <Button
-        color="secondary"
-        variant="outlined"
-        onClick={() => {
-          setDeleteOpen(true);
-          setDeleteId(itemProps.id);
-        }}
-      >
-        Delete
-      </Button>
+      <>
+        <Button
+          color="secondary"
+          variant="outlined"
+          onClick={() => {
+            setDeleteOpen(true);
+            setDeleteId(itemProps.id);
+          }}
+        >
+          Delete
+        </Button>
+        <Button
+          className={classes.editButton}
+          color="primary"
+          variant="outlined"
+          component={NavLink}
+          to={'/user/' + encodeURI(itemProps.id)}
+        >
+          Edit
+        </Button>
+      </>
     );
   };
   const columnOptions = [

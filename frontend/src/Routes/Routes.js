@@ -1,12 +1,13 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
-import UserListAdmin from '../components/UserListAdmin';
+import UserList from '../components/UserAdmin/UserList';
 import UserProfile from '../components/UserProfile';
 import { Role } from '../Utils/Role';
 import { PrivateRoute } from './PrivateRoute';
 import MeetingList from '../components/MeetingList';
-import UserForm from './../components/UserForm';
+import CreateUserForm from '../components/UserAdmin/CreateUserForm';
+import EditUserForm from '../components/UserAdmin/EditUserForm';
 
 export default function Routes() {
   return (
@@ -16,12 +17,17 @@ export default function Routes() {
       <PrivateRoute
         path="/user/create"
         roles={[Role.Admin]}
-        component={UserForm}
+        component={CreateUserForm}
+      />
+      <PrivateRoute
+        path="/user/:id"
+        roles={[Role.Admin]}
+        component={EditUserForm}
       />
       <PrivateRoute
         path="/user"
         roles={[Role.Admin]}
-        component={UserListAdmin}
+        component={UserList}
       />
       <PrivateRoute
         path="/meeting"

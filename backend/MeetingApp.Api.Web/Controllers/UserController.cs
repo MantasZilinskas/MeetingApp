@@ -80,6 +80,28 @@ namespace MeetingApp.Api.Web.Controllers
             }
             return NoContent();
         }
-        
+        [HttpGet("{userId}")]
+        [Authorize(Roles = "Admin,Moderator,StandardUser")]
+        public async Task<ActionResult> GetUser(string userId)
+        {
+            var result = await _userService.GetUser(userId);
+            if (result == null)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("{userId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> UpdateUser(UserRequest user, string userId)
+        {
+            var result = await _userService.UpdateUser(user,userId);
+            if (result == null)
+            {
+                return NotFound(result);
+            }
+            return NoContent();
+        }
+
     }
 }

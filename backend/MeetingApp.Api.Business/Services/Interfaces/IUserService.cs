@@ -12,7 +12,7 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<IdentityResult> InsertUser(UserRequest user);
         public Task<IdentityResult> Register(UserRequest user);
         public Task<LoginResponse> Login(string userName, string password);
-        public Task<UserResponse> GetUserProfile(string userId);
+        public Task<UserResponse> GetUser(string userId);
         public Task<List<UserResponse>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userId);
         public Task<IdentityResult> UpdateUser(UserRequest user, string userId);

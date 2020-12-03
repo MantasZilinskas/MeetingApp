@@ -26,7 +26,6 @@ export default function authHeader() {
 }
 
 const performRequest = async (config) => {
-  try {
     const headers = authHeader();
     config = {
       ...config,
@@ -34,9 +33,6 @@ const performRequest = async (config) => {
     };
     const response = await axios.request(config);
     return response.data;
-  } catch (error) {
-    console.log(error.message);
-  }
 };
 
 const performGet = (url, params = {}, config = {}) =>

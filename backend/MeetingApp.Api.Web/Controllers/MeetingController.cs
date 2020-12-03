@@ -56,7 +56,7 @@ namespace MeetingApp.Api.Web.Controllers
         // POST api/Meeting
         [HttpPost]
         [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> Post(MeetingDTO meeting)
+        public async Task<ActionResult> InsertMeeting(MeetingDTO meeting)
         {
             var returnedValue = await _meetingService.Insert(meeting);
             if (returnedValue == null)
@@ -69,7 +69,7 @@ namespace MeetingApp.Api.Web.Controllers
         // PUT api/Meeting/{id}
         [HttpPut("{id}")]
         [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> Put(int id, MeetingDTO meeting)
+        public async Task<ActionResult> UpdateMeeting(int id, MeetingDTO meeting)
         {
             meeting.Id = id;
             var returnedValue = await _meetingService.Update(id, meeting);

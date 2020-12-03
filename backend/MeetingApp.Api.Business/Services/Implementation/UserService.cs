@@ -20,10 +20,17 @@ namespace MeetingApp.Api.Business.Services.Implementation
             _userRepo = userRepository;
             _mapper = mapper;
         }
-        public async Task<UserResponse> GetUserProfile(string userId)
+        public async Task<UserResponse> GetUser(string userId)
         {
-            var user = await _userRepo.GetUserProfile(userId);
-            return _mapper.Map<UserResponse>(user);
+            var user = await _userRepo.GetUser(userId);
+            if(user == null)
+            {
+                return null;
+            }
+            var roles = await _userRepo.GetUserRoles(userId);
+            var response = _mapper.Map<UserResponse>(user);
+            response.Roles = roles;
+            return response;
         }
         public async Task<IdentityResult> InsertUser(UserRequest user)
         {
@@ -60,7 +67,7 @@ namespace MeetingApp.Api.Business.Services.Implementation
         }
         public async Task<IdentityResult> UpdateUser(UserRequest user, string userId)
         {
-            var result = await _userRepo.UpdateUser(_mapper.Map<User>(user), userId);
+            var result = await _userRepo.UpdateUser(_mapper.Map<User>(user), userId, user.Password, user.Roles);
             return result;
         }
 
