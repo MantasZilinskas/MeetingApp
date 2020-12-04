@@ -1,10 +1,10 @@
 //import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { api } from '../axiosInstance';
-import ListPage from './ListPage';
+import { api } from '../../axiosInstance';
+import ListPage from '../ListPage';
 import Button  from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
-import GenericTable from './GenericTable';
+import GenericTable from '../Generic/GenericTable';
 
 // const useStyles = makeStyles({
 //   table: {
@@ -14,6 +14,7 @@ import GenericTable from './GenericTable';
 
 export default function MeetingList() {
   //const classes = useStyles();
+  
   const [meetings, setMeetings] = useState();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

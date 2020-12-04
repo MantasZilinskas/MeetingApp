@@ -1,13 +1,13 @@
 //import { makeStyles } from '@material-ui/core/styles';
-import React, { useEffect, useState } from 'react';
-import { api } from '../../axiosInstance';
-import ListPage from '../ListPage';
-import Button from '@material-ui/core/Button';
-import { NavLink } from 'react-router-dom';
-import GenericTable from '../GenericTable';
-import GenericModal from '../GenericModal';
-import { useSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { api } from '../../axiosInstance';
+import GenericModal from '../Generic/GenericModal';
+import GenericTable from '../Generic/GenericTable';
+import ListPage from '../ListPage';
 
 const useStyles = makeStyles((theme) => ({
   editButton: {
