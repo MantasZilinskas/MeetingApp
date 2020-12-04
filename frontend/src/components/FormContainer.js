@@ -37,9 +37,6 @@ function FormContainer(props) {
 
   return (
     <Container maxWidth="lg" className={classes.root}>
-      <Box display="flex" justifyContent="space-between" alignContent="flex-between">
-        <Box alignSelf="center">{props.controlButtons}</Box>
-      </Box>
       <Paper className={classes.header2} variant="outlined">
         <Typography variant="h2" component="h3" className={classes.header2Text}>
           {props.header}
@@ -54,8 +51,6 @@ function FormContainer(props) {
 
 FormContainer.propTypes = {
   header: PropTypes.string.isRequired,
-  controlButtons: PropTypes.node.isRequired,
-  secondaryHeader: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
+import UserSelect from '../UserSelect';
 
 const useStyles = makeStyles((theme) => ({
   h2: { fontSize: 36 },
@@ -16,14 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditMeetingPage() {
   const classes = useStyles();
-  const fakeUsers = [
-    { id: '1', username: 'safas1', fullname: 'safas1' },
-    { id: '2', username: 'safas2', fullname: 'safas2' },
-    { id: '3', username: 'safas3', fullname: 'safas3' },
-  ];
-  const onChange = (values) =>{
-    console.log(values);
-  }
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
@@ -32,6 +25,7 @@ export default function EditMeetingPage() {
             <Typography variant="h2" className={classes.h2}>
               Users
             </Typography>
+            <UserSelect />
           </Card>
         </Grid>
         <Grid item lg={6} className={classes.main}>

@@ -37,7 +37,7 @@ export default function Routes() {
         component={CreateMeetingDetailsForm}
       />
       <PrivateRoute
-        path="/meeting/:id"
+        path="/meeting/:meetingId"
         roles={[Role.Moderator]}
         component={EditMeetingPage}
       />
