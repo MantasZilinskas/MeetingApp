@@ -134,7 +134,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         // PUT api/TodoItems/{id}
-        [HttpPut("{meetingId}/TodotItems/{todoItemId}")]
+        [HttpPut("{meetingId}/TodoItems/{todoItemId}")]
         [Authorize(Roles = "Moderator")]
         public async Task<ActionResult> PutTodoItem(int meetingId, int todoItemId, TodoItemDTO todoItem)
         {

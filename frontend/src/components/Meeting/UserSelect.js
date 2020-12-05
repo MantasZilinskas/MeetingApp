@@ -15,7 +15,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Skeleton from '@material-ui/lab/Skeleton';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../axiosInstance';
+import { api } from '../../axiosInstance';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,9 @@ export default function UserSelect() {
   const fetchData = async () => {
     setUsersLoading(true);
     const result = await api.get('user');
+    const meetingUsersResponse = await api.get(`meeting/${meetingId}/users`)
     setUsers(result);
+    setMeetingUsers(meetingUsersResponse);
     setUsersLoading(false);
   };
   useEffect(() => {
@@ -91,8 +93,8 @@ export default function UserSelect() {
           isLoading ? (
             <Skeleton animation="wave" variant="rect" height={60} />
           ) : (
-            <Box>
-              <ListItem alignItems="center" key={user.id}>
+            <Box key={user.id}>
+              <ListItem alignItems="center" key={user.id} >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src="./PlaceholderProfile" />
                 </ListItemAvatar>

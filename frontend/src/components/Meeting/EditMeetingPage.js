@@ -6,7 +6,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
-import UserSelect from '../UserSelect';
+import TodoItemList from './TodoItemList';
+import UserSelect from './UserSelect';
 
 const useStyles = makeStyles((theme) => ({
   h2: { fontSize: 36 },
@@ -20,7 +21,7 @@ export default function EditMeetingPage() {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
-        <Grid item md={3} className={classes.side}>
+        <Grid item md={3} className={classes.side} align="center">
           <Card>
             <Typography variant="h2" className={classes.h2}>
               Users
@@ -35,11 +36,12 @@ export default function EditMeetingPage() {
             </Typography>
           </Card>
         </Grid>
-        <Grid item md={3} className={classes.side}>
+        <Grid item md={3} className={classes.side} align="center">
           <Card>
             <Typography variant="h2" className={classes.h2}>
               To do items
             </Typography>
+            <TodoItemList />
           </Card>
         </Grid>
       </Grid>

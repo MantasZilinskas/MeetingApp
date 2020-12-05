@@ -34,7 +34,6 @@ const useStyles = makeStyles(() => ({
 
 function FormContainer(props) {
   const classes = useStyles();
-
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Paper className={classes.header2} variant="outlined">
