@@ -15,7 +15,6 @@ import { currentUserValue } from '../Utils/authenticationService';
 
 export default function Routes({ setCurrentUser }) {
   const currentUser = currentUserValue();
-  console.log(currentUser);
   return (
     <Switch>
       <Route path="/signin">
