@@ -19,6 +19,7 @@ export default function EditMeetingDetailsForm() {
     id: null,
     name: '',
     description: '',
+    textEditorData: '',
   });
   const [redirect, setRedirect] = useState(false);
   const { meetingId } = useParams();
@@ -36,6 +37,7 @@ export default function EditMeetingDetailsForm() {
       const requestData = {
         name: values.name,
         description: values.description,
+        textEditorData: values.textEditorData,
       };
       await api.put(`meeting/${meetingId}`, requestData);
       setIsLoading(false);

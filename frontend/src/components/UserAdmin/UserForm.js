@@ -66,6 +66,7 @@ export default function UserForm({onSubmit, initialValues}) {
                 fullWidth
                 margin="normal"
                 variant="outlined"
+                type="password"
                 id="password"
                 name="password"
                 label="Password"
