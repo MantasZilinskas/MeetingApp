@@ -4,17 +4,15 @@ import {
   CircularProgress,
   Container,
   Grid,
-  IconButton,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { api } from '../../axiosInstance';
-import MyEditor from './MyEditor';
-import TodoItemListEdit from './TodoItemListEdit';
-import UserSelect from './UserSelect';
+import MyEditorView from './MyEditorView';
+import TodoItemListView from './TodoItemListView';
+import MeetingUsersView from './MeetingUsersView';
 
 const useStyles = makeStyles((theme) => ({
   h2: { fontSize: 36 },
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   details: { margingBottom: theme.spacing(1) },
 }));
 
-export default function EditMeetingPage() {
+export default function MeetingViewPage() {
   const [meeting, setMeeting] = useState({
     id: null,
     name: '',
@@ -61,12 +59,6 @@ export default function EditMeetingPage() {
       <Box className={classes.details}>
         <Typography variant="h2">{meeting.name}</Typography>
         <Typography varaiant="body1">{meeting.description}</Typography>
-        <IconButton component={NavLink} to={`${meetingId}/edit`}>
-          <EditIcon />
-          <Typography varaiant="body1" className={classes.italic}>
-            Edit meeting details
-          </Typography>
-        </IconButton>
       </Box>
       <Grid container className={classes.root} spacing={2}>
         <Grid item md={3} className={classes.side} align="center">
@@ -74,12 +66,12 @@ export default function EditMeetingPage() {
             <Typography variant="h2" className={classes.h2}>
               Users
             </Typography>
-            <UserSelect />
+            <MeetingUsersView />
           </Card>
         </Grid>
         <Grid item lg={6} className={classes.main}>
           <Card>
-            <MyEditor editorData={editorData} />
+            <MyEditorView editorData={editorData}/>
           </Card>
         </Grid>
         <Grid item md={3} className={classes.side} align="center">
@@ -87,7 +79,7 @@ export default function EditMeetingPage() {
             <Typography variant="h2" className={classes.h2}>
               To do items
             </Typography>
-            <TodoItemListEdit />
+            <TodoItemListView />
           </Card>
         </Grid>
       </Grid>

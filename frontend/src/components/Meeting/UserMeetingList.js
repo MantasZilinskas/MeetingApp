@@ -6,8 +6,7 @@ import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
 import GenericTable from '../Generic/GenericTable';
 import { makeStyles } from '@material-ui/core';
-import GenericModal from '../Generic/GenericModal';
-import { useSnackbar } from 'notistack';
+import { currentUserValue } from '../../Utils/authenticationService';
 
 const useStyles = makeStyles((theme) => ({
   editButton: {
@@ -15,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MeetingList() {
+export default function UserMeetingList() {
   const classes = useStyles();
 
   const [meetings, setMeetings] = useState();
@@ -25,32 +24,19 @@ export default function MeetingList() {
   const [orderBy, setOrderBy] = React.useState('name');
   const [count, setCount] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState();
-
-  const { enqueueSnackbar } = useSnackbar();
+  const currentUser = currentUserValue();
 
   const userActions = ({ itemProps }) => {
     return (
       <>
         <Button
-          color="secondary"
-          variant="outlined"
-          onClick={() => {
-            setDeleteOpen(true);
-            setDeleteId(itemProps.id);
-          }}
-        >
-          Delete
-        </Button>
-        <Button
           className={classes.editButton}
           color="primary"
           variant="outlined"
           component={NavLink}
-          to={'/meeting/' + encodeURI(itemProps.id)}
+          to={'/meetingview/' + encodeURI(itemProps.id)}
         >
-          Edit
+          More details
         </Button>
       </>
     );
@@ -75,7 +61,7 @@ export default function MeetingList() {
   ];
 
   const fetchData = async () => {
-    const result = await api.get('meeting/slice', {
+    const result = await api.get(`user/${currentUser.userId}/meetings/slice`, {
       page,
       rowsPerPage,
       order,
@@ -93,57 +79,12 @@ export default function MeetingList() {
     if (rowsPerPage * page >= result.totalCount) setPage(page - 1);
     setIsLoading(false);
   };
-  const handleDeleteAccept = async () => {
-    try {
-      await api.delete('meeting/' + deleteId);
-      enqueueSnackbar('Meeting deleted successfully', {
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center',
-        },
-        variant: 'success',
-      });
-      setDeleteOpen(false);
-      fetchData();
-    } catch (error) {
-      enqueueSnackbar(error.message, {
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center',
-        },
-        variant: 'error',
-      });
-      setDeleteOpen(false);
-    }
-  };
   useEffect(() => {
     fetchData();
   }, [order, orderBy, page, rowsPerPage]);
   return (
     <>
-      <GenericModal
-        handleAccept={handleDeleteAccept}
-        handleDecline={() => setDeleteOpen(false)}
-        title="Delete"
-        description="Are you sure you want to delete this user?"
-        isOpen={deleteOpen}
-        acceptName="Yes"
-        declineName="No"
-        handleClose={() => setDeleteOpen(false)}
-      ></GenericModal>
-      <ListPage
-        header="Meetings"
-        controlButtons={
-          <Button
-            variant="outlined"
-            color="primary"
-            component={NavLink}
-            to={'/meeting/create'}
-          >
-            Create meeting
-          </Button>
-        }
-      >
+      <ListPage header="Meetings">
         <GenericTable
           items={meetings}
           columnOptions={columnOptions}

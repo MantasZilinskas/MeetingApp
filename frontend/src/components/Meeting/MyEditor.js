@@ -2,12 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { debounce } from 'lodash';
 import { api } from '../../axiosInstance';
 import { useParams } from 'react-router-dom';
+import { CircularProgress, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(() => ({
+  center: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+  },
+}));
 
 export default function MyEditor({ editorData }) {
   const editorRef = useRef();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
   const { meetingId } = useParams();
+  const classes = useStyles();
   const onChange = debounce(async (event, editor) => {
     const data = editor.getData();
     const requestData = {textEditorData: data}
@@ -48,6 +58,6 @@ export default function MyEditor({ editorData }) {
       onChange={onChange}
     />
   ) : (
-    <div>Editor loading</div>
+    <CircularProgress className={classes.center} />
   );
 }

@@ -70,6 +70,13 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var result = await _userRepo.UpdateUser(_mapper.Map<User>(user), userId, user.Password, user.Roles);
             return result;
         }
+        public async Task<GenericSliceDTO<MeetingDTO>> GetUserMeetingsSlice(string userId, SliceRequest request)
+        {
+            var meetings = await _userRepo.GetUserMeetingSlice(userId,_mapper.Map<SliceRequestDAO>(request));
+            var count = await _userRepo.GetUserMeetingCount(userId);
+            if (meetings == null) return null;
+            return new GenericSliceDTO<MeetingDTO> { Items = _mapper.Map<List<MeetingDTO>>(meetings), TotalCount = count };
+        }
 
 
     }

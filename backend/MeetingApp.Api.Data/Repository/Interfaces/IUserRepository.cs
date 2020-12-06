@@ -19,5 +19,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<List<User>> GetSlice(SliceRequestDAO request);
         public Task<int> GetCount();
         public Task<IList<string>> GetUserRoles(string userId);
+        public Task<List<Meeting>> GetUserMeetingSlice(string userId, SliceRequestDAO request);
+        public Task<int> GetUserMeetingCount(string userId);
     }
 }

@@ -95,12 +95,20 @@ namespace MeetingApp.Api.Web.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateUser(UserRequest user, string userId)
         {
-            var result = await _userService.UpdateUser(user,userId);
+            var result = await _userService.UpdateUser(user, userId);
             if (result == null)
             {
                 return NotFound(result);
             }
             return NoContent();
+        }
+
+        [HttpGet("{userId}/Meetings/slice")]
+        [Authorize(Roles = "Admin,Moderator,StandardUser")]
+        public async Task<ActionResult> GetUserMeetingSlice([FromQuery]SliceRequest request, string userId)
+        {
+            var result = await _userService.GetUserMeetingsSlice(userId, request);
+            return Ok(result);
         }
 
     }

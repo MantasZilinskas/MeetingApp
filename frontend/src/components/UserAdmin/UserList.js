@@ -51,7 +51,7 @@ export default function UserList() {
   const handleDeleteAccept = async () => {
     try {
       await api.delete('user/' + deleteId);
-      enqueueSnackbar('Request deleted successfully', {
+      enqueueSnackbar('User deleted successfully', {
         anchorOrigin: {
           vertical: 'bottom',
           horizontal: 'center',
@@ -61,8 +61,7 @@ export default function UserList() {
       setDeleteOpen(false);
       fetchData();
     } catch (error) {
-      console.log(error);
-      enqueueSnackbar('Could not delete request', {
+      enqueueSnackbar(error.message, {
         anchorOrigin: {
           vertical: 'bottom',
           horizontal: 'center',
@@ -77,7 +76,7 @@ export default function UserList() {
     fetchData();
   }, [order, orderBy, page, rowsPerPage]);
 
-  const userDeleteButton = ({ itemProps }) => {
+  const userActions = ({ itemProps }) => {
     return (
       <>
         <Button
@@ -121,7 +120,7 @@ export default function UserList() {
       numeric: true,
       disablePadding: false,
       label: '',
-      ComponentRenderer: userDeleteButton,
+      ComponentRenderer: userActions,
       isSortable: false,
     },
   ];
@@ -131,7 +130,7 @@ export default function UserList() {
         handleAccept={handleDeleteAccept}
         handleDecline={() => setDeleteOpen(false)}
         title="Delete"
-        description="Are you sure you want to delete this request?"
+        description="Are you sure you want to delete this user?"
         isOpen={deleteOpen}
         acceptName="Yes"
         declineName="No"

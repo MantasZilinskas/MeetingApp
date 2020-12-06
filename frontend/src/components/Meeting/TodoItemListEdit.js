@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TodoItemList() {
+export default function TodoItemListEdit() {
   const classes = useStyles();
   const [isLoading, setLoading] = useState();
   const [modalOpen, setModalOpen] = useState(false);

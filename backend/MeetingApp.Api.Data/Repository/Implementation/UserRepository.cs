@@ -181,6 +181,52 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var roles = await _userManager.GetRolesAsync(user);
             return roles;
         }
+        public async Task<List<Meeting>> GetUserMeetingSlice(string userId, SliceRequestDAO request)
+        {
+            var user = await _userManager.Users.Include(user => user.Meetings).FirstOrDefaultAsync(user => user.Id == userId);
+            if(user != null)
+            {
+                if (request.order == "asc")
+                {
+                    return request.orderBy switch
+                    {
+                        "name" => user.Meetings
+                                .OrderBy(i => i.Name)
+                                .Skip(request.rowsPerPage * request.page)
+                                .Take(request.rowsPerPage)
+                                .ToList(),
+                        "description" => user.Meetings
+                                .OrderBy(i => i.Description)
+                                .Skip(request.rowsPerPage * request.page)
+                                .Take(request.rowsPerPage)
+                                .ToList(),
+                        _ => null
+                    };
+                }
+                else
+                {
+                    return request.orderBy switch
+                    {
+                        "name" => user.Meetings
+                                .OrderByDescending(i => i.Name)
+                                .Skip(request.rowsPerPage * request.page)
+                                .Take(request.rowsPerPage)
+                                .ToList(),
+                        "description" => user.Meetings
+                                .OrderByDescending(i => i.Description)
+                                .Skip(request.rowsPerPage * request.page)
+                                .Take(request.rowsPerPage)
+                                .ToList(),
+                        _ => null
+                    };
+                }
+            }
+            return new List<Meeting>();
+        }
+        public async Task<int> GetUserMeetingCount(string userId)
+        {
+            return await _userManager.Users.Where(user => user.Id == userId).Select(user => user.Meetings).CountAsync();
+        }
 
     }
 }
