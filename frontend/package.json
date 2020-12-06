@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "homepage": "https://github.com/MantasZilinskas/MeetingApp",
+  "homepage": "https://github.com/MantasZilinskas/MeetingApp/frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
