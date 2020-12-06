@@ -3,11 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +11,8 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import { login } from '../Utils/authenticationService';
 import { Redirect } from 'react-router-dom';
-
+import { CircularProgress } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 
 const validationSchema = yup.object({
   username: yup.string('Enter your username').required('Username is required'),
@@ -44,26 +40,45 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  center: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+  },
 }));
 
-export default function SignIn() {
+export default function SignIn({setCurrentUser}) {
   const classes = useStyles();
   const [redirect, setRedirect] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const {enqueueSnackbar} = useSnackbar();
   const initialValues = {
     username: '',
     password: '',
   };
   const onSubmit = async (values) => {
     try {
-      await login(values.username, values.password);
+      setLoading(true);
+      await login(values.username, values.password, setCurrentUser);
       setRedirect(true);
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      enqueueSnackbar(error.message, {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+        variant: 'error',
+      });
     }
   };
 
   if (redirect) {
     return <Redirect to="/" />;
+  }
+  if (isLoading) {
+    return <CircularProgress className={classes.center} />;
   }
 
   return (

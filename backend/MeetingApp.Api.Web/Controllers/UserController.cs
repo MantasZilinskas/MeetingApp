@@ -63,7 +63,7 @@ namespace MeetingApp.Api.Web.Controllers
             return Ok(users);
         }
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();

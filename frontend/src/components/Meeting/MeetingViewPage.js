@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MeetingViewPage() {
+  console.log("djadskfndsjkfnasjkfsnadfkjdsanfsdajkfnsafjksadnfsdakfnsdfksjadnfkjsadnfasdkjfnsdakjfsndf")
   const [meeting, setMeeting] = useState({
     id: null,
     name: '',
@@ -68,13 +69,13 @@ export default function MeetingViewPage() {
             </Typography>
             <MeetingUsersView />
           </Card>
-        </Grid>
+        </Grid> 
         <Grid item lg={6} className={classes.main}>
           <Card>
             <MyEditorView editorData={editorData}/>
           </Card>
         </Grid>
-        <Grid item md={3} className={classes.side} align="center">
+         <Grid item md={3} className={classes.side} align="center">
           <Card>
             <Typography variant="h2" className={classes.h2}>
               To do items

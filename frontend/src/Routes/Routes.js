@@ -6,18 +6,31 @@ import { PrivateRoute } from './PrivateRoute';
 import MeetingList from '../components/Meeting/MeetingList';
 import CreateUserForm from '../components/UserAdmin/CreateUserForm';
 import EditUserForm from '../components/UserAdmin/EditUserForm';
-import CreateMeetingDetailsForm from '../components/Meeting/CreateMeetingDetailsForm'
-import EditMeetingDetailsForm from '../components/Meeting/EditMeetingDetailsForm'
+import CreateMeetingDetailsForm from '../components/Meeting/CreateMeetingDetailsForm';
+import EditMeetingDetailsForm from '../components/Meeting/EditMeetingDetailsForm';
 import EditMeetingPage from '../components/Meeting/EditMeetingPage';
 import UserMeetingList from '../components/Meeting/UserMeetingList';
 import MeetingViewPage from '../components/Meeting/MeetingViewPage';
 import { currentUserValue } from '../Utils/authenticationService';
 
-export default function Routes() {
+export default function Routes({ setCurrentUser }) {
   const currentUser = currentUserValue();
+  console.log(currentUser);
   return (
     <Switch>
-      <Route path="/signin" component={SignIn} />
+      <Route path="/signin">
+        <SignIn setCurrentUser={setCurrentUser} />
+      </Route>
+      <PrivateRoute
+        path="/meetingview/:meetingId"
+        roles={[Role.Moderator, Role.Admin, Role.StandardUser]}
+        component={MeetingViewPage}
+      />
+      <PrivateRoute
+        path="/mymeetings"
+        roles={[Role.Moderator, Role.Admin, Role.StandardUser]}
+        component={UserMeetingList}
+      />
       <PrivateRoute
         path="/user/create"
         roles={[Role.Admin]}
@@ -28,11 +41,7 @@ export default function Routes() {
         roles={[Role.Admin]}
         component={EditUserForm}
       />
-      <PrivateRoute
-        path="/user"
-        roles={[Role.Admin]}
-        component={UserList}
-      />
+      <PrivateRoute path="/user" roles={[Role.Admin]} component={UserList} />
       <PrivateRoute
         path="/meeting/create"
         roles={[Role.Moderator]}
@@ -50,24 +59,16 @@ export default function Routes() {
       />
       <PrivateRoute
         path="/meeting"
-        roles={[Role.Moderator, Role.Admin]}
+        roles={[Role.Moderator]}
         component={MeetingList}
       />
-       <PrivateRoute
-        path="/mymeetings"
-        roles={[Role.Moderator, Role.Admin, Role.StandardUser]}
-        component={UserMeetingList}
-      />
-       <PrivateRoute
-        path="/meetingview/:meetingId"
-        roles={[Role.Moderator, Role.Admin, Role.StandardUser]}
-        component={MeetingViewPage}
-      />
+
       <Route path="/">
-        {!currentUser && <Redirect to="/signin" />}
-        {currentUser && currentUser.roles.includes(Role.Admin) && <Redirect to="/user" />}
-        {currentUser && currentUser.roles.includes(Role.Moderator) && <Redirect to="/meeting" />}
-        {currentUser && currentUser.roles.includes(Role.StandardUser) && <Redirect to="/mymeetings" />}
+        {currentUser !== null ? (
+          <Redirect to="/mymeetings" />
+        ) : (
+          <Redirect to="/signin" />
+        )}
       </Route>
     </Switch>
   );

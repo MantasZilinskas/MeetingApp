@@ -31,8 +31,7 @@ const validationSchema = yup.object({
   description: yup.string(),
   name: yup
     .string('Enter your name')
-    .required('Name is required')
-    .max(20, 'Name should be of maximum 20 characters length'),
+    .required('Name is required'),
   roles: yup.array().of(yup.string()),
 });
 

@@ -40,7 +40,6 @@ export default function ItemModalView({ modalOpen, setModalOpen, item }) {
     userName: '',
   });
   const [isLoading, setLoading] = useState(false);
-  const { meetingId } = useParams();
   const classes = useStyles();
 
   const handleClose = () => {
@@ -51,8 +50,10 @@ export default function ItemModalView({ modalOpen, setModalOpen, item }) {
     const fetchData = async () => {
       setLoading(true);
       //   `meeting/${meetingId}/users/${item.userId}`
-      const user = await api.get(`user/${item.userId}`);
-      setUser(user);
+      if (item.userId) {
+        const result = await api.get(`user/${item.userId}`);
+        setUser(result);
+      }
       setLoading(false);
     };
     fetchData();

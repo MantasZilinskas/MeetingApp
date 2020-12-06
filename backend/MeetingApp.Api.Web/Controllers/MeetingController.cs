@@ -44,7 +44,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET api/Meeting/{id}
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,StadardUser,Moderator")]
+        [Authorize(Roles = "Admin,StandardUser,Moderator")]
         public async Task<ActionResult<MeetingDTO>> Get(int id)
         {
             var returnedValue = await _meetingService.Get(id);
@@ -96,7 +96,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting/{meetingId}/TodoItems
         [HttpGet("{meetingId}/TodoItems")]
-        [Authorize(Roles = "Admin,StadardUser,Moderator")]
+        [Authorize(Roles = "Admin,StandardUser,Moderator")]
         public async Task<ActionResult> GetMeetingTodoItems(int meetingId)
         {
             var todoItems = await _meetingService.GetMeetingTodoItems(meetingId);
@@ -109,7 +109,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting/{meetingId}/TodoItems/{todoItemId}
         [HttpGet("{meetingId}/TodoItems/{todoItemId}")]
-        [Authorize(Roles = "Admin,StadardUser,Moderator")]
+        [Authorize(Roles = "Admin,StandardUser,Moderator")]
         public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int meetingId, int todoItemId)
         {
             var returnedValue = await _todoItemService.Get(todoItemId, meetingId);
@@ -181,7 +181,7 @@ namespace MeetingApp.Api.Web.Controllers
             }
         }
         [HttpGet("{meetingId}/Users")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Moderator,Admin,StandardUser")]
         public async Task<ActionResult<ICollection<UserResponse>>> GetAllMeetingUsers(int meetingId)
         {
             try
@@ -194,7 +194,7 @@ namespace MeetingApp.Api.Web.Controllers
             }
         }
         [HttpGet("{meetingId}/Users/{userId}")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = "Moderator,Admin,StandardUser")]
         public async Task<ActionResult> GetMeetingUser(int meetingId, string userId)
         {
             try

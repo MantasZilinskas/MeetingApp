@@ -1,11 +1,8 @@
 import {
   Box,
-  Button,
   Divider,
-  Icon,
   IconButton,
   List,
-  ListItem,
   ListItemText,
   makeStyles,
   MenuItem,
@@ -14,13 +11,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import Skeleton from '@material-ui/lab/Skeleton';
 import React, { useEffect, useState } from 'react';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import ItemModal from './ItemModal';
 import { useParams } from 'react-router-dom';
 import { api } from '../../axiosInstance';
 import { useSnackbar } from 'notistack';
 import CreateItemModal from './CreateItemModal';
-import EditItemModal from './EditItemoModal';
-import { set } from 'date-fns';
+import EditItemModal from './EditItemModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,9 +38,13 @@ const useStyles = makeStyles((theme) => ({
   dateText: {
     marginLeft: theme.spacing(1),
   },
+  nemeText: {
+    marginRight: theme.spacing(1),
+  },
   itemLine: {
-    display: "flex",
-  }
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 }));
 
 export default function TodoItemListEdit() {
@@ -81,7 +80,10 @@ export default function TodoItemListEdit() {
       id: item.id,
       name: item.name,
       description: item.description,
-      deadline: item.deadline.substring(0, item.deadline.indexOf('T')),
+      deadline:
+        item.deadline === null
+          ? ''
+          : item.deadline.substring(0, item.deadline.indexOf('T')),
       meetingId: item.meetingId,
       userId: item.userId,
     }));
@@ -127,14 +129,19 @@ export default function TodoItemListEdit() {
           isLoading ? (
             <Skeleton animation="wave" variant="rect" height={60} />
           ) : (
-            <Box key={item.id} className={classes.itemLine}>
-              <MenuItem alignItems="center" onClick={() => onItemClick(item)}>
-                <ListItemText primary={item.name} />
-                <ListItemText
-                  primary={item.deadline}
-                  className={classes.dateText}
-                />
-              </MenuItem>
+            <>
+              <Box key={item.id} className={classes.itemLine}>
+                <MenuItem alignItems="center" onClick={() => onItemClick(item)}>
+                  <ListItemText
+                    primary={item.name}
+                    className={classes.nemeText}
+                  />
+                  <ListItemText
+                    primary={item.deadline}
+                    className={classes.dateText}
+                  />
+                </MenuItem>
+              </Box>
               <IconButton
                 onClick={() => deleteListItem(item)}
                 className={classes.iconButton}
@@ -142,7 +149,7 @@ export default function TodoItemListEdit() {
                 <CloseIcon />
               </IconButton>
               <Divider light />
-            </Box>
+            </>
           )
         )}
       </List>

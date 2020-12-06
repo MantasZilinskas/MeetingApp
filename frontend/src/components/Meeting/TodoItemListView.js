@@ -1,13 +1,11 @@
 import {
   Box,
   Divider,
-  IconButton,
   List,
   ListItemText,
   makeStyles,
   MenuItem,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import Skeleton from '@material-ui/lab/Skeleton';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
