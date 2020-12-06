@@ -21,5 +21,6 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<bool> MeetingExists(int meetingId);
         public Task<List<Meeting>> GetSlice(SliceRequestDAO request);
         public Task<int> GetCount();
+        public Task<bool> UpdateTextEditorData(int meetingId, string textEditorData);
     }
 }

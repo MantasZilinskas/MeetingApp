@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MeetingApp.Api.Business.DTO;
 using MeetingApp.Api.Business.Services.Interfaces;
+using MeetingApp.Api.Web.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -219,6 +220,17 @@ namespace MeetingApp.Api.Web.Controllers
             {
                 return NotFound();
             }
+        }
+        [HttpPut("{meetingId}/texteditor")]
+        [Authorize(Roles = "Moderator")]
+        public async Task<ActionResult> UpdateMeetingTextEditorData(int meetingId,TextEditorRequest request)
+        {
+            var result = await _meetingService.UpdateTextEditorData(meetingId, request.TextEditorData);
+            if (result)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
     }

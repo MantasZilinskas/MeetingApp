@@ -9,6 +9,7 @@ import MeetingList from '../components/Meeting/MeetingList';
 import CreateUserForm from '../components/UserAdmin/CreateUserForm';
 import EditUserForm from '../components/UserAdmin/EditUserForm';
 import CreateMeetingDetailsForm from '../components/Meeting/CreateMeetingDetailsForm'
+import EditMeetingDetailsForm from '../components/Meeting/EditMeetingDetailsForm'
 import EditMeetingPage from '../components/Meeting/EditMeetingPage';
 
 export default function Routes() {
@@ -35,6 +36,11 @@ export default function Routes() {
         path="/meeting/create"
         roles={[Role.Moderator]}
         component={CreateMeetingDetailsForm}
+      />
+      <PrivateRoute
+        path="/meeting/:meetingId/edit"
+        roles={[Role.Moderator]}
+        component={EditMeetingDetailsForm}
       />
       <PrivateRoute
         path="/meeting/:meetingId"

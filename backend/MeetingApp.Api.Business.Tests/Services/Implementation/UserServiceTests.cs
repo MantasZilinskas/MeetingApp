@@ -40,23 +40,6 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
         }
 
         [Fact]
-        public async Task GetUserProfile_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var service = this.CreateService();
-            string userId = "1";
-            User user = new User { Id = userId, UserName = "user1" };
-            mockUserRepository.Setup(repo => repo.GetUserProfile(userId)).ReturnsAsync(user);
-            // Act
-            var result = await service.GetUserProfile(
-                userId);
-
-            // Assert
-            Assert.True(result.UserName == user.UserName);
-            
-        }
-
-        [Fact]
         public async Task InsertUser_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -136,7 +119,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             var service = this.CreateService();
             UserRequest user = new UserRequest { UserName = "user"};
             string userId = "testId";
-            mockUserRepository.Setup(repo => repo.UpdateUser(It.IsAny<User>(),It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+            mockUserRepository.Setup(repo => repo.UpdateUser(It.IsAny<User>(),It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IList<string>>())).ReturnsAsync(IdentityResult.Success);
             // Act
             var result = await service.UpdateUser(user,userId);
 

@@ -17,5 +17,6 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<List<UserResponse>> GetAllMeetingUsers(int meetingId);
         public Task<UserRequest> GetMeetingUser(int meetingId, string userId);
         public Task<GenericSliceDTO<MeetingDTO>> GetSlice(SliceRequest request);
+        public Task<bool> UpdateTextEditorData(int meetingId, string textEditorData);
     }
 }

@@ -92,6 +92,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
 
         public async Task<Meeting> Insert(Meeting meeting)
         {
+            meeting.TextEditorData = "";
             _context.Meetings.Add(meeting);
             await _context.SaveChangesAsync();
             return meeting;
@@ -161,6 +162,17 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 throw new KeyNotFoundException();
             }
             return user;
+        }
+        public async Task<bool> UpdateTextEditorData(int meetingId, string textEditorData)
+        {
+            var meeting = await _context.Meetings.FirstOrDefaultAsync(meeting => meeting.Id == meetingId);
+            if(meeting == null)
+            {
+                return false;
+            }
+            meeting.TextEditorData = textEditorData;
+            await _context.SaveChangesAsync();
+            return true;
         }
         public async Task<bool> MeetingExists(int meetingId)
         {

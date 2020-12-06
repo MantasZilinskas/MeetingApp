@@ -119,5 +119,9 @@ namespace MeetingApp.Api.Business.Services.Implementation
             }
             return _mapper.Map<UserRequest>(await _meetingRepo.GetMeetingUser(meetingId, userId));
         }
+        public async Task<bool> UpdateTextEditorData(int meetingId, string textEditorData)
+        {
+            return await _meetingRepo.UpdateTextEditorData(meetingId, textEditorData);
+        }
     }
 }

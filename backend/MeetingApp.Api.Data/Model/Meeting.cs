@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace MeetingApp.Api.Data.Model
@@ -11,6 +12,9 @@ namespace MeetingApp.Api.Data.Model
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Column(TypeName = "varchar(MAX)")]
+        [MaxLength]
+        public string TextEditorData { get; set; }
         [Required]
         public DateTime CreationDate { get; set; }
         public List<TodoItem> TodoItems { get; set; }

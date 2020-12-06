@@ -45,20 +45,6 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
             mgr.Setup(x => x.Users).Returns(list.Object);
             return mgr;
         }
-        [Fact]
-        public async Task GetUserProfile_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-
-            string userId = "0";
-
-            // Act
-            var result = await userRepository.GetUserProfile(userId);
-
-            // Assert
-            Assert.True(result.Id.CompareTo(userId) == 0);
-
-        }
 
         [Fact]
         public async Task InsertUser_StateUnderTest_ExpectedBehavior()
@@ -146,12 +132,14 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
         {
             // Arrange
             string userId = "6";
+            string newPass = "test";
+            IList<string> roles = new List<string> { "StandardUser" };
             User expected = new User { Id = userId, UserName = "Mantas" };
             mockUserManager.Setup(m => m.FindByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(expected));
             mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await userRepository.UpdateUser(expected,userId);
+            var result = await userRepository.UpdateUser(expected,userId,newPass, roles);
 
             // Assert
             Assert.True(result.Succeeded);
@@ -162,12 +150,14 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
         {
             // Arrange
             string userId = "6";
+            string newPass = "test";
+            IList<string> roles = new List<string> { "StandardUser" };
             User expected = null;
             mockUserManager.Setup(m => m.FindByIdAsync(It.IsAny<string>())).Returns(Task.FromResult(expected));
             mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => userRepository.UpdateUser(expected, userId));
+            await Assert.ThrowsAsync<KeyNotFoundException>(() => userRepository.UpdateUser(expected, userId, newPass, roles));
 
             // Assert
 
