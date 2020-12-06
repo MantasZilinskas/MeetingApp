@@ -10,7 +10,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../axiosInstance';
-import { useSnackbar } from 'notistack';
 import ItemModalView from './ItemModalView';
 
 const useStyles = makeStyles((theme) => ({
