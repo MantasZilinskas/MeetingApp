@@ -51,6 +51,7 @@ export default function EditMeetingPage() {
   };
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meetingId]);
   const classes = useStyles();
   if (isLoading) {

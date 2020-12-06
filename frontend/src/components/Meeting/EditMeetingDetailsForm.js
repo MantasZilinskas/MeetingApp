@@ -62,6 +62,7 @@ export default function EditMeetingDetailsForm() {
   };
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meetingId]);
 
   if (redirect) {

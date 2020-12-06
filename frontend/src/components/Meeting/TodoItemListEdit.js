@@ -74,22 +74,22 @@ export default function TodoItemListEdit() {
     setItems(newList);
   };
 
-  const fetchData = async () => {
-    const itemsResponse = await api.get(`meeting/${meetingId}/todoitems`);
-    const response = itemsResponse.map((item) => ({
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      deadline:
-        item.deadline === null
-          ? ''
-          : item.deadline.substring(0, item.deadline.indexOf('T')),
-      meetingId: item.meetingId,
-      userId: item.userId,
-    }));
-    setItems(response);
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      const itemsResponse = await api.get(`meeting/${meetingId}/todoitems`);
+      const response = itemsResponse.map((item) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        deadline:
+          item.deadline === null
+            ? ''
+            : item.deadline.substring(0, item.deadline.indexOf('T')),
+        meetingId: item.meetingId,
+        userId: item.userId,
+      }));
+      setItems(response);
+    };
     fetchData();
   }, [meetingId]);
 

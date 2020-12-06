@@ -4,15 +4,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Slide from '@material-ui/core/Slide';
 import {
-  Card,
   CircularProgress,
   Container,
-  Grid,
   Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { api } from '../../axiosInstance';
-import { useParams } from 'react-router-dom';
 
 const Transition = React.forwardRef((props, ref) => {
   Transition.displayName = 'Transtition';
@@ -58,6 +55,7 @@ export default function ItemModalView({ modalOpen, setModalOpen, item }) {
     };
     fetchData();
     return clear();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen]);
   const clear = () => {
     setUser({});

@@ -42,13 +42,13 @@ export default function MeetingUsersView() {
   const { meetingId } = useParams();
   const classes = useStyles();
 
-  const fetchData = async () => {
-    setLoading(true);
-    const meetingUsersResponse = await api.get(`meeting/${meetingId}/users`);
-    setMeetingUsers(meetingUsersResponse);
-    setLoading(false);
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const meetingUsersResponse = await api.get(`meeting/${meetingId}/users`);
+      setMeetingUsers(meetingUsersResponse);
+      setLoading(false);
+    };
     fetchData();
   }, [meetingId]);
 

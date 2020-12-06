@@ -74,6 +74,7 @@ export default function UserList() {
 
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order, orderBy, page, rowsPerPage]);
 
   const userActions = ({ itemProps }) => {

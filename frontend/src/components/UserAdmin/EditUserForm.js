@@ -64,6 +64,7 @@ export default function EditUserForm() {
   };
   useEffect(() => {
       fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[id]);
 
   if(redirect){

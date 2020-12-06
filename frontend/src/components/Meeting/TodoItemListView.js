@@ -52,25 +52,27 @@ export default function TodoItemListView() {
   });
   const [meetingItems, setItems] = useState([]);
   const { meetingId } = useParams();
-  const { enqueueSnackbar } = useSnackbar();
 
   const onItemClick = (item) => {
     setActiveItem(item);
     setModalOpen(true);
   };
-  const fetchData = async () => {
-    const itemsResponse = await api.get(`meeting/${meetingId}/todoitems`);
-    const response = itemsResponse.map((item) => ({
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      deadline: item.deadline.substring(0, item.deadline.indexOf('T')),
-      meetingId: item.meetingId,
-      userId: item.userId,
-    }));
-    setItems(response);
-  };
+
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const itemsResponse = await api.get(`meeting/${meetingId}/todoitems`);
+      const response = itemsResponse.map((item) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        deadline: item.deadline.substring(0, item.deadline.indexOf('T')),
+        meetingId: item.meetingId,
+        userId: item.userId,
+      }));
+      setItems(response);
+      setLoading(false);
+    };
     fetchData();
   }, [meetingId]);
   return (
