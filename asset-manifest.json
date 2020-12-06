@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/MantasZilinskas/MeetingApp/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/MantasZilinskas/MeetingApp/static/js/main.99ad7515.chunk.js",
-    "main.js.map": "/MantasZilinskas/MeetingApp/static/js/main.99ad7515.chunk.js.map",
-    "runtime-main.js": "/MantasZilinskas/MeetingApp/static/js/runtime-main.da6678fd.js",
-    "runtime-main.js.map": "/MantasZilinskas/MeetingApp/static/js/runtime-main.da6678fd.js.map",
-    "static/js/2.a1dce461.chunk.js": "/MantasZilinskas/MeetingApp/static/js/2.a1dce461.chunk.js",
-    "static/js/2.a1dce461.chunk.js.map": "/MantasZilinskas/MeetingApp/static/js/2.a1dce461.chunk.js.map",
-    "static/js/3.3bc17c43.chunk.js": "/MantasZilinskas/MeetingApp/static/js/3.3bc17c43.chunk.js",
-    "static/js/3.3bc17c43.chunk.js.map": "/MantasZilinskas/MeetingApp/static/js/3.3bc17c43.chunk.js.map",
-    "index.html": "/MantasZilinskas/MeetingApp/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/MantasZilinskas/MeetingApp/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.a1dce461.chunk.js.LICENSE.txt": "/MantasZilinskas/MeetingApp/static/js/2.a1dce461.chunk.js.LICENSE.txt"
+    "main.css": "/MantasZilinskas/MeetingApp/frontend/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/MantasZilinskas/MeetingApp/frontend/static/js/main.99ad7515.chunk.js",
+    "main.js.map": "/MantasZilinskas/MeetingApp/frontend/static/js/main.99ad7515.chunk.js.map",
+    "runtime-main.js": "/MantasZilinskas/MeetingApp/frontend/static/js/runtime-main.45a71b1f.js",
+    "runtime-main.js.map": "/MantasZilinskas/MeetingApp/frontend/static/js/runtime-main.45a71b1f.js.map",
+    "static/js/2.a1dce461.chunk.js": "/MantasZilinskas/MeetingApp/frontend/static/js/2.a1dce461.chunk.js",
+    "static/js/2.a1dce461.chunk.js.map": "/MantasZilinskas/MeetingApp/frontend/static/js/2.a1dce461.chunk.js.map",
+    "static/js/3.3bc17c43.chunk.js": "/MantasZilinskas/MeetingApp/frontend/static/js/3.3bc17c43.chunk.js",
+    "static/js/3.3bc17c43.chunk.js.map": "/MantasZilinskas/MeetingApp/frontend/static/js/3.3bc17c43.chunk.js.map",
+    "index.html": "/MantasZilinskas/MeetingApp/frontend/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/MantasZilinskas/MeetingApp/frontend/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.a1dce461.chunk.js.LICENSE.txt": "/MantasZilinskas/MeetingApp/frontend/static/js/2.a1dce461.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.da6678fd.js",
+    "static/js/runtime-main.45a71b1f.js",
     "static/js/2.a1dce461.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
     "static/js/main.99ad7515.chunk.js"
