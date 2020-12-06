@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,19 +15,8 @@ import Container from '@material-ui/core/Container';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import { login } from '../Utils/authenticationService';
+import { Redirect } from 'react-router-dom';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const validationSchema = yup.object({
   username: yup.string('Enter your username').required('Username is required'),
@@ -59,17 +48,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [redirect, setRedirect] = useState(false);
   const initialValues = {
     username: '',
     password: '',
   };
   const onSubmit = async (values) => {
     try {
-      login(values.username, values.password);
+      await login(values.username, values.password);
+      setRedirect(true);
     } catch (error) {
       console.log(error);
     }
   };
+
+  if (redirect) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -116,10 +111,6 @@ export default function SignIn() {
                 helperText={touched.password && errors.password}
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 color="primary"
                 variant="contained"
@@ -128,25 +119,10 @@ export default function SignIn() {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </Form>
           )}
         </Formik>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

@@ -1,8 +1,6 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import SignIn from '../components/SignIn';
-import SignUp from '../components/SignUp';
 import UserList from '../components/UserAdmin/UserList';
-import UserProfile from '../components/UserProfile';
 import { Role } from '../Utils/Role';
 import { PrivateRoute } from './PrivateRoute';
 import MeetingList from '../components/Meeting/MeetingList';
@@ -13,12 +11,13 @@ import EditMeetingDetailsForm from '../components/Meeting/EditMeetingDetailsForm
 import EditMeetingPage from '../components/Meeting/EditMeetingPage';
 import UserMeetingList from '../components/Meeting/UserMeetingList';
 import MeetingViewPage from '../components/Meeting/MeetingViewPage';
+import { currentUserValue } from '../Utils/authenticationService';
 
 export default function Routes() {
+  const currentUser = currentUserValue();
   return (
     <Switch>
       <Route path="/signin" component={SignIn} />
-      <Route path="/signup" component={SignUp} />
       <PrivateRoute
         path="/user/create"
         roles={[Role.Admin]}
@@ -64,9 +63,11 @@ export default function Routes() {
         roles={[Role.Moderator, Role.Admin, Role.StandardUser]}
         component={MeetingViewPage}
       />
-      <PrivateRoute path="/userProfile" component={UserProfile} />
       <Route path="/">
-        <Redirect to="/signin" />
+        {!currentUser && <Redirect to="/signin" />}
+        {currentUser && currentUser.roles.includes(Role.Admin) && <Redirect to="/user" />}
+        {currentUser && currentUser.roles.includes(Role.Moderator) && <Redirect to="/meeting" />}
+        {currentUser && currentUser.roles.includes(Role.StandardUser) && <Redirect to="/mymeetings" />}
       </Route>
     </Switch>
   );
