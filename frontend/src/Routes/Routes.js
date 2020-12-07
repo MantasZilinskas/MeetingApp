@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect, HashRouter } from 'react-router-dom';
+import { Switch, Route, Redirect} from 'react-router-dom';
 import SignIn from '../components/SignIn';
 import UserList from '../components/UserAdmin/UserList';
 import { Role } from '../Utils/Role';
