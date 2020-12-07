@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MeetingViewPage() {
-  console.log("djadskfndsjkfnasjkfsnadfkjdsanfsdajkfnsafjksadnfsdakfnsdfksjadnfkjsadnfasdkjfnsdakjfsndf")
   const [meeting, setMeeting] = useState({
     id: null,
     name: '',

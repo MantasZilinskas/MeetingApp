@@ -1,4 +1,4 @@
-import { BrowserRouter, Router } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Router } from 'react-router-dom';
 import history from './Utils/history';
 import Routes from './Routes/Routes';
 import Navbar from './components/Navigation/Navbar';
@@ -11,10 +11,10 @@ function App() {
   return (
     <SnackbarProvider maxSnack={3}>
       <Router history={history}>
-        <BrowserRouter>
+        <HashRouter basename="/">
           <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
           <Routes setCurrentUser={setCurrentUser} />
-        </BrowserRouter>
+        </HashRouter>
       </Router>
     </SnackbarProvider>
   );

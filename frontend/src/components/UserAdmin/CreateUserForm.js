@@ -21,7 +21,7 @@ export default function CreateUserForm() {
     const onSubmit = async (values) => {
         try{
           setIsLoading(true);
-          await api.post('user/register', values);
+          await api.post('user', values);
           setIsLoading(false);
           enqueueSnackbar('User was created succesfuly', {
             anchorOrigin: {
