@@ -3,7 +3,6 @@ using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Implementation;
 using MeetingApp.Api.Data.Tests.AsyncMock;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -15,8 +14,8 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
     public class TodoItemRepositoryTests
     {
 
-        private Mock<MeetingAppContext> mockContext;
-        private TodoItemRepository todoItemRepository;
+        private readonly Mock<MeetingAppContext> mockContext;
+        private readonly TodoItemRepository todoItemRepository;
 
         public TodoItemRepositoryTests()
         {

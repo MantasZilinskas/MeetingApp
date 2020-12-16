@@ -8,7 +8,7 @@ namespace MeetingApp.Api.Business.Mapping
     {
         public LoginProfile()
         {
-            CreateMap<LoginResponse, LoginResponseDAO>()
+            CreateMap<LoginResponse, LoginResponseDao>()
                 .ReverseMap();
         }
     }

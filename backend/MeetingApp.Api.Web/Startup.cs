@@ -49,13 +49,13 @@ namespace MeetingApp.Api.Web
 
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", build =>
             {
-                build.WithOrigins("http://localhost:3000")
+                build.AllowAnyOrigin()
                      .AllowAnyMethod()
                      .AllowAnyHeader();
             }));
 
         #region Jwt Authentication
-        var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+        var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JwtSecret"]);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -65,7 +65,7 @@ namespace MeetingApp.Api.Web
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
-                x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),

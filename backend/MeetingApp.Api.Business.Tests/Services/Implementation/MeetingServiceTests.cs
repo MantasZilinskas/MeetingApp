@@ -4,7 +4,6 @@ using MeetingApp.Api.Business.Mapping;
 using MeetingApp.Api.Business.Services.Implementation;
 using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,10 +14,10 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
 {
     public class MeetingServiceTests
     {
-        private Mock<IMeetingRepository> mockMeetingRepository;
-        private Mock<ITodoItemRepository> mockTodoItemRepository;
-        private IMapper mockMapper;
-        private MeetingService service;
+        private readonly Mock<IMeetingRepository> mockMeetingRepository;
+        private readonly Mock<ITodoItemRepository> mockTodoItemRepository;
+        private readonly IMapper mockMapper;
+        private readonly MeetingService service;
 
         public MeetingServiceTests()
         {
@@ -26,8 +25,8 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             this.mockTodoItemRepository = new Mock<ITodoItemRepository>();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new MeetingDTOProfile());
-                cfg.AddProfile(new TodoItemDTOProfile());
+                cfg.AddProfile(new MeetingDtoProfile());
+                cfg.AddProfile(new TodoItemDtoProfile());
                 cfg.AddProfile(new UserProfile());
             });
             this.mockMapper = config.CreateMapper();
@@ -55,7 +54,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
 
         }
         [Fact]
-        public async Task Delete_IfMeetingDoesntExist_ReturnNull()
+        public async Task Delete_IfMeetingDoesNotExist_ReturnNull()
         {
             // Arrange
             Meeting meeting = null;
@@ -104,7 +103,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
         {
             // Arrange
             Meeting expected = new Meeting { Id = 0, Name = "test" };
-            MeetingDTO toInsert = new MeetingDTO { Id = 0, Name = "test" };
+            MeetingDto toInsert = new MeetingDto { Id = 0, Name = "test" };
             mockMeetingRepository.Setup(repo => repo.IsDuplicateName(It.IsAny<Meeting>())).Returns(Task.FromResult(false));
             mockMeetingRepository.Setup(repo => repo.Insert(It.IsAny<Meeting>())).Returns(Task.FromResult(expected));
 
@@ -118,7 +117,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
         public async Task Insert_IfMeetingIsDuplicate_ReturnNull()
         {
             // Arrange
-            MeetingDTO toInsert = new MeetingDTO { Id = 0, Name = "test" };
+            MeetingDto toInsert = new MeetingDto { Id = 0, Name = "test" };
             mockMeetingRepository.Setup(repo => repo.IsDuplicateName(It.IsAny<Meeting>())).Returns(Task.FromResult(true));
 
             // Act
@@ -133,7 +132,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
         {
             // Arrange
             Meeting expected = new Meeting { Id = 0, Name = "test" };
-            MeetingDTO toUpdate = new MeetingDTO { Id = 0, Name = "test" };
+            MeetingDto toUpdate = new MeetingDto { Id = 0, Name = "test" };
             mockMeetingRepository.Setup(repo => repo.IsDuplicateName(It.IsAny<Meeting>())).Returns(Task.FromResult(false));
             mockMeetingRepository.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<Meeting>())).Returns(Task.FromResult(expected));
 
@@ -147,7 +146,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
         public async Task Update_IfMeetingIsDuplicate_ReturnNull()
         {
             // Arrange
-            MeetingDTO toUpdate = new MeetingDTO { Id = 0, Name = "test" };
+            MeetingDto toUpdate = new MeetingDto { Id = 0, Name = "test" };
             mockMeetingRepository.Setup(repo => repo.IsDuplicateName(It.IsAny<Meeting>())).Returns(Task.FromResult(true));
 
             // Act
@@ -204,7 +203,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             var result = await service.InsertMeetingUser(userId,meetingId);
 
             // Assert
-            Assert.True(result.CompareTo(expected) == 0);
+            Assert.True(String.Compare(result, expected, StringComparison.Ordinal) == 0);
         }
         [Theory]
         [InlineData(0, "testId")]
@@ -282,7 +281,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             // Act
             var result = await service.GetMeetingUser(meetingId,userId);
             // Assert
-            Assert.True(result.UserName.CompareTo(expected.UserName) == 0);
+            Assert.True(string.Compare(result.UserName, expected.UserName, StringComparison.Ordinal) == 0);
         }
         [Fact]
         public async Task GetMeetingUser_IfMeetingDoesNotExist_ThrowKeyNotFoundException()

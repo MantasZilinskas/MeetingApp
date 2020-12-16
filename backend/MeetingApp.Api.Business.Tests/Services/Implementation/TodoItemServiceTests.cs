@@ -5,7 +5,6 @@ using MeetingApp.Api.Business.Services.Implementation;
 using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,9 +14,9 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
     public class TodoItemServiceTests
     {
 
-        private Mock<ITodoItemRepository> mockTodoItemRepository;
-        private IMapper mockMapper;
-        private Mock<IMeetingRepository> mockMeetingRepository;
+        private readonly Mock<ITodoItemRepository> mockTodoItemRepository;
+        private readonly IMapper mockMapper;
+        private readonly Mock<IMeetingRepository> mockMeetingRepository;
 
         public TodoItemServiceTests()
         {
@@ -25,8 +24,8 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             this.mockTodoItemRepository = new Mock<ITodoItemRepository>();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new MeetingDTOProfile());
-                cfg.AddProfile(new TodoItemDTOProfile());
+                cfg.AddProfile(new MeetingDtoProfile());
+                cfg.AddProfile(new TodoItemDtoProfile());
                 cfg.AddProfile(new UserProfile());
             });
             this.mockMapper = config.CreateMapper();
@@ -117,7 +116,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             // Arrange
             var service = this.CreateService();
             Meeting meeting = new Meeting { Id = 0, Name = "meeting0" };
-            TodoItemDTO todoItem = new TodoItemDTO { Id = 0, Name = "todoItem0" };
+            TodoItemDto todoItem = new TodoItemDto { Id = 0, Name = "todoItem0" };
             TodoItem expected = new TodoItem { Id = 0, Name = "todoItem0" };
 
             mockMeetingRepository.Setup(repo => repo.Get(It.IsAny<int>())).Returns(Task.FromResult(meeting));
@@ -135,7 +134,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             // Arrange
             var service = this.CreateService();
             Meeting meeting = null;
-            TodoItemDTO todoItem = new TodoItemDTO { Id = 0, Name = "todoItem0" };
+            TodoItemDto todoItem = new TodoItemDto { Id = 0, Name = "todoItem0" };
             mockMeetingRepository.Setup(repo => repo.Get(It.IsAny<int>())).Returns(Task.FromResult(meeting));
 
             // Act
@@ -151,7 +150,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             // Arrange
             var service = this.CreateService();
             int todoItemId = 0;
-            TodoItemDTO todoItem = new TodoItemDTO { Id = 0, Name = "todoItem0" };
+            TodoItemDto todoItem = new TodoItemDto { Id = 0, Name = "todoItem0" };
             TodoItem expected = new TodoItem { Id = 0, Name = "todoItem0" };
             mockTodoItemRepository.Setup(repo => repo.Update(It.IsAny<int>(), It.IsAny<TodoItem>())).ReturnsAsync(expected);
 

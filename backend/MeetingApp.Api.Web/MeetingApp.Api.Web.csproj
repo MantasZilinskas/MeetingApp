@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5</TargetFramework>
     <UserSecretsId>b60ae11a-c3ec-4b9a-b832-8ac09dd86932</UserSecretsId>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

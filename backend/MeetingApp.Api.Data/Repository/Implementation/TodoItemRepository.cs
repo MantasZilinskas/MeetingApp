@@ -27,7 +27,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         {
             foreach (var value in todoItems)
             {
-                _context.TodoItems.Add(value);
+                await _context.TodoItems.AddAsync(value);
             }
             await _context.SaveChangesAsync();
         }
@@ -42,7 +42,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
 
         public async Task<TodoItem> Insert(TodoItem todoItem)
         {
-            _context.TodoItems.Add(todoItem);
+            await _context.TodoItems.AddAsync(todoItem);
             await _context.SaveChangesAsync();
             return todoItem;
         }

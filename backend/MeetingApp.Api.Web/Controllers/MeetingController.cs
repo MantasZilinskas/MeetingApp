@@ -26,15 +26,15 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting
         [HttpGet]
-        [Authorize(Roles = "Admin,StadardUser,Moderator")]
-        public async Task<ICollection<MeetingDTO>> Get()
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
+        public async Task<ICollection<MeetingDto>> Get()
         {
             return await _meetingService.GetAll();
         }
         // GET: api/Meeting/slice
         [HttpGet("slice")]
-        [Authorize(Roles = "Admin,StadardUser,Moderator")]
-        public async Task<ActionResult<IEnumerable<GenericSliceDTO<MeetingDTO>>>> GetSlice([FromQuery] SliceRequest request)
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
+        public async Task<ActionResult<IEnumerable<GenericSliceDto<MeetingDto>>>> GetSlice([FromQuery] SliceRequest request)
         {
             var meetings = await _meetingService.GetSlice(request);
             if (meetings == null)
@@ -44,8 +44,8 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET api/Meeting/{id}
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,StandardUser,Moderator")]
-        public async Task<ActionResult<MeetingDTO>> Get(int id)
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator + "," + Roles.StandardUser)]
+        public async Task<ActionResult<MeetingDto>> Get(int id)
         {
             var returnedValue = await _meetingService.Get(id);
             if (returnedValue == null)
@@ -56,8 +56,8 @@ namespace MeetingApp.Api.Web.Controllers
         }
         // POST api/Meeting
         [HttpPost]
-        [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> InsertMeeting(MeetingDTO meeting)
+        [Authorize(Roles = Roles.Moderator)]
+        public async Task<ActionResult> InsertMeeting(MeetingDto meeting)
         {
             var returnedValue = await _meetingService.Insert(meeting);
             if (returnedValue == null)
@@ -69,8 +69,8 @@ namespace MeetingApp.Api.Web.Controllers
 
         // PUT api/Meeting/{id}
         [HttpPut("{id}")]
-        [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> UpdateMeeting(int id, MeetingDTO meeting)
+        [Authorize(Roles = Roles.Moderator)]
+        public async Task<ActionResult> UpdateMeeting(int id, MeetingDto meeting)
         {
             meeting.Id = id;
             var returnedValue = await _meetingService.Update(id, meeting);
@@ -83,7 +83,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // DELETE api/Meeting/{id}
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> Delete(int id)
         {
             var returnedValue = await _meetingService.Delete(id);
@@ -96,7 +96,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting/{meetingId}/TodoItems
         [HttpGet("{meetingId}/TodoItems")]
-        [Authorize(Roles = "Admin,StandardUser,Moderator")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator + "," + Roles.StandardUser)]
         public async Task<ActionResult> GetMeetingTodoItems(int meetingId)
         {
             var todoItems = await _meetingService.GetMeetingTodoItems(meetingId);
@@ -109,8 +109,8 @@ namespace MeetingApp.Api.Web.Controllers
 
         // GET: api/Meeting/{meetingId}/TodoItems/{todoItemId}
         [HttpGet("{meetingId}/TodoItems/{todoItemId}")]
-        [Authorize(Roles = "Admin,StandardUser,Moderator")]
-        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int meetingId, int todoItemId)
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator + "," + Roles.StandardUser)]
+        public async Task<ActionResult<TodoItemDto>> GetTodoItem(int meetingId, int todoItemId)
         {
             var returnedValue = await _todoItemService.Get(todoItemId, meetingId);
             if (returnedValue == null)
@@ -122,8 +122,8 @@ namespace MeetingApp.Api.Web.Controllers
 
         // POST api/TodoItems
         [HttpPost("{meetingId}/TodoItems/")]
-        [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> PostTodoItem(int meetingId, TodoItemDTO todoItem)
+        [Authorize(Roles = Roles.Moderator)]
+        public async Task<ActionResult> PostTodoItem(int meetingId, TodoItemDto todoItem)
         {
             todoItem.MeetingId = meetingId;
             var returnedValue = await _todoItemService.Insert(todoItem);
@@ -131,13 +131,13 @@ namespace MeetingApp.Api.Web.Controllers
             {
                 return NotFound();
             }
-            return CreatedAtAction("GetTodoItem", new { meetingId = meetingId, todoItemId = returnedValue.Id }, returnedValue);
+            return CreatedAtAction("GetTodoItem", new {meetingId, todoItemId = returnedValue.Id }, returnedValue);
         }
 
         // PUT api/TodoItems/{id}
         [HttpPut("{meetingId}/TodoItems/{todoItemId}")]
-        [Authorize(Roles = "Moderator")]
-        public async Task<ActionResult> PutTodoItem(int meetingId, int todoItemId, TodoItemDTO todoItem)
+        [Authorize(Roles = Roles.Moderator)]
+        public async Task<ActionResult> PutTodoItem(int meetingId, int todoItemId, TodoItemDto todoItem)
         {
             todoItem.Id = todoItemId;
             todoItem.MeetingId = meetingId;
@@ -151,7 +151,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         // DELETE api/TodoItems/{id}
         [HttpDelete("{meetingId}/TodoItems/{todoItemId}")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> DeleteTodoItem(int meetingId, int todoItemId)
         {
             var returnedValue = await _todoItemService.Delete(todoItemId, meetingId);
@@ -163,7 +163,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpPost("{meetingId}/Users/{userId}")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> InsertMeetingUser(int meetingId, string userId)
         {
             try
@@ -171,8 +171,7 @@ namespace MeetingApp.Api.Web.Controllers
                 var returnedUserId = await _meetingService.InsertMeetingUser(userId, meetingId);
                 return CreatedAtAction("GetMeetingUser", new
                 {
-                    meetingId = meetingId,
-                    userId = userId
+                    meetingId, userId
                 }, returnedUserId);
             }
             catch (KeyNotFoundException)
@@ -181,7 +180,7 @@ namespace MeetingApp.Api.Web.Controllers
             }
         }
         [HttpGet("{meetingId}/Users")]
-        [Authorize(Roles = "Moderator,Admin,StandardUser")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator + "," + Roles.StandardUser)]
         public async Task<ActionResult<ICollection<UserResponse>>> GetAllMeetingUsers(int meetingId)
         {
             try
@@ -194,7 +193,7 @@ namespace MeetingApp.Api.Web.Controllers
             }
         }
         [HttpGet("{meetingId}/Users/{userId}")]
-        [Authorize(Roles = "Moderator,Admin,StandardUser")]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator + "," + Roles.StandardUser)]
         public async Task<ActionResult> GetMeetingUser(int meetingId, string userId)
         {
             try
@@ -208,7 +207,7 @@ namespace MeetingApp.Api.Web.Controllers
             }
         }
         [HttpDelete("{meetingId}/Users/{userId}")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> DeleteMeetingUsers(int meetingId, string userId)
         {
             try
@@ -222,7 +221,7 @@ namespace MeetingApp.Api.Web.Controllers
             }
         }
         [HttpPut("{meetingId}/texteditor")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> UpdateMeetingTextEditorData(int meetingId,TextEditorRequest request)
         {
             var result = await _meetingService.UpdateTextEditorData(meetingId, request.TextEditorData);

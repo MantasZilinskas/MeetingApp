@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Business.DTO
 {
-    public class TodoItemDTO
+    public class TodoItemDto
     {
         public int Id { get; set; }
         [Required]

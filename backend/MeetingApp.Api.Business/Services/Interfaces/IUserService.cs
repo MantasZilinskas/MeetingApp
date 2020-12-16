@@ -1,8 +1,6 @@
 ﻿using MeetingApp.Api.Business.DTO;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Business.Services.Interfaces
@@ -16,7 +14,7 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<List<UserResponse>> GetAllUsers();
         public Task<IdentityResult> DeleteUser(string userId);
         public Task<IdentityResult> UpdateUser(UserRequest user, string userId);
-        public Task<GenericSliceDTO<UserResponse>> GetSlice(SliceRequest request);
-        public Task<GenericSliceDTO<MeetingDTO>> GetUserMeetingsSlice(string userId, SliceRequest request);
+        public Task<GenericSliceDto<UserResponse>> GetSlice(SliceRequest request);
+        public Task<GenericSliceDto<MeetingDto>> GetUserMeetingsSlice(string userId, SliceRequest request);
     }
 }

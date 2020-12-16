@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingApp.Api.Data.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingApp.Api.Business.Tests", "MeetingApp.Api.Business.Tests\MeetingApp.Api.Business.Tests.csproj", "{D6426314-7231-45BF-8C95-53368236FE21}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tetsts", "Tetsts", "{5C2B0D1F-838F-4167-A4C6-29B8B3557F1F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5C2B0D1F-838F-4167-A4C6-29B8B3557F1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

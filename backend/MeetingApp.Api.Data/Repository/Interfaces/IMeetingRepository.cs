@@ -1,7 +1,5 @@
 ﻿using MeetingApp.Api.Data.Model;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Data.Repository.Interfaces
@@ -19,7 +17,7 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<List<User>> GetAllMeetingUsers(int meetingId);
         public Task<User> GetMeetingUser(int meetingId, string userId);
         public Task<bool> MeetingExists(int meetingId);
-        public Task<List<Meeting>> GetSlice(SliceRequestDAO request);
+        public Task<List<Meeting>> GetSlice(SliceRequestDao request);
         public Task<int> GetCount();
         public Task<bool> UpdateTextEditorData(int meetingId, string textEditorData);
     }

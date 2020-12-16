@@ -6,10 +6,10 @@ namespace MeetingApp.Api.Business.Services.Interfaces
 {
     public interface ITodoItemService
     {
-        public Task<TodoItemDTO> Insert(TodoItemDTO resource);
-        public Task<TodoItemDTO> Update(int id, TodoItemDTO resource);
-        public Task<TodoItemDTO> Delete(int id, int meetingId);
-        public Task<TodoItemDTO> Get(int id, int meetingId);
-        public Task<ICollection<TodoItemDTO>> GetAll();
+        public Task<TodoItemDto> Insert(TodoItemDto resource);
+        public Task<TodoItemDto> Update(int id, TodoItemDto resource);
+        public Task<TodoItemDto> Delete(int id, int meetingId);
+        public Task<TodoItemDto> Get(int id, int meetingId);
+        public Task<ICollection<TodoItemDto>> GetAll();
     }
 }

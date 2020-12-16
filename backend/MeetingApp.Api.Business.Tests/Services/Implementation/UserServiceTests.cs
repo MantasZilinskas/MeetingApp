@@ -6,7 +6,6 @@ using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,8 +15,8 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
     public class UserServiceTests
     {
 
-        private Mock<IUserRepository> mockUserRepository;
-        private IMapper mockMapper;
+        private readonly Mock<IUserRepository> mockUserRepository;
+        private readonly IMapper mockMapper;
 
         public UserServiceTests()
         {
@@ -25,8 +24,8 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             this.mockUserRepository = new Mock<IUserRepository>();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new MeetingDTOProfile());
-                cfg.AddProfile(new TodoItemDTOProfile());
+                cfg.AddProfile(new MeetingDtoProfile());
+                cfg.AddProfile(new TodoItemDtoProfile());
                 cfg.AddProfile(new UserProfile());
             });
             this.mockMapper = config.CreateMapper();
@@ -61,7 +60,7 @@ namespace MeetingApp.Api.Business.Tests.Services.Implementation
             var service = this.CreateService();
             string userName = "user";
             string password = "user123";
-            var expected =  new LoginResponseDAO
+            var expected =  new LoginResponseDao
             {
                 Roles = new List<string> { "testRole" },
                 Token = "testToken",

@@ -21,27 +21,27 @@ namespace MeetingApp.Api.Business.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<TodoItemDTO> Delete(int id, int meetingId)
+        public async Task<TodoItemDto> Delete(int id, int meetingId)
         {
             var todoItem = await _todoItemRepo.GetMeetingTodoItem(meetingId, id);
             if (todoItem != null)
             {
                 await _todoItemRepo.Delete(todoItem);
             }
-            return _mapper.Map<TodoItemDTO>(todoItem);
+            return _mapper.Map<TodoItemDto>(todoItem);
         }
 
-        public async Task<TodoItemDTO> Get(int id, int meetingId)
+        public async Task<TodoItemDto> Get(int id, int meetingId)
         {
-            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.GetMeetingTodoItem(meetingId, id));
+            return _mapper.Map<TodoItemDto>(await _todoItemRepo.GetMeetingTodoItem(meetingId, id));
         }
 
-        public async Task<ICollection<TodoItemDTO>> GetAll()
+        public async Task<ICollection<TodoItemDto>> GetAll()
         {
-            return _mapper.Map<ICollection<TodoItemDTO>>(await _todoItemRepo.GetAll());
+            return _mapper.Map<ICollection<TodoItemDto>>(await _todoItemRepo.GetAll());
         }
 
-        public async Task<TodoItemDTO> Insert(TodoItemDTO dto)
+        public async Task<TodoItemDto> Insert(TodoItemDto dto)
         {
             var meeting = await _meetingRepository.Get(dto.MeetingId);
             if (meeting == null)
@@ -50,12 +50,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
             }
             var todoItem = _mapper.Map<TodoItem>(dto);
             var returnedEntity = await _todoItemRepo.Insert(todoItem);
-            return _mapper.Map<TodoItemDTO>(returnedEntity);
+            return _mapper.Map<TodoItemDto>(returnedEntity);
         }
 
-        public async Task<TodoItemDTO> Update(int todoItemId, TodoItemDTO dto)
+        public async Task<TodoItemDto> Update(int todoItemId, TodoItemDto dto)
         {
-            return _mapper.Map<TodoItemDTO>(await _todoItemRepo.Update(todoItemId, _mapper.Map<TodoItem>(dto)));
+            return _mapper.Map<TodoItemDto>(await _todoItemRepo.Update(todoItemId, _mapper.Map<TodoItem>(dto)));
         }
     }
 }

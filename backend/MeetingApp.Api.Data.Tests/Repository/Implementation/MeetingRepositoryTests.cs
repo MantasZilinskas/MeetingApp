@@ -1,7 +1,7 @@
-﻿using MeetingApp.Api.Data.Context;
+﻿using System;
+using MeetingApp.Api.Data.Context;
 using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Implementation;
-using MeetingApp.Api.Data.Repository.Interfaces;
 using MeetingApp.Api.Data.Tests.AsyncMock;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,20 +16,20 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
 {
     public class MeetingRepositoryTests
     {
-        private Mock<MeetingAppContext> mockContext;
+        private readonly Mock<MeetingAppContext> mockContext;
         private Mock<UserManager<User>> mockUserManager;
         private Mock<DbSet<Meeting>> mockSet;
-        private MeetingRepository meetingRepository;
+        private readonly MeetingRepository meetingRepository;
 
         public MeetingRepositoryTests()
         {
-            List<User> _users = new List<User>
+            List<User> users = new List<User>
             {
                 new User{Id = "0",UserName = "user0"},
                 new User{Id = "1",UserName = "user1"},
                 new User{Id = "2",UserName = "user2"}
             };
-            this.mockUserManager = MockUserManager<User>(_users);
+            this.mockUserManager = MockUserManager<User>(users);
             this.mockContext = new Mock<MeetingAppContext>();
             // Mock meeting data that is used in testing methods
             mockSet = new List<Meeting>
@@ -78,7 +78,7 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
             var result = await meetingRepository.Get(id);
 
             // Assert
-            Assert.True(result.Name.CompareTo("Test meeting2") == 0);
+            Assert.True(String.Compare(result.Name, "Test meeting2", StringComparison.Ordinal) == 0);
             
         }
 
@@ -165,72 +165,6 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
             mockContext.Verify(c => c.Meetings.Update(It.IsAny<Meeting>()), Times.Never);
             mockContext.Verify(c => c.SaveChangesAsync(new CancellationToken()), Times.Never);
         }
-
-        // Kaip mockinti Include metodą.
-        //[Fact]
-        //public async Task InsertMeetingUser_UserDoesNotExist_ThrowKeyNotFoundException()
-        //{
-        //    // Arrange
-        //    string userId = "sdfsdfsd";
-        //    int meetingId = 0;
-        //    User expected = null;
-        //    mockUserManager.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(expected);
-        //    // Act
-        //    await Assert.ThrowsAsync<KeyNotFoundException>(() => meetingRepository.InsertMeetingUser(userId, meetingId));
-        //    // Assert
-        //}
-
-        //[Fact]
-        //public async Task DeleteMeetingUser_StateUnderTest_ExpectedBehavior()
-        //{
-        //    // Arrange
-
-        //    int meetingId = 0;
-        //    string userId = null;
-
-        //    // Act
-        //    await meetingRepository.DeleteMeetingUser(
-        //        meetingId,
-        //        userId);
-
-        //    // Assert
-        //    Assert.True(false);
-
-        //}
-
-        //[Fact]
-        //public async Task GetAllMeetingUsers_StateUnderTest_ExpectedBehavior()
-        //{
-        //    // Arrange
-
-        //    int meetingId = 0;
-
-        //    // Act
-        //    var result = await meetingRepository.GetAllMeetingUsers(
-        //        meetingId);
-
-        //    // Assert
-        //    Assert.True(false);
-
-        //}
-
-        //[Fact]
-        //public async Task GetMeetingUser_StateUnderTest_ExpectedBehavior()
-        //{
-        //    // Arrange
-
-        //    int meetingId = 0;
-        //    string userId = null;
-
-        //    // Act
-        //    var result = await meetingRepository.GetMeetingUser(
-        //        meetingId,
-        //        userId);
-
-        //    // Assert
-        //    Assert.True(false);
-
-        //}
 
         [Fact]
         public async Task MeetingExists_StateUnderTest_ExpectedBehavior()

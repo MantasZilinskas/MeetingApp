@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using MeetingApp.Api.Business.DTO;
 using MeetingApp.Api.Data.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeetingApp.Api.Business.Mapping
 {
@@ -13,7 +8,7 @@ namespace MeetingApp.Api.Business.Mapping
     {
         public SliceRequestProfile()
         {
-            CreateMap<SliceRequest, SliceRequestDAO>()
+            CreateMap<SliceRequest, SliceRequestDao>()
                 .ReverseMap();
         }
     }

@@ -4,7 +4,6 @@ using MeetingApp.Api.Business.Services.Interfaces;
 using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -48,12 +47,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var result = await _userRepo.Login(userName, password);
             return _mapper.Map<LoginResponse>(result);
         }
-        public async Task<GenericSliceDTO<UserResponse>> GetSlice(SliceRequest request)
+        public async Task<GenericSliceDto<UserResponse>> GetSlice(SliceRequest request)
         {
-            var users = await _userRepo.GetSlice(_mapper.Map<SliceRequestDAO>(request));
+            var users = await _userRepo.GetSlice(_mapper.Map<SliceRequestDao>(request));
             var count = await _userRepo.GetCount();
             if (users == null) return null;
-            return new GenericSliceDTO<UserResponse> { Items = _mapper.Map<List<UserResponse>>(users), TotalCount = count };
+            return new GenericSliceDto<UserResponse> { Items = _mapper.Map<List<UserResponse>>(users), TotalCount = count };
         }
         public async Task<List<UserResponse>> GetAllUsers()
         {
@@ -70,12 +69,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
             var result = await _userRepo.UpdateUser(_mapper.Map<User>(user), userId, user.Password, user.Roles);
             return result;
         }
-        public async Task<GenericSliceDTO<MeetingDTO>> GetUserMeetingsSlice(string userId, SliceRequest request)
+        public async Task<GenericSliceDto<MeetingDto>> GetUserMeetingsSlice(string userId, SliceRequest request)
         {
-            var meetings = await _userRepo.GetUserMeetingSlice(userId,_mapper.Map<SliceRequestDAO>(request));
+            var meetings = await _userRepo.GetUserMeetingSlice(userId,_mapper.Map<SliceRequestDao>(request));
             var count = await _userRepo.GetUserMeetingCount(userId);
             if (meetings == null) return null;
-            return new GenericSliceDTO<MeetingDTO> { Items = _mapper.Map<List<MeetingDTO>>(meetings), TotalCount = count };
+            return new GenericSliceDto<MeetingDto> { Items = _mapper.Map<List<MeetingDto>>(meetings), TotalCount = count };
         }
 
 

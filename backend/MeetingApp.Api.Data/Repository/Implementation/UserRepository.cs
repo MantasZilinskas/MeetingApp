@@ -46,7 +46,7 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             return result;
         }
 
-        public async Task<LoginResponseDAO> Login(string userName, string password)
+        public async Task<LoginResponseDao> Login(string userName, string password)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user != null && await _userManager.CheckPasswordAsync(user, password))
@@ -57,16 +57,16 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserId", user.Id.ToString()),
+                        new Claim("UserId", user.Id),
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
                 };
                 AddRolesToClaims(tokenDescriptor, roles);
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-                var response = new LoginResponseDAO
+                var response = new LoginResponseDao
                 {
                     UserId = user.Id,
                     Roles = roles,
@@ -93,48 +93,48 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var users = await _userManager.Users.ToListAsync();
             return users;
         }
-        public async Task<List<User>> GetSlice(SliceRequestDAO request)
+        public async Task<List<User>> GetSlice(SliceRequestDao request)
         {
-            if (request.order == "asc")
+            if (request.Order == "asc")
             {
-                return request.orderBy switch
+                return request.OrderBy switch
                 {
                     "username" => await _userManager.Users
                             .OrderBy(i => i.UserName)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     "fullname" => await _userManager.Users
                             .OrderBy(i => i.FullName)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     "email" => await _userManager.Users
                              .OrderBy(i => i.Email)
-                             .Skip(request.rowsPerPage * request.page)
-                             .Take(request.rowsPerPage)
+                             .Skip(request.RowsPerPage * request.Page)
+                             .Take(request.RowsPerPage)
                              .ToListAsync(),
                     _ => null
                 };
             }
             else
             {
-                return request.orderBy switch
+                return request.OrderBy switch
                 {
                     "username" => await _userManager.Users
                             .OrderByDescending(i => i.UserName)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     "fullname" => await _userManager.Users
                             .OrderByDescending(i => i.FullName)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     "email" => await _userManager.Users
                             .OrderByDescending(i => i.Email)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     _ => null
                 };
@@ -181,41 +181,41 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             var roles = await _userManager.GetRolesAsync(user);
             return roles;
         }
-        public async Task<List<Meeting>> GetUserMeetingSlice(string userId, SliceRequestDAO request)
+        public async Task<List<Meeting>> GetUserMeetingSlice(string userId, SliceRequestDao request)
         {
             var user = await _userManager.Users.Include(user => user.Meetings).FirstOrDefaultAsync(user => user.Id == userId);
             if(user != null)
             {
-                if (request.order == "asc")
+                if (request.Order == "asc")
                 {
-                    return request.orderBy switch
+                    return request.OrderBy switch
                     {
                         "name" => user.Meetings
                                 .OrderBy(i => i.Name)
-                                .Skip(request.rowsPerPage * request.page)
-                                .Take(request.rowsPerPage)
+                                .Skip(request.RowsPerPage * request.Page)
+                                .Take(request.RowsPerPage)
                                 .ToList(),
                         "description" => user.Meetings
                                 .OrderBy(i => i.Description)
-                                .Skip(request.rowsPerPage * request.page)
-                                .Take(request.rowsPerPage)
+                                .Skip(request.RowsPerPage * request.Page)
+                                .Take(request.RowsPerPage)
                                 .ToList(),
                         _ => null
                     };
                 }
                 else
                 {
-                    return request.orderBy switch
+                    return request.OrderBy switch
                     {
                         "name" => user.Meetings
                                 .OrderByDescending(i => i.Name)
-                                .Skip(request.rowsPerPage * request.page)
-                                .Take(request.rowsPerPage)
+                                .Skip(request.RowsPerPage * request.Page)
+                                .Take(request.RowsPerPage)
                                 .ToList(),
                         "description" => user.Meetings
                                 .OrderByDescending(i => i.Description)
-                                .Skip(request.rowsPerPage * request.page)
-                                .Take(request.rowsPerPage)
+                                .Skip(request.RowsPerPage * request.Page)
+                                .Take(request.RowsPerPage)
                                 .ToList(),
                         _ => null
                     };

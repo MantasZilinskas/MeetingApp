@@ -4,6 +4,7 @@ using MeetingApp.Api.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,38 +37,38 @@ namespace MeetingApp.Api.Data.Repository.Implementation
                 .Include(meeting => meeting.Users)
                 .FirstOrDefaultAsync(meeting => meeting.Id == id);
         }
-        public async Task<List<Meeting>> GetSlice(SliceRequestDAO request)
+        public async Task<List<Meeting>> GetSlice(SliceRequestDao request)
         {
-            if (request.order == "asc")
+            if (request.Order == "asc")
             {
-                return request.orderBy switch
+                return request.OrderBy switch
                 {
                     "name" => await _context.Meetings
                             .OrderBy(i => i.Name)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     "description" => await _context.Meetings
                             .OrderBy(i => i.Description)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     _ => null
                 };
             }
             else
             {
-                return request.orderBy switch
+                return request.OrderBy switch
                 {
                     "name" => await _context.Meetings
                             .OrderByDescending(i => i.Name)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     "description" => await _context.Meetings
                             .OrderByDescending(i => i.Description)
-                            .Skip(request.rowsPerPage * request.page)
-                            .Take(request.rowsPerPage)
+                            .Skip(request.RowsPerPage * request.Page)
+                            .Take(request.RowsPerPage)
                             .ToListAsync(),
                     _ => null
                 };
@@ -93,14 +94,14 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         public async Task<Meeting> Insert(Meeting meeting)
         {
             meeting.TextEditorData = "";
-            _context.Meetings.Add(meeting);
+            await _context.Meetings.AddAsync(meeting);
             await _context.SaveChangesAsync();
             return meeting;
         }
 
         public async Task<Meeting> Update(int id, Meeting meeting)
         {
-            Meeting existing = await _context.Meetings.AsNoTracking().FirstOrDefaultAsync(value => value.Id == id);
+            var existing = await _context.Meetings.AsNoTracking().FirstOrDefaultAsync(value => value.Id == id);
             if (existing != null)
             {
                 meeting.Id = id;
@@ -177,6 +178,14 @@ namespace MeetingApp.Api.Data.Repository.Implementation
         public async Task<bool> MeetingExists(int meetingId)
         {
             return await _context.Meetings.AnyAsync(meeting => meeting.Id == meetingId);
+        }
+
+        private void test()
+        {
+            using var sr = new StreamReader("test.txt");
+
+            var line = sr.ReadLine();
+            sr.Close();
         }
     }
 }

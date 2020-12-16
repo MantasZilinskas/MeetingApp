@@ -4,7 +4,6 @@ using MeetingApp.Api.Data.Tests.AsyncMock;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,20 +13,20 @@ namespace MeetingApp.Api.Data.Tests.Repository.Implementation
 {
     public class UserRepositoryTests
     {
-        private Mock<UserManager<User>> mockUserManager;
+        private readonly Mock<UserManager<User>> mockUserManager;
         private Mock<IOptions<ApplicationSettings>> mockOptions;
-        private UserRepository userRepository;
+        private readonly UserRepository userRepository;
 
         public UserRepositoryTests()
         {
 
-            var _users = new List<User>
+            var users = new List<User>
             {
                 new User{Id = "0",UserName = "user0"},
                 new User{Id = "1",UserName = "user1"},
                 new User{Id = "2",UserName = "user2"}
             };
-            this.mockUserManager = MockUserManager<User>(_users);
+            this.mockUserManager = MockUserManager(users);
             this.mockOptions = new Mock<IOptions<ApplicationSettings>>();
             userRepository = new UserRepository(mockUserManager.Object, mockOptions.Object);
         }
