@@ -32,7 +32,7 @@ function ListPage(props) {
 
 ListPage.propTypes = {
   header: PropTypes.string.isRequired,
-  controlButtons: PropTypes.node.isRequired,
+  //controlButtons: PropTypes.node.isRequired,
   // eslint-disable-next-line react/require-default-props
   children: PropTypes.node,
 };

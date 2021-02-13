@@ -83,13 +83,14 @@ function ItemModal({ modalOpen, setModalOpen, initialValues, onSubmit}) {
     setUsers([]);
     setModalOpen(false);
   };
+  const fetchData = async () => {
+    setUserLoading(true);
+    const userResponse = await api.get('user');
+    setUsers(userResponse);
+    setUserLoading(false);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setUserLoading(true);
-      const userResponse = await api.get('user');
-      setUsers(userResponse);
-      setUserLoading(false);
-    };
+   
     fetchData();
     return clear();
   }, [modalOpen]);
