@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { debounce } from 'lodash';
-import { api } from '../../axiosInstance';
-import { useParams } from 'react-router-dom';
 import { CircularProgress, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -12,18 +9,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function MyEditor({ editorData }) {
+export default function MyEditor({ editorData , onEditorChange}) {
   const editorRef = useRef();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
-  const { meetingId } = useParams();
+
   const classes = useStyles();
-  const onChange = debounce(async (event, editor) => {
-    const data = editor.getData();
-    const requestData = {textEditorData: data}
-    await api.put(`meeting/${meetingId}/texteditor`,requestData);
-    console.log(data);
-  }, 5000);
 
   useEffect(() => {
     const { CKEditor } = require('@ckeditor/ckeditor5-react');
@@ -54,8 +45,7 @@ export default function MyEditor({ editorData }) {
         ],
       }}
       data={editorData}
-      onInit={(editor) => {}}
-      onChange={onChange}
+      onChange={onEditorChange}
     />
   ) : (
     <CircularProgress className={classes.center} />

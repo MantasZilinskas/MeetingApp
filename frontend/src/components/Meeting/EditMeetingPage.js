@@ -15,6 +15,7 @@ import { api } from '../../axiosInstance';
 import MyEditor from './MyEditor';
 import TodoItemListEdit from './TodoItemListEdit';
 import UserSelect from './UserSelect';
+import { debounce } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   h2: { fontSize: 36 },
@@ -40,6 +41,12 @@ export default function EditMeetingPage() {
   const [editorData, setEditorData] = useState('');
   const [isLoading, setLoading] = useState(false);
   const { meetingId } = useParams();
+  const onEditorChange = debounce(async (event, editor) => {
+    const data = editor.getData();
+    const requestData = {textEditorData: data}
+    await api.put(`meeting/${meetingId}/texteditor`,requestData);
+    console.log(data);
+  }, 5000);
   const fetchData = async () => {
     setLoading(true);
     const result = await api.get(`meeting/${meetingId}`);
@@ -80,7 +87,7 @@ export default function EditMeetingPage() {
         </Grid>
         <Grid item lg={6} className={classes.main}>
           <Card>
-            <MyEditor editorData={editorData} />
+            <MyEditor editorData={editorData} onEditorChange={onEditorChange}/>
           </Card>
         </Grid>
         <Grid item md={3} className={classes.side} align="center">
