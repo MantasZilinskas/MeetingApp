@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import SignIn from '../components/SignIn';
 import UserList from '../components/UserAdmin/UserList';
 import { Role } from '../Utils/Role';
@@ -13,6 +13,7 @@ import EditMeetingPage from '../components/Meeting/EditMeetingPage';
 import UserMeetingList from '../components/Meeting/UserMeetingList';
 import MeetingViewPage from '../components/Meeting/MeetingViewPage';
 import { currentUserValue } from '../Utils/authenticationService';
+import CreateTemplate from '../components/EditorTemplate/CreateTemplate';
 
 export default function Routes({ setCurrentUser }) {
   const currentUser = currentUserValue();
@@ -61,6 +62,11 @@ export default function Routes({ setCurrentUser }) {
         path="/meeting"
         roles={[Role.Moderator]}
         component={MeetingList}
+      />
+      <PrivateRoute
+        path="/template/create"
+        roles={[Role.Moderator]}
+        component={CreateTemplate}
       />
 
       <Route path="/">
