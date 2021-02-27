@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CircularProgress, makeStyles } from '@material-ui/core';
+import { Box, CircularProgress, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   center: {
@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function MyEditor({ editorData , onEditorChange}) {
+export default function MyEditor({ editorData, onEditorChange, className }) {
   const editorRef = useRef();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
@@ -27,26 +27,28 @@ export default function MyEditor({ editorData , onEditorChange}) {
   }, []);
 
   return editorLoaded ? (
-    <CKEditor
-      editor={ClassicEditor}
-      config={{
-        toolbar: [
-          'heading',
-          '|',
-          'bold',
-          'italic',
-          'link',
-          'bulletedList',
-          'numberedList',
-          'blockQuote',
-          'insertTable',
-          'undo',
-          'redo',
-        ],
-      }}
-      data={editorData}
-      onChange={onEditorChange}
-    />
+    <Box className={className}>
+      <CKEditor
+        editor={ClassicEditor}
+        config={{
+          toolbar: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            'blockQuote',
+            'insertTable',
+            'undo',
+            'redo',
+          ],
+        }}
+        data={editorData}
+        onChange={onEditorChange}
+      />
+    </Box>
   ) : (
     <CircularProgress className={classes.center} />
   );
