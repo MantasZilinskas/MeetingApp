@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using MeetingApp.Api.Business.DTO;
 using MeetingApp.Api.Business.Services.Interfaces;
 using MeetingApp.Api.Web.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static System.Text.ASCIIEncoding;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -100,7 +103,7 @@ namespace MeetingApp.Api.Web.Controllers
         public async Task<ActionResult> GetMeetingTodoItems(int meetingId)
         {
             var todoItems = await _meetingService.GetMeetingTodoItems(meetingId);
-            if(todoItems == null)
+            if (todoItems == null)
             {
                 return NotFound();
             }
@@ -131,7 +134,7 @@ namespace MeetingApp.Api.Web.Controllers
             {
                 return NotFound();
             }
-            return CreatedAtAction("GetTodoItem", new {meetingId, todoItemId = returnedValue.Id }, returnedValue);
+            return CreatedAtAction("GetTodoItem", new { meetingId, todoItemId = returnedValue.Id }, returnedValue);
         }
 
         // PUT api/TodoItems/{id}
@@ -171,7 +174,8 @@ namespace MeetingApp.Api.Web.Controllers
                 var returnedUserId = await _meetingService.InsertMeetingUser(userId, meetingId);
                 return CreatedAtAction("GetMeetingUser", new
                 {
-                    meetingId, userId
+                    meetingId,
+                    userId
                 }, returnedUserId);
             }
             catch (KeyNotFoundException)
@@ -222,8 +226,12 @@ namespace MeetingApp.Api.Web.Controllers
         }
         [HttpPut("{meetingId}/texteditor")]
         [Authorize(Roles = Roles.Moderator)]
-        public async Task<ActionResult> UpdateMeetingTextEditorData(int meetingId,TextEditorRequest request)
+        public async Task<ActionResult> UpdateMeetingTextEditorData(int meetingId, TextEditorRequest request)
         {
+            if (Encoding.Unicode.GetByteCount(request.TextEditorData) >= Convert.ToInt32(Math.Pow(2, 24) - 1))
+            {
+                return BadRequest(new {error = "Text editor data is too big"});
+            }
             var result = await _meetingService.UpdateTextEditorData(meetingId, request.TextEditorData);
             if (result)
             {

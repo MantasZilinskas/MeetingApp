@@ -4,14 +4,16 @@ using MeetingApp.Api.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetingApp.Api.Data.Migrations
 {
     [DbContext(typeof(MeetingAppContext))]
-    partial class MeetingAppContextModelSnapshot : ModelSnapshot
+    [Migration("20210227152053_AddedTemplateModel")]
+    partial class AddedTemplateModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

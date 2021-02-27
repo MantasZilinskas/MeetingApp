@@ -20,7 +20,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = Roles.Admin)]
+        // [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult> InsertUser(UserRequest user)
         {
             var result = await _userService.InsertUser(user);
@@ -60,7 +60,7 @@ namespace MeetingApp.Api.Web.Controllers
             return Ok(users);
         }
         [HttpGet]
-        [Authorize(Roles = Roles.Admin+","+Roles.Moderator)]
+        [Authorize(Roles = Roles.Admin + "," + Roles.Moderator)]
         public async Task<ActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
@@ -102,7 +102,7 @@ namespace MeetingApp.Api.Web.Controllers
 
         [HttpGet("{userId}/Meetings/slice")]
         [Authorize(Roles = Roles.Admin + "," + Roles.Moderator + "," + Roles.StandardUser)]
-        public async Task<ActionResult> GetUserMeetingSlice([FromQuery]SliceRequest request, string userId)
+        public async Task<ActionResult> GetUserMeetingSlice([FromQuery] SliceRequest request, string userId)
         {
             var result = await _userService.GetUserMeetingsSlice(userId, request);
             return Ok(result);

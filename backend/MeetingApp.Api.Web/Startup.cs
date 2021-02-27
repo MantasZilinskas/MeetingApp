@@ -16,6 +16,7 @@ using MeetingApp.Api.Data.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using TemplateApp.Api.Data.Repository.Implementation;
 
 namespace MeetingApp.Api.Web
 {
@@ -79,6 +80,7 @@ namespace MeetingApp.Api.Web
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<ITodoItemRepository, TodoItemRepository>();
+            services.AddScoped<ITemplateRepository, TemplateRepository>();
             services.AddScoped<ITodoItemService, TodoItemService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();

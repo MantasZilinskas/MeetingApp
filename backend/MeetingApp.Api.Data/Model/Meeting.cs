@@ -11,8 +11,6 @@ namespace MeetingApp.Api.Data.Model
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        [Column(TypeName = "varchar(MAX)")]
-        [MaxLength]
         public string TextEditorData { get; set; }
         [Required]
         public DateTime CreationDate { get; set; }

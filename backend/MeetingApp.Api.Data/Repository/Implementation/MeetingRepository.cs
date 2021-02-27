@@ -180,12 +180,5 @@ namespace MeetingApp.Api.Data.Repository.Implementation
             return await _context.Meetings.AnyAsync(meeting => meeting.Id == meetingId);
         }
 
-        private void test()
-        {
-            using var sr = new StreamReader("test.txt");
-
-            var line = sr.ReadLine();
-            sr.Close();
-        }
     }
 }

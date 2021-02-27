@@ -1,4 +1,5 @@
-﻿using MeetingApp.Api.Data.Model;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using MeetingApp.Api.Data.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,7 @@ namespace MeetingApp.Api.Data.Context
 
         public override DbSet<User> Users { get; set; }
         public virtual DbSet<Meeting> Meetings { get; set; }
+        public virtual DbSet<Template> Templates { get; set; }
         public virtual DbSet<TodoItem> TodoItems { get; set; }
     }
 }
