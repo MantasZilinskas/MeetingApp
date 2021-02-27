@@ -11,12 +11,12 @@ using MeetingApp.Api.Data.Repository.Interfaces;
 
 namespace MeetingApp.Api.Business.Services.Implementation
 {
-    public class TemplateServices : ITemplateService
+    public class TemplateService : ITemplateService
     {
         private readonly ITemplateRepository _templateRepo;
         private readonly IMapper _mapper;
 
-        public TemplateServices(ITemplateRepository templateRepo, IMapper mapper)
+        public TemplateService(ITemplateRepository templateRepo, IMapper mapper)
         {
             _templateRepo = templateRepo;
             _mapper = mapper;
