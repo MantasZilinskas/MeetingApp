@@ -45,7 +45,6 @@ export default function EditMeetingPage() {
     const data = editor.getData();
     const requestData = {textEditorData: data}
     await api.put(`meeting/${meetingId}/texteditor`,requestData);
-    console.log(data);
   }, 5000);
   const fetchData = async () => {
     setLoading(true);

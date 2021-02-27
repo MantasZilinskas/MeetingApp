@@ -67,6 +67,15 @@ export default function Navbar({ currentUser, setCurrentUser }) {
               Create template
             </Button>
           )}
+            {currentUser !== null && (
+            <Button
+              component={NavLink}
+              to="/template"
+              className={classes.link}
+            >
+              Templates
+            </Button>
+          )}
           {currentUser === null ? (
             <Button component={NavLink} to="/signin" className={classes.link}>
               Sign in

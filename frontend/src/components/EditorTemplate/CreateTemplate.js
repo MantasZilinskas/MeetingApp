@@ -4,6 +4,7 @@ import React from 'react';
 import FormContainer from '../FormContainer';
 import MyEditor from '../Meeting/MyEditor';
 import * as yup from 'yup';
+import { debounce } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   center: {
@@ -12,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
     left: '50%',
   },
   container: {
-    alignItems: "center",
-    width: "100%"
+    alignItems: 'center',
+    width: '100%',
   },
   editor: {
     marginTop: theme.spacing(2),
@@ -38,6 +39,11 @@ const validationSchema = yup.object({
 export default function CreateTemplate(params) {
   const classes = useStyles();
   const initialValues = { name: '' };
+  const onEditorChange = debounce((event, editor, setFieldValue) => {
+    const data = editor.getData();
+    setFieldValue('editor', data);
+    console.log(data);
+  }, 2000);
   const onSubmit = (values) => {
     console.log(values);
   };
@@ -48,33 +54,38 @@ export default function CreateTemplate(params) {
         onSubmit={onSubmit}
         initialValues={initialValues}
       >
-        {({ values, handleChange, touched, errors }) => (
+        {({ values, handleChange, touched, errors, setFieldValue }) => (
           <Form>
-              <TextField
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                id="name"
-                name="name"
-                label="Name"
-                value={values.name}
-                onChange={handleChange}
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.name && errors.name}
-                autoComplete="name"
-                autoFocus
-                className={classes.textField}
-              />
-              <MyEditor className={classes.editor} />
-              <Button
-                color="primary"
-                variant="contained"
-                fullWidth
-                type="submit"
-                className={classes.submitButton}
-              >
-                Submit
-              </Button>
+            <TextField
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              id="name"
+              name="name"
+              label="Name"
+              value={values.name}
+              onChange={handleChange}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+              autoComplete="name"
+              autoFocus
+              className={classes.textField}
+            />
+            <MyEditor
+              className={classes.editor}
+              onEditorChange={(event, editor) =>
+                onEditorChange(event, editor, setFieldValue)
+              }
+            />
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth
+              type="submit"
+              className={classes.submitButton}
+            >
+              Submit
+            </Button>
           </Form>
         )}
       </Formik>
