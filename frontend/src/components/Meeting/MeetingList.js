@@ -1,5 +1,5 @@
 //import { makeStyles } from '@material-ui/core/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { api } from '../../axiosInstance';
 import ListPage from '../ListPage';
 import Button from '@material-ui/core/Button';
@@ -8,6 +8,7 @@ import GenericTable from '../Generic/GenericTable';
 import { makeStyles } from '@material-ui/core';
 import GenericModal from '../Generic/GenericModal';
 import { useSnackbar } from 'notistack';
+import { usePromiseSubscription } from '../../Utils/usePromiseSubscription';
 
 const useStyles = makeStyles((theme) => ({
   editButton: {
@@ -116,10 +117,7 @@ export default function MeetingList() {
       setDeleteOpen(false);
     }
   };
-  useEffect(() => {
-    fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, orderBy, page, rowsPerPage]);
+  usePromiseSubscription(fetchData,[],[order, orderBy, page, rowsPerPage]);
   return (
     <>
       <GenericModal
