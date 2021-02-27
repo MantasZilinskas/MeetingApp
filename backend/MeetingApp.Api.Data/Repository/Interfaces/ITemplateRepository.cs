@@ -12,10 +12,10 @@ namespace MeetingApp.Api.Data.Repository.Interfaces
         public Task<bool> IsDuplicateName(Template resource);
         public Task<Template> Insert(Template resource);
         public Task<Template> Update(int id, Template resource);
-        public Task<Template> Delete(int meetingId);
+        public Task<Template> Delete(int templateId);
         public Task<Template> Get(int id);
         public Task<List<Template>> GetAll();
-        public Task<bool> TemplateExists(int meetingId);
+        public Task<bool> TemplateExists(int templateId);
         public Task<List<Template>> GetSlice(SliceRequestDao request);
         public Task<int> GetCount();
     }

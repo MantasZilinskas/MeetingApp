@@ -9,7 +9,7 @@ using MeetingApp.Api.Data.Model;
 using MeetingApp.Api.Data.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace TemplateApp.Api.Data.Repository.Implementation
+namespace MeetingApp.Api.Data.Repository.Implementation
 {
     public class TemplateRepository : ITemplateRepository
     {

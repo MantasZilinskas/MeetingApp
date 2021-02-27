@@ -16,7 +16,6 @@ using MeetingApp.Api.Data.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using TemplateApp.Api.Data.Repository.Implementation;
 
 namespace MeetingApp.Api.Web
 {
