@@ -1,0 +1,80 @@
+Date : 2021-02-27 18:48:38
+Directory : d:\Programavimas\MeetingApp\frontend\src
+Total : 46 files,  3296 codes, 47 comments, 213 blanks, all 3556 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         43 |      3,244 |         47 |        204 |      3,495 |
+| CSS        |          2 |         45 |          0 |          8 |         53 |
+| XML        |          1 |          7 |          0 |          1 |          8 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                    | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                       |         46 |      3,296 |         47 |        213 |      3,556 |
+| Routes                                                                                  |          2 |        109 |          4 |          4 |        117 |
+| Utils                                                                                   |          4 |         40 |          2 |          7 |         49 |
+| components                                                                              |         31 |      2,967 |         30 |        171 |      3,168 |
+| components\EditorTemplate                                                               |          2 |        236 |         11 |          9 |        256 |
+| components\Generic                                                                      |          3 |        272 |          0 |         21 |        293 |
+| components\Meeting                                                                      |         17 |      1,637 |          9 |         93 |      1,739 |
+| components\Navigation                                                                   |          1 |        108 |          4 |          4 |        116 |
+| components\UserAdmin                                                                    |          4 |        439 |          3 |         23 |        465 |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                | language   | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\Programavimas\MeetingApp\frontend\src\App.css                                        | CSS        |         33 |          0 |          6 |         39 |
+| d:\Programavimas\MeetingApp\frontend\src\App.js                                         | JavaScript |         24 |          0 |          3 |         27 |
+| d:\Programavimas\MeetingApp\frontend\src\App.test.js                                    | JavaScript |          7 |          0 |          2 |          9 |
+| d:\Programavimas\MeetingApp\frontend\src\Routes\PrivateRoute.js                         | JavaScript |         24 |          4 |          1 |         29 |
+| d:\Programavimas\MeetingApp\frontend\src\Routes\Routes.js                               | JavaScript |         85 |          0 |          3 |         88 |
+| d:\Programavimas\MeetingApp\frontend\src\Utils\Role.js                                  | JavaScript |          5 |          0 |          0 |          5 |
+| d:\Programavimas\MeetingApp\frontend\src\Utils\authenticationService.js                 | JavaScript |         17 |          1 |          3 |         21 |
+| d:\Programavimas\MeetingApp\frontend\src\Utils\history.js                               | JavaScript |          2 |          0 |          0 |          2 |
+| d:\Programavimas\MeetingApp\frontend\src\Utils\usePromiseSubscription.js                | JavaScript |         16 |          1 |          4 |         21 |
+| d:\Programavimas\MeetingApp\frontend\src\axiosInstance.js                               | JavaScript |         74 |          2 |         11 |         87 |
+| d:\Programavimas\MeetingApp\frontend\src\components\EditorTemplate\CreateTemplate.js    | JavaScript |         92 |          0 |          3 |         95 |
+| d:\Programavimas\MeetingApp\frontend\src\components\EditorTemplate\TemplateList.js      | JavaScript |        144 |         11 |          6 |        161 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Footer.js                           | JavaScript |         52 |          1 |          5 |         58 |
+| d:\Programavimas\MeetingApp\frontend\src\components\FormContainer.js                    | JavaScript |         51 |          0 |          5 |         56 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Generic\GenericModal.js             | JavaScript |         68 |          0 |          6 |         74 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Generic\GenericTable.js             | JavaScript |        143 |          0 |          8 |        151 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Generic\GenericTableHead.js         | JavaScript |         61 |          0 |          7 |         68 |
+| d:\Programavimas\MeetingApp\frontend\src\components\ListPage.js                         | JavaScript |         34 |          2 |          5 |         41 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\CreateItemModal.js          | JavaScript |         64 |          0 |          3 |         67 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\CreateMeetingDetailsForm.js | JavaScript |         62 |          0 |          6 |         68 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\EditItemModal.js            | JavaScript |         65 |          0 |          3 |         68 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\EditMeetingDetailsForm.js   | JavaScript |         75 |          1 |          6 |         82 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\EditMeetingPage.js          | JavaScript |        100 |          1 |          3 |        104 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\ItemModal.js                | JavaScript |        218 |          0 |          8 |        226 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\ItemModalView.js            | JavaScript |         95 |          2 |          6 |        103 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\MeetingDetailsForm.js       | JavaScript |         79 |          0 |          4 |         83 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\MeetingList.js              | JavaScript |        154 |          1 |          9 |        164 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\MeetingUsersView.js         | JavaScript |         75 |          0 |          5 |         80 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\MeetingViewPage.js          | JavaScript |         86 |          1 |          3 |         90 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\MyEditor.js                 | JavaScript |         50 |          0 |          6 |         56 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\MyEditorView.js             | JavaScript |         38 |          0 |          5 |         43 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\TodoItemListEdit.js         | JavaScript |        168 |          0 |          7 |        175 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\TodoItemListView.js         | JavaScript |        100 |          0 |          5 |        105 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\UserMeetingList.js          | JavaScript |         97 |          2 |          8 |        107 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Meeting\UserSelect.js               | JavaScript |        111 |          1 |          6 |        118 |
+| d:\Programavimas\MeetingApp\frontend\src\components\Navigation\Navbar.js                | JavaScript |        108 |          4 |          4 |        116 |
+| d:\Programavimas\MeetingApp\frontend\src\components\SignIn.js                           | JavaScript |        138 |          0 |          6 |        144 |
+| d:\Programavimas\MeetingApp\frontend\src\components\UserAdmin\CreateUserForm.js         | JavaScript |         63 |          0 |          6 |         69 |
+| d:\Programavimas\MeetingApp\frontend\src\components\UserAdmin\EditUserForm.js           | JavaScript |         77 |          1 |          6 |         84 |
+| d:\Programavimas\MeetingApp\frontend\src\components\UserAdmin\UserForm.js               | JavaScript |        137 |          0 |          4 |        141 |
+| d:\Programavimas\MeetingApp\frontend\src\components\UserAdmin\UserList.js               | JavaScript |        162 |          2 |          7 |        171 |
+| d:\Programavimas\MeetingApp\frontend\src\index.css                                      | CSS        |         12 |          0 |          2 |         14 |
+| d:\Programavimas\MeetingApp\frontend\src\index.js                                       | JavaScript |         10 |          5 |          3 |         18 |
+| d:\Programavimas\MeetingApp\frontend\src\logo.svg                                       | XML        |          7 |          0 |          1 |          8 |
+| d:\Programavimas\MeetingApp\frontend\src\reportWebVitals.js                             | JavaScript |         12 |          0 |          2 |         14 |
+| d:\Programavimas\MeetingApp\frontend\src\setupTests.js                                  | JavaScript |          1 |          4 |          1 |          6 |
+| Total                                                                                   |            |      3,296 |         47 |        213 |      3,556 |
++-----------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -81,6 +81,7 @@ namespace MeetingApp.Api.Web
             services.AddScoped<ITodoItemRepository, TodoItemRepository>();
             services.AddScoped<ITemplateRepository, TemplateRepository>();
             services.AddScoped<ITodoItemService, TodoItemService>();
+            services.AddScoped<ITemplateService, TemplateService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             #endregion

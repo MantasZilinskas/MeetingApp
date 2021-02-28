@@ -14,5 +14,6 @@ namespace MeetingApp.Api.Business.Services.Interfaces
         public Task<TemplateDTO> Delete(int id);
         public Task<TemplateDTO> Get(int id);
         public Task<ICollection<TemplateDTO>> GetAll();
+        public Task<GenericSliceDto<TemplateDTO>> GetSlice(SliceRequest request);
     }
 }

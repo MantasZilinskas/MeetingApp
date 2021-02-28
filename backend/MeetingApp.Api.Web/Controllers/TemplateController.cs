@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using MeetingApp.Api.Business.DTO;
 using MeetingApp.Api.Business.Services.Interfaces;
+using MeetingApp.Api.Web.Model;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace MeetingApp.Api.Web.Controllers
@@ -19,12 +21,14 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> Get()
         {
             return Ok(await _templateService.GetAll());
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> Get(int id)
         {
             var result = await _templateService.Get(id);
@@ -36,6 +40,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> Insert([FromBody] TemplateDTO value)
         {
             var result = await _templateService.Insert(value);
@@ -48,6 +53,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> Update(int id, [FromBody] TemplateDTO value)
         {
             var result = await _templateService.Update(id, value);
@@ -60,6 +66,7 @@ namespace MeetingApp.Api.Web.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> Delete(int id)
         {
             var result = await _templateService.Delete(id);
@@ -69,6 +76,16 @@ namespace MeetingApp.Api.Web.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("slice")]
+        [Authorize(Roles = Roles.Moderator)]
+        public async Task<ActionResult<IEnumerable<GenericSliceDto<TemplateDTO>>>> GetSlice([FromQuery] SliceRequest request)
+        {
+            var templates = await _templateService.GetSlice(request);
+            if (templates == null)
+                return BadRequest();
+            return Ok(templates);
         }
     }
 }

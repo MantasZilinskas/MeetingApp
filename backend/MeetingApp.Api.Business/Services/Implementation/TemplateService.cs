@@ -53,5 +53,12 @@ namespace MeetingApp.Api.Business.Services.Implementation
         {
             return _mapper.Map<TemplateDTO>(await _templateRepo.Update(templateId, _mapper.Map<Template>(dto)));
         }
+        public async Task<GenericSliceDto<TemplateDTO>> GetSlice(SliceRequest request)
+        {
+            var templates = await _templateRepo.GetSlice(_mapper.Map<SliceRequestDao>(request));
+            var count = await _templateRepo.GetCount();
+            if (templates == null) return null;
+            return new GenericSliceDto<TemplateDTO> { Items = _mapper.Map<List<TemplateDTO>>(templates), TotalCount = count };
+        }
     }
 }
