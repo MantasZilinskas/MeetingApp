@@ -36,17 +36,13 @@ const validationSchema = yup.object({
     .max(20, 'Name should be of maximum 20 characters length'),
 });
 
-export default function CreateTemplate(params) {
+export default function TemplateForm({ onSubmit, initialValues }) {
   const classes = useStyles();
-  const initialValues = { name: '' };
+
   const onEditorChange = debounce((event, editor, setFieldValue) => {
     const data = editor.getData();
-    setFieldValue('editor', data);
-    console.log(data);
+    setFieldValue('editorText', data);
   }, 2000);
-  const onSubmit = (values) => {
-    console.log(values);
-  };
   return (
     <FormContainer header="New template">
       <Formik
@@ -68,14 +64,15 @@ export default function CreateTemplate(params) {
               error={touched.name && Boolean(errors.name)}
               helperText={touched.name && errors.name}
               autoComplete="name"
-              autoFocus
               className={classes.textField}
             />
             <MyEditor
               className={classes.editor}
-              onEditorChange={(event, editor) =>
-                onEditorChange(event, editor, setFieldValue)
-              }
+              onEditorChange={(event, editor) => {
+                console.log(`Inside formik: ${values.name}`);
+                onEditorChange(event, editor, setFieldValue);
+              }}
+              editorData={initialValues.editorText}
             />
             <Button
               color="primary"

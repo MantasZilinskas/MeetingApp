@@ -24,6 +24,9 @@ export default function MyEditor({ editorData, onEditorChange, className }) {
       ClassicEditor: ClassicEditor,
     };
     setEditorLoaded(true);
+    return () => {
+      editorRef.current = null;
+    };
   }, []);
 
   return editorLoaded ? (

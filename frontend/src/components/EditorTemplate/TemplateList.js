@@ -22,7 +22,7 @@ export default function TemplateList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('username');
+  const [orderBy, setOrderBy] = React.useState('name');
   const [count, setCount] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -39,28 +39,27 @@ export default function TemplateList() {
     });
     setTemplates(
       result.items.map((item) => ({
-        fullname: item.fullName,
-        username: item.userName,
-        email: item.email,
         id: item.id,
+        name: item.name,
       }))
     );
+    console.log(result)
     setCount(result.totalCount);
     if (rowsPerPage * page >= result.totalCount) setPage(page - 1);
     setIsLoading(false);
   };
   const handleDeleteAccept = async () => {
     try {
-    //   await api.delete('user/' + deleteId);
-    //   enqueueSnackbar('User deleted successfully', {
-    //     anchorOrigin: {
-    //       vertical: 'bottom',
-    //       horizontal: 'center',
-    //     },
-    //     variant: 'success',
-    //   });
-    //   setDeleteOpen(false);
-    //   fetchData();
+      await api.delete('template/' + deleteId);
+      enqueueSnackbar('Template deleted successfully', {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+        variant: 'success',
+      });
+      setDeleteOpen(false);
+      fetchData();
     } catch (error) {
       enqueueSnackbar(error.message, {
         anchorOrigin: {
@@ -92,7 +91,7 @@ usePromiseSubscription(fetchData,[],[order, orderBy, page, rowsPerPage])
           color="primary"
           variant="outlined"
           component={NavLink}
-          to={'/user/' + encodeURI(itemProps.id)}
+          to={'/template/' + encodeURI(itemProps.id)}
         >
           Edit
         </Button>

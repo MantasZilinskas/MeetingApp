@@ -13,8 +13,9 @@ import EditMeetingPage from '../components/Meeting/EditMeetingPage';
 import UserMeetingList from '../components/Meeting/UserMeetingList';
 import MeetingViewPage from '../components/Meeting/MeetingViewPage';
 import { currentUserValue } from '../Utils/authenticationService';
-import CreateTemplate from '../components/EditorTemplate/CreateTemplate';
 import TemplateList from '../components/EditorTemplate/TemplateList';
+import EditTemplateForm from '../components/EditorTemplate/EditTemplateForm';
+import CreateTemplateForm from '../components/EditorTemplate/CreateTemplateForm';
 
 export default function Routes({ setCurrentUser }) {
   const currentUser = currentUserValue();
@@ -67,7 +68,12 @@ export default function Routes({ setCurrentUser }) {
       <PrivateRoute
         path="/template/create"
         roles={[Role.Moderator]}
-        component={CreateTemplate}
+        component={CreateTemplateForm}
+      />
+      <PrivateRoute
+        path="/template/:id"
+        roles={[Role.Moderator]}
+        component={EditTemplateForm}
       />
       <PrivateRoute
         path="/template"

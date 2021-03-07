@@ -5,9 +5,8 @@ axios.defaults.baseURL =
   'https://meetingappapiweb20200928134000.azurewebsites.net/api/';
 // axios.defaults.baseURL =
 //    'https://localhost:44335/api/';
-axios.defaults.headers = {
-  Accept: `application/json`,
-};
+axios.defaults.headers['Accept'] = 'application/json';
+axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 
 export const updateDefaultHeaders = (headers) => {
   axios.defaults.headers.common = {
