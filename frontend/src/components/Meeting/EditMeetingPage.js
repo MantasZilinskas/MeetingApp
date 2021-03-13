@@ -16,6 +16,8 @@ import MyEditor from './MyEditor';
 import TodoItemListEdit from './TodoItemListEdit';
 import UserSelect from './UserSelect';
 import { debounce } from 'lodash';
+import TemplateSelector from '../EditorTemplate/TemplateSelector';
+import { usePromiseSubscription } from '../../Utils/usePromiseSubscription';
 
 const useStyles = makeStyles((theme) => ({
   h2: { fontSize: 36 },
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   editor: { maxHeight: '600px', overflow: 'auto' },
   italic: { fontStyle: 'italic', marginLeft: theme.spacing(1) },
   details: { margingBottom: theme.spacing(1) },
+  template: { justifyContent: 'flex-end', alignItems: 'flex-end' },
 }));
 
 export default function EditMeetingPage() {
@@ -41,10 +44,11 @@ export default function EditMeetingPage() {
   const [editorData, setEditorData] = useState('');
   const [isLoading, setLoading] = useState(false);
   const { meetingId } = useParams();
+
   const onEditorChange = debounce(async (event, editor) => {
     const data = editor.getData();
-    const requestData = {textEditorData: data}
-    await api.put(`meeting/${meetingId}/texteditor`,requestData);
+    const requestData = { textEditorData: data };
+    await api.put(`meeting/${meetingId}/texteditor`, requestData);
   }, 5000);
   const fetchData = async () => {
     setLoading(true);
@@ -55,26 +59,33 @@ export default function EditMeetingPage() {
     }
     setLoading(false);
   };
-  useEffect(() => {
-    fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meetingId]);
+  usePromiseSubscription(fetchData,[],[meetingId]);
   const classes = useStyles();
   if (isLoading) {
     return <CircularProgress className={classes.center} />;
   }
   return (
     <Container>
-      <Box className={classes.details}>
-        <Typography variant="h2">{meeting.name}</Typography>
-        <Typography varaiant="body1">{meeting.description}</Typography>
-        <IconButton component={NavLink} to={`${meetingId}/edit`}>
-          <EditIcon />
-          <Typography varaiant="body1" className={classes.italic}>
-            Edit meeting details
-          </Typography>
-        </IconButton>
-      </Box>
+      <Grid container xs={12}>
+        <Grid item xs={6}>
+          <Box className={classes.details}>
+            <Typography variant="h2">{meeting.name}</Typography>
+            <Typography varaiant="body1">{meeting.description}</Typography>
+            <IconButton component={NavLink} to={`${meetingId}/edit`}>
+              <EditIcon />
+              <Typography varaiant="body1" className={classes.italic}>
+                Edit meeting details
+              </Typography>
+            </IconButton>
+          </Box>
+        </Grid>
+        <Grid item container xs={6} className={classes.template}>
+          <Grid item>
+            <TemplateSelector setEditorData={setEditorData} />
+          </Grid>
+        </Grid>
+      </Grid>
+
       <Grid container className={classes.root} spacing={2}>
         <Grid item md={3} className={classes.side} align="center">
           <Card>
@@ -86,7 +97,7 @@ export default function EditMeetingPage() {
         </Grid>
         <Grid item lg={6} className={classes.main}>
           <Card>
-            <MyEditor editorData={editorData} onEditorChange={onEditorChange}/>
+            <MyEditor editorData={editorData} onEditorChange={onEditorChange} />
           </Card>
         </Grid>
         <Grid item md={3} className={classes.side} align="center">
