@@ -10,9 +10,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../axiosInstance';
-import MyEditorView from './MyEditorView';
-import TodoItemListView from './TodoItemListView';
-import MeetingUsersView from './MeetingUsersView';
+import MyEditorView from '../Editor/MyEditorView';
+import TodoItemListView from './TodoItem/TodoItemListView';
+import MeetingUsersView from './User/MeetingUsersView';
 
 const useStyles = makeStyles((theme) => ({
   h2: { fontSize: 36 },

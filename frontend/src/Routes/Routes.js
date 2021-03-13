@@ -10,7 +10,7 @@ import EditUserForm from '../components/UserAdmin/EditUserForm';
 import CreateMeetingDetailsForm from '../components/Meeting/CreateMeetingDetailsForm';
 import EditMeetingDetailsForm from '../components/Meeting/EditMeetingDetailsForm';
 import EditMeetingPage from '../components/Meeting/EditMeetingPage';
-import UserMeetingList from '../components/Meeting/UserMeetingList';
+import UserMeetingList from '../components/Meeting/User/UserMeetingList';
 import MeetingViewPage from '../components/Meeting/MeetingViewPage';
 import { currentUserValue } from '../Utils/authenticationService';
 import TemplateList from '../components/EditorTemplate/TemplateList';

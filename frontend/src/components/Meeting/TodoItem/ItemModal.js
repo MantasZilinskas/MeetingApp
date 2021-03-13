@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { api } from '../../axiosInstance';
+import { api } from '../../../axiosInstance';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import {

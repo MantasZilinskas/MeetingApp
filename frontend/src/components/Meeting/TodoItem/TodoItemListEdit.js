@@ -5,15 +5,15 @@ import {
   List,
   ListItemText,
   makeStyles,
-  MenuItem,
+  MenuItem
 } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import Skeleton from '@material-ui/lab/Skeleton';
-import React, { useEffect, useState } from 'react';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { useParams } from 'react-router-dom';
-import { api } from '../../axiosInstance';
 import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { api } from '../../../axiosInstance';
 import CreateItemModal from './CreateItemModal';
 import EditItemModal from './EditItemModal';
 

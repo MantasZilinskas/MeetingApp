@@ -2,7 +2,7 @@ import { Button, makeStyles, TextField } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import FormContainer from '../FormContainer';
-import MyEditor from '../Meeting/MyEditor';
+import MyEditor from '../Editor/MyEditor';
 import * as yup from 'yup';
 import { debounce } from 'lodash';
 

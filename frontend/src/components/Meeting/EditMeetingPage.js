@@ -9,12 +9,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { api } from '../../axiosInstance';
-import MyEditor from './MyEditor';
-import TodoItemListEdit from './TodoItemListEdit';
-import UserSelect from './UserSelect';
+import MyEditor from '../Editor/MyEditor';
+import TodoItemListEdit from './TodoItem/TodoItemListEdit';
+import UserSelect from './User/UserSelect';
 import { debounce } from 'lodash';
 import TemplateSelector from '../EditorTemplate/TemplateSelector';
 import { usePromiseSubscription } from '../../Utils/usePromiseSubscription';

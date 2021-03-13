@@ -1,7 +1,7 @@
 import { CircularProgress, makeStyles } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
-import { api } from '../../axiosInstance';
+import { api } from '../../../axiosInstance';
 import ItemModal from './ItemModal';
 
 const useStyles = makeStyles(() => ({

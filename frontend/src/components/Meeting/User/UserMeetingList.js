@@ -1,12 +1,12 @@
 //import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
-import { api } from '../../axiosInstance';
-import ListPage from '../ListPage';
+import { api } from '../../../axiosInstance';
+import ListPage from '../../ListPage';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
-import GenericTable from '../Generic/GenericTable';
+import GenericTable from '../../Generic/GenericTable';
 import { makeStyles } from '@material-ui/core';
-import { currentUserValue } from '../../Utils/authenticationService';
+import { currentUserValue } from '../../../Utils/authenticationService';
 
 const useStyles = makeStyles((theme) => ({
   editButton: {
